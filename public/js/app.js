@@ -5976,7 +5976,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -6048,12 +6047,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TwoFactorAuthenticationForm__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TwoFactorAuthenticationForm */ "./resources/js/Pages/Profile/TwoFactorAuthenticationForm.vue");
 /* harmony import */ var _UpdatePasswordForm__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./UpdatePasswordForm */ "./resources/js/Pages/Profile/UpdatePasswordForm.vue");
 /* harmony import */ var _UpdateProfileInformationForm__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./UpdateProfileInformationForm */ "./resources/js/Pages/Profile/UpdateProfileInformationForm.vue");
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -33506,7 +33499,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n                        Profile\n                    "
+                        "\n                        Профиль\n                    "
                       )
                     ]
                   ),
@@ -33545,7 +33538,7 @@ var render = function() {
                         { attrs: { as: "button" } },
                         [
                           _vm._v(
-                            "\n                            Logout\n                        "
+                            "\n                            Выйти\n                        "
                           )
                         ]
                       )
@@ -34952,7 +34945,7 @@ var render = function() {
       {
         key: "title",
         fn: function() {
-          return [_vm._v("\n        Delete Account\n    ")]
+          return [_vm._v("\n        Удалить аккаунт\n    ")]
         },
         proxy: true
       },
@@ -34969,7 +34962,7 @@ var render = function() {
           return [
             _c("div", { staticClass: "max-w-xl text-sm text-gray-600" }, [
               _vm._v(
-                "\n            Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.\n        "
+                "\n            Однажды удалив аккаунт, все связанные с ним ресурсы и данные безвозвратно исчезнут.\n        "
               )
             ]),
             _vm._v(" "),
@@ -34986,7 +34979,7 @@ var render = function() {
                       }
                     }
                   },
-                  [_vm._v("\n                Delete Account\n            ")]
+                  [_vm._v("\n                Удалить аккаунт\n            ")]
                 )
               ],
               1
@@ -35004,7 +34997,7 @@ var render = function() {
                   key: "title",
                   fn: function() {
                     return [
-                      _vm._v("\n                Delete Account\n            ")
+                      _vm._v("\n                Удалить аккаунт\n            ")
                     ]
                   },
                   proxy: true
@@ -35014,7 +35007,7 @@ var render = function() {
                   fn: function() {
                     return [
                       _vm._v(
-                        "\n                Are you sure you want to delete your account? Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.\n\n                "
+                        "\n                Вы уверены? Введите пароль, чтобы подтвердить действие\n\n                "
                       ),
                       _c(
                         "div",
@@ -35023,10 +35016,7 @@ var render = function() {
                           _c("jet-input", {
                             ref: "password",
                             staticClass: "mt-1 block w-3/4",
-                            attrs: {
-                              type: "password",
-                              placeholder: "Password"
-                            },
+                            attrs: { type: "password", placeholder: "Пароль" },
                             nativeOn: {
                               keyup: function($event) {
                                 if (
@@ -35079,7 +35069,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                    Nevermind\n                "
+                            "\n                    Отменить\n                "
                           )
                         ]
                       ),
@@ -35098,7 +35088,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                    Delete Account\n                "
+                            "\n                    Удалить аккаунт\n                "
                           )
                         ]
                       )
@@ -35142,7 +35132,7 @@ var render = function() {
       {
         key: "title",
         fn: function() {
-          return [_vm._v("\n        Browser Sessions\n    ")]
+          return [_vm._v("\n        Сессии браузера\n    ")]
         },
         proxy: true
       },
@@ -35151,7 +35141,7 @@ var render = function() {
         fn: function() {
           return [
             _vm._v(
-              "\n        Manage and logout your active sessions on other browsers and devices.\n    "
+              "\n        Посмотреть или завершить свои активные сессии\n    "
             )
           ]
         },
@@ -35161,11 +35151,7 @@ var render = function() {
         key: "content",
         fn: function() {
           return [
-            _c("div", { staticClass: "max-w-xl text-sm text-gray-600" }, [
-              _vm._v(
-                "\n            If necessary, you may logout of all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password.\n        "
-              )
-            ]),
+            _c("div", { staticClass: "max-w-xl text-sm text-gray-600" }),
             _vm._v(" "),
             _vm.sessions.length > 0
               ? _c(
@@ -35265,11 +35251,11 @@ var render = function() {
                                         staticClass:
                                           "text-green-500 font-semibold"
                                       },
-                                      [_vm._v("This device")]
+                                      [_vm._v("Это устройство")]
                                     )
                                   : _c("span", [
                                       _vm._v(
-                                        "Last active " +
+                                        "Последняя активность " +
                                           _vm._s(session.last_active)
                                       )
                                     ])
@@ -35299,7 +35285,7 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n                Logout Other Browser Sessions\n            "
+                      "\n                Завершить активные сессии\n            "
                     )
                   ]
                 ),
@@ -35310,7 +35296,7 @@ var render = function() {
                     staticClass: "ml-3",
                     attrs: { on: _vm.form.recentlySuccessful }
                   },
-                  [_vm._v("\n                Done.\n            ")]
+                  [_vm._v("\n                Готово\n            ")]
                 )
               ],
               1
@@ -35329,7 +35315,7 @@ var render = function() {
                   fn: function() {
                     return [
                       _vm._v(
-                        "\n                Logout Other Browser Sessions\n            "
+                        "\n                Завершить активные сессии\n            "
                       )
                     ]
                   },
@@ -35340,7 +35326,7 @@ var render = function() {
                   fn: function() {
                     return [
                       _vm._v(
-                        "\n                Please enter your password to confirm you would like to logout of your other browser sessions across all of your devices.\n\n                "
+                        "\n                Введите пароль, чтобы подтвердить действие\n\n                "
                       ),
                       _c(
                         "div",
@@ -35349,10 +35335,7 @@ var render = function() {
                           _c("jet-input", {
                             ref: "password",
                             staticClass: "mt-1 block w-3/4",
-                            attrs: {
-                              type: "password",
-                              placeholder: "Password"
-                            },
+                            attrs: { type: "password", placeholder: "Пароль" },
                             nativeOn: {
                               keyup: function($event) {
                                 if (
@@ -35405,7 +35388,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                    Nevermind\n                "
+                            "\n                    Отменить\n                "
                           )
                         ]
                       ),
@@ -35424,7 +35407,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                    Logout Other Browser Sessions\n                "
+                            "\n                    Завершить активные сессии\n                "
                           )
                         ]
                       )
@@ -35492,27 +35475,9 @@ var render = function() {
           "div",
           { staticClass: "max-w-7xl mx-auto py-10 sm:px-6 lg:px-8" },
           [
-            _c("update-profile-information-form", {
-              attrs: { user: _vm.$page.user }
-            }),
-            _vm._v(" "),
             _c("jet-section-border"),
             _vm._v(" "),
             _c("update-password-form", { staticClass: "mt-10 sm:mt-0" }),
-            _vm._v(" "),
-            _vm.$page.jetstream.canManageTwoFactorAuthentication
-              ? _c(
-                  "div",
-                  [
-                    _c("jet-section-border"),
-                    _vm._v(" "),
-                    _c("two-factor-authentication-form", {
-                      staticClass: "mt-10 sm:mt-0"
-                    })
-                  ],
-                  1
-                )
-              : _vm._e(),
             _vm._v(" "),
             _c("jet-section-border"),
             _vm._v(" "),
@@ -35790,7 +35755,7 @@ var render = function() {
       {
         key: "title",
         fn: function() {
-          return [_vm._v("\n        Update Password\n    ")]
+          return [_vm._v("\n        Поменять пароль\n    ")]
         },
         proxy: true
       },
@@ -35799,7 +35764,7 @@ var render = function() {
         fn: function() {
           return [
             _vm._v(
-              "\n        Ensure your account is using a long, random password to stay secure.\n    "
+              "\n        Убедитесь, что используете длинный и сложный пароль\n    "
             )
           ]
         },
@@ -35814,7 +35779,7 @@ var render = function() {
               { staticClass: "col-span-6 sm:col-span-4" },
               [
                 _c("jet-label", {
-                  attrs: { for: "current_password", value: "Current Password" }
+                  attrs: { for: "current_password", value: "Текущий пароль" }
                 }),
                 _vm._v(" "),
                 _c("jet-input", {
@@ -35847,7 +35812,7 @@ var render = function() {
               { staticClass: "col-span-6 sm:col-span-4" },
               [
                 _c("jet-label", {
-                  attrs: { for: "password", value: "New Password" }
+                  attrs: { for: "password", value: "Новый пароль" }
                 }),
                 _vm._v(" "),
                 _c("jet-input", {
@@ -35881,7 +35846,7 @@ var render = function() {
                 _c("jet-label", {
                   attrs: {
                     for: "password_confirmation",
-                    value: "Confirm Password"
+                    value: "Подтвердите пароль"
                   }
                 }),
                 _vm._v(" "),
@@ -35922,7 +35887,7 @@ var render = function() {
                 staticClass: "mr-3",
                 attrs: { on: _vm.form.recentlySuccessful }
               },
-              [_vm._v("\n            Saved.\n        ")]
+              [_vm._v("\n            Сохранено\n        ")]
             ),
             _vm._v(" "),
             _c(
@@ -35931,7 +35896,7 @@ var render = function() {
                 class: { "opacity-25": _vm.form.processing },
                 attrs: { disabled: _vm.form.processing }
               },
-              [_vm._v("\n            Save\n        ")]
+              [_vm._v("\n            Сохранить\n        ")]
             )
           ]
         },
