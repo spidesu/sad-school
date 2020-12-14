@@ -68,13 +68,6 @@
 
                     <div>
                         <div class="mx-auto py-5 bg-white space-y-6 sm:p-6">
-                            <!--                        <div class="col-span-3 sm:col-span-2">-->
-                            <!--                            <label for="group_ids" class="block text-sm font-medium text-gray-700">-->
-                            <!--                                Группы-->
-                            <!--                            </label>-->
-                            <!--                            <SingleSelect v-model="group_ids" @selected="(e) => {this.group_ids = e}" :options="genders"-->
-                            <!--                                          id="group_ids" :placeholder="'Выберите группы'"/>-->
-                            <!--                        </div>-->
                             <div class="col-span-3 sm:col-span-2">
                                 <input v-model="medical_doc_fact" id="medical_doc_fact" type="checkbox"
                                        class="form-checkbox h-5 w-5 text-indigo-600" checked><span
@@ -108,8 +101,9 @@
                                 <label for="representative_ids" class="block text-sm font-medium text-gray-700">
                                     Представители
                                 </label>
-                                <MultiSelect :options="representatives" v-model="representative_ids"
-                                             id="representative_ids"/>
+                                <SingleSelect @selected="(e) => {this.representative_selected.push(e)}"
+                                              :options="representatives"
+                                              id="representative" :placeholder="'Выберите представителя'"/>
                                 <div @click="toggleRepresentativeModal = true">Добавить представителя</div>
                                 <div v-for="representative in representative_selected">{{representative.full_name}}</div>
                             </div>
@@ -268,6 +262,7 @@ export default {
             no_reps: 0,
             disability_id: null,
             disabilities: [],
+            toggle: false,
         };
     },
     created() {

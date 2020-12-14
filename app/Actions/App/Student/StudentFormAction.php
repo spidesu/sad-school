@@ -8,6 +8,7 @@ use App\Repositories\DisabilityRepository;
 use App\Repositories\GenderRepository;
 use App\Repositories\GroupRepository;
 use App\Repositories\HealthGroupRepository;
+use App\Repositories\RepresentativeRepository;
 
 class StudentFormAction
 {
@@ -15,6 +16,7 @@ class StudentFormAction
     protected $genderRepository;
     protected $healthGroupRepository;
     protected $disabilityRepository;
+    protected $repRepository;
 
 
     public function __construct()
@@ -25,6 +27,7 @@ class StudentFormAction
         $this->genderRepository = app(GenderRepository::class);
         $this->healthGroupRepository = app(HealthGroupRepository::class);
         $this->disabilityRepository = app(DisabilityRepository::class);
+        $this->repRepository = app(RepresentativeRepository::class);
     }
 
     public function getFormVars()
@@ -33,6 +36,7 @@ class StudentFormAction
         $res['groups'] = $this->groupRepository->list();
         $res['genders'] = $this->genderRepository->list();
         $res['healthGroups'] = $this->healthGroupRepository->list();
+        $res['representatives'] = $this->repRepository->list();
         $res['disabilities'] = $this->disabilityRepository->list();
 
         return $res;

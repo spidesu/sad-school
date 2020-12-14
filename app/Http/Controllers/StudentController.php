@@ -95,7 +95,8 @@ class StudentController extends Controller
           'groups' => DicResource::collection($res['groups']),
           'healthGroups' => DicResource::collection($res['healthGroups']),
           'genders' => DicResource::collection($res['genders']),
-            'disabilities' => DicResource::collection($res['disabilities'])
+            'disabilities' => DicResource::collection($res['disabilities']),
+            'representatives' => StudentDicResource::collection($res['representatives']),
         ];
     }
 }

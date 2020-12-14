@@ -3402,12 +3402,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 
 
@@ -3524,7 +3518,8 @@ __webpack_require__.r(__webpack_exports__);
       low_money: 0,
       no_reps: 0,
       disability_id: null,
-      disabilities: []
+      disabilities: [],
+      toggle: false
     };
   },
   created: function created() {
@@ -30277,17 +30272,16 @@ var render = function() {
                           ]
                         ),
                         _vm._v(" "),
-                        _c("MultiSelect", {
+                        _c("SingleSelect", {
                           attrs: {
                             options: _vm.representatives,
-                            id: "representative_ids"
+                            id: "representative",
+                            placeholder: "Выберите представителя"
                           },
-                          model: {
-                            value: _vm.representative_ids,
-                            callback: function($$v) {
-                              _vm.representative_ids = $$v
-                            },
-                            expression: "representative_ids"
+                          on: {
+                            selected: function(e) {
+                              this$1.representative_selected.push(e)
+                            }
                           }
                         }),
                         _vm._v(" "),
@@ -36971,7 +36965,7 @@ var render = function() {
                   on: {
                     close: function($event) {
                       _vm.toggleModal = !_vm.toggleModal
-                      _vm.teacherList
+                      _vm.teacherList()
                     }
                   }
                 },

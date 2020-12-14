@@ -7,7 +7,7 @@
         </template>
 
         <div class="py-12">
-            <Modal v-if="toggleModal" @close="toggleModal = !toggleModal; teacherList">
+            <Modal v-if="toggleModal" @close="toggleModal = !toggleModal; teacherList()">
                 <TeacherForm />
             </Modal>
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
