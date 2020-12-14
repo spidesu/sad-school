@@ -1,0 +1,303 @@
+<template v-slot="scope">
+    <div>
+        <Modal v-if="toggleRepresentativeModal" @close="(e) => {this.toggleRepresentativeModal = false; e ? this.representative_selected.push(e) : null}">
+            <RepresentativeForm :genders = "genders"/>
+        </Modal>
+        <div class="box-border p-6 container mx-auto px-6">
+            <form action="#" method="POST" @submit.prevent="createStudent">
+                <div class="grid grid-cols-3 gap-4">
+                    <div>
+                        <div class="mx-auto py-5 bg-white space-y-6 sm:p-6">
+                            <div class="col-span-3 sm:col-span-2">
+                                <label for="last_name" class="block text-sm font-medium text-gray-700">
+                                    Фамилия
+                                </label>
+                                <div class="mt-1 flex rounded-md shadow-sm">
+                                    <input v-model="last_name" type="text" id="last_name"
+                                           class="focus:ring-pink-500 focus:border-pink-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                           placeholder="Введите фамилию">
+                                </div>
+                            </div>
+
+
+                            <div class="col-span-3 sm:col-span-2">
+                                <label for="first_name" class="block text-sm font-medium text-gray-700">
+                                    Имя
+                                </label>
+                                <div class="mt-1 flex rounded-md shadow-sm">
+                                    <input v-model="first_name" type="text" id="first_name"
+                                           class="focus:ring-pink-500 focus:border-pink-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                           placeholder="Введите имя">
+                                </div>
+                            </div>
+
+                            <div class="col-span-3 sm:col-span-2">
+                                <label for="middle_name" class="block text-sm font-medium text-gray-700">
+                                    Отчество
+                                </label>
+                                <div class="mt-1 flex rounded-md shadow-sm">
+                                    <input v-model="middle_name" type="text" id="middle_name"
+                                           class="focus:ring-pink-500 focus:border-pink-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                           placeholder="Введите отчество">
+                                </div>
+                            </div>
+
+                            <div class="col-span-3 sm:col-span-2">
+                                <label for="birth_date" class="block text-sm font-medium text-gray-700">
+                                    Дата рождения
+                                </label>
+                                <div class="mt-1 flex rounded-md shadow-sm">
+                                    <VueTailwindPicker
+                                        @change="(v) => {birth_date = v}" :startFromMonday="true"
+                                        :startDate="this.$date('1990-01-01').format('YYYY-MM-DD')" :tailwindPickerValue="this.birth_date">
+                                        <input type="text" v-model="birth_date"/>
+                                    </VueTailwindPicker>
+                                </div>
+                            </div>
+
+                            <div class="col-span-3 sm:col-span-2">
+                                <label for="gender_id" class="block text-sm font-medium text-gray-700">
+                                    Пол
+                                </label>
+                                <SingleSelect v-model="gender_id" @selected="(e) => {this.gender_id = e}"
+                                              :options="genders"
+                                              id="gender_id" :placeholder="'Выберите пол'" :value="gender_id"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="mx-auto py-5 bg-white space-y-6 sm:p-6">
+                            <!--                        <div class="col-span-3 sm:col-span-2">-->
+                            <!--                            <label for="group_ids" class="block text-sm font-medium text-gray-700">-->
+                            <!--                                Группы-->
+                            <!--                            </label>-->
+                            <!--                            <SingleSelect v-model="group_ids" @selected="(e) => {this.group_ids = e}" :options="genders"-->
+                            <!--                                          id="group_ids" :placeholder="'Выберите группы'"/>-->
+                            <!--                        </div>-->
+                            <div class="col-span-3 sm:col-span-2">
+                                <input v-model="medical_doc_fact" id="medical_doc_fact" type="checkbox"
+                                       class="form-checkbox h-5 w-5 text-indigo-600" checked><span
+                                class="ml-2 font-medium text-gray-700">Наличие медицинской справки</span>
+                            </div>
+
+
+                            <div class="col-span-3 sm:col-span-2">
+                                <label for="address_reg" class="block text-sm font-medium text-gray-700">
+                                    Адрес регистрации
+                                </label>
+                                <div class="mt-1 flex rounded-md shadow-sm">
+                                    <input v-model="address_reg" type="text" id="address_reg"
+                                           class="focus:ring-pink-500 focus:border-pink-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                           placeholder="Введите адрес">
+                                </div>
+                            </div>
+
+                            <div class="col-span-3 sm:col-span-2">
+                                <label for="address_act" class="block text-sm font-medium text-gray-700">
+                                    Адрес фактического проживания
+                                </label>
+                                <div class="mt-1 flex rounded-md shadow-sm">
+                                    <input v-model="address_act" type="text" id="address_act"
+                                           class="focus:ring-pink-500 focus:border-pink-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                           placeholder="Введите адрес">
+                                </div>
+                            </div>
+
+                            <div class="col-span-3 sm:col-span-2">
+                                <label for="representative_ids" class="block text-sm font-medium text-gray-700">
+                                    Представители
+                                </label>
+                                <MultiSelect :options="representatives" v-model="representative_ids"
+                                             id="representative_ids"/>
+                                <div @click="toggleRepresentativeModal = true">Добавить представителя</div>
+                                <div v-for="representative in representative_selected">{{representative.full_name}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="mx-auto py-5 bg-white space-y-6 sm:p-6">
+                            <div class="col-span-3 sm:col-span-2">
+                                <input v-model="low_money" id="low_money" type="checkbox"
+                                       class="form-checkbox h-5 w-5 text-indigo-600" checked><span
+                                class="ml-2 font-medium text-gray-700">Малоимущий</span>
+                            </div>
+
+                            <div class="col-span-3 sm:col-span-2">
+                                <input v-model="migrant" id="migrant" type="checkbox"
+                                       class="form-checkbox h-5 w-5 text-indigo-600" checked><span
+                                class="ml-2 font-medium text-gray-700">Мигрант</span>
+                            </div>
+
+                            <div class="col-span-3 sm:col-span-2">
+                                <input v-model="no_reps" id="no_reps" type="checkbox"
+                                       class="form-checkbox h-5 w-5 text-indigo-600" checked><span
+                                class="ml-2 font-medium text-gray-700">Без попечения родителей</span>
+                            </div>
+                            <div class="col-span-3 sm:col-span-2">
+                            <SingleSelect v-model="disability_id" @selected="(e) => {this.disability_id = e}"
+                                          :options="disabilities"
+                                          id="disability_id" :placeholder="'Выберите инвалидность'" :value="disability_id"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                    <button @click="$parent.$emit('close');"
+                            class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Отменить
+                    </button>
+                    <button type="submit"
+                            class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Сохранить
+                    </button>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+</template>
+
+<script>
+import DatePicker from "@/Сomponents/DatePicker";
+import MultiSelect from "@/Сomponents/MultiSelect";
+import SingleSelect from "@/Сomponents/SingleSelect";
+import VueTailwindPicker from 'vue-tailwind-picker'
+import '@/Plugins/Dayjs';
+import Modal from "@/Layouts/Modal";
+import RepresentativeForm from "@/Forms/RepresentativeForm";
+
+export default {
+    name: "StudentForm",
+    components: {RepresentativeForm, Modal, SingleSelect, MultiSelect, DatePicker, VueTailwindPicker},
+    props: ['studentId'],
+    methods: {
+        createStudent() {
+            this.representative_ids = this.representative_selected.map((item) => {
+               return item.id;
+            });
+            if(!this.studentId)
+            axios.post("/api/students", {
+                last_name: this.last_name,
+                first_name: this.first_name,
+                middle_name: this.middle_name,
+                gender_id: this.gender_id,
+                group_ids: this.group_ids,
+                medical_doc_fact: this.medical_doc_fact,
+                birth_date: this.birth_date,
+                address_act: this.address_act,
+                address_reg: this.address_reg,
+                representative_ids: this.representative_ids,
+                disability_id: this.disability_id,
+                no_reps: this.no_reps,
+                low_money: this.low_money,
+                migrant: this.migrant
+            }).then((res) => {
+                if (res.status === 201) {
+                    this.$parent.$emit('close');
+                }
+            }).catch((res) => console.log(res))
+            else
+                axios.put("/api/students/" + this.studentId, {
+                    last_name: this.last_name,
+                    first_name: this.first_name,
+                    middle_name: this.middle_name,
+                    gender_id: this.gender_id,
+                    group_ids: this.group_ids,
+                    medical_doc_fact: this.medical_doc_fact,
+                    birth_date: this.birth_date,
+                    address_act: this.address_act,
+                    address_reg: this.address_reg,
+                    representative_ids: this.representative_ids,
+                    disability_id: this.disability_id,
+                    no_reps: this.no_reps,
+                    low_money: this.low_money,
+                    migrant: this.migrant
+                }).then((res) => {
+                    if (res.status === 200) {
+                        this.$emit('submit', res.data.data);
+                    }
+                }).catch((res) => console.log(res))
+        },
+        getForm() {
+            axios.get("/api/students_form").then((res) => {
+                if (res.status === 200) {
+                    let data = res.data;
+                    this.groups = data.groups;
+                    this.healthGroups = data.healthGroups;
+                    this.genders = data.genders;
+                    this.representatives = data.representatives;
+                    this.disabilities = data.disabilities;
+                }
+            })
+        },
+        updateGender(e) {
+            this.gender_id = e;
+        },
+        updateGroups(e) {
+            this.group_ids = e;
+        },
+        updateBirthDate(e) {
+            console.log(e);
+            this.birth_date = e;
+        }
+    },
+    data() {
+        return {
+            groups: [],
+            health_groups: [],
+            genders: [],
+            representatives: [],
+            representative_selected: [],
+            gender_id: '',
+            last_name: '',
+            first_name: '',
+            middle_name: '',
+            group_ids: [],
+            birth_date: '',
+            medical_doc_fact: 0,
+            address_reg: '',
+            address_act: '',
+            representative_ids: [],
+            toggleRepresentativeModal: false,
+            migrant: 0,
+            low_money: 0,
+            no_reps: 0,
+            disability_id: null,
+            disabilities: [],
+        };
+    },
+    created() {
+        this.getForm();
+        if (this.studentId)
+        {
+            axios.get('/api/students/' + this.studentId).then((res) => {
+                if (res.status === 200)
+                {
+                    let data = res.data.data;
+                    this.gender_id = data.gender.id;
+                    this.last_name = data.last_name;
+                    this.first_name = data.first_name;
+                    this.middle_name = data.middle_name;
+                    this.birth_date = data.birth_date;
+                    this.medical_doc_fact = data.medical_doc_fact;
+                    this.address_reg = data.address_reg;
+                    this.address_act = data.address_act;
+                    this.migrant = data.migrant;
+                    this.low_money = data.low_money;
+                    this.no_reps = data.no_reps;
+                    this.disability_id = data.disability ? data.disability.id : null;
+                    console.log(data)
+                }
+            })
+        }
+    },
+}
+</script>
+
+<style scoped>
+
+</style>
