@@ -26,7 +26,8 @@ Route::namespace('App\Http\Controllers')->group( function (){
     Route::get('teachers/dictionary', 'TeacherController@dictionary');
     Route::get('groups/dictionary', 'GroupController@dictionary');
     Route::get('subjects/dictionary', 'SubjectController@dictionary');
-    Route::get('students/sheet', 'StudentController@sheet');
+    Route::get('students/sheet/{student_id}', 'StudentController@sheet');
+    Route::get('sheets/form', 'SheetController@form');
     Route::post('groups/search', 'GroupController@search');
     Route::post('groups/addStudent', "GroupController@addStudent");
     Route::post('groups/addTeacher', "GroupController@addTeacher");

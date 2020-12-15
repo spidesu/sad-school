@@ -69,8 +69,12 @@ class StudentRepository extends AbstractRepository
 
     public function sheetList($student_id)
     {
-        return $this->model->sheets()->get()->groupBy('subject_id')->transform(function($item, $k) {
-            return $item->groupBy('year');
+        $student = $this->model->find($student_id);
+//        return $student->sheets()->get();
+        return $student->sheets()->get()->groupBy('subject.name')->transform(function($item, $k) {
+            return $item->groupBy('year')->transform(function($item, $k) {
+                return $item->groupBy('quarter_id');
+            });
         });
     }
 

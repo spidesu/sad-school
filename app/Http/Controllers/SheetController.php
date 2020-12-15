@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\App\Student\SheetFormAction;
 use App\Http\Resources\SheetResource;
 use App\Repositories\SheetRepository;
 use Illuminate\Http\Request;
@@ -10,10 +11,11 @@ class SheetController extends Controller
 {
 
     protected $sheetRepository;
-
+    protected $sheetAction;
     public function __construct()
     {
         $this->sheetRepository = app(SheetRepository::class);
+        $this->sheetAction = app(SheetFormAction::class);
     }
 
     /**
@@ -68,6 +70,11 @@ class SheetController extends Controller
     public function destroy($id)
     {
         return $this->sheetRepository->delete($id);
+    }
+
+    public function form()
+    {
+        return $this->sheetAction->getFormVars();
     }
 
 }

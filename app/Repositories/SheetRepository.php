@@ -15,6 +15,7 @@ class SheetRepository extends AbstractRepository
 
     public function __construct()
     {
+        parent::__construct();
         $this->studentRepository = app(StudentRepository::class);
     }
 

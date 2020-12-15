@@ -59,9 +59,7 @@
                                 <label for="gender_id" class="block text-sm font-medium text-gray-700">
                                     Пол
                                 </label>
-                                <SingleSelect v-model="gender_id" @selected="(e) => {this.gender_id = e}"
-                                              :options="genders"
-                                              id="gender_id" :placeholder="'Выберите пол'" :value="gender_id"/>
+                                <multiselect :showLabels="false" v-model="gender_id" :options="genders" track-by="id" label="name" :placeholder="'Выберите пол'"></multiselect>
                             </div>
                         </div>
                     </div>
@@ -129,9 +127,7 @@
                                 class="ml-2 font-medium text-gray-700">Без попечения родителей</span>
                             </div>
                             <div class="col-span-3 sm:col-span-2">
-                            <SingleSelect v-model="disability_id" @selected="(e) => {this.disability_id = e}"
-                                          :options="disabilities"
-                                          id="disability_id" :placeholder="'Выберите инвалидность'" :value="disability_id"/>
+                                <multiselect :showLabels="false" v-model="disability_id" :options="disabilities" track-by="id" label="name" :placeholder="'Выберите инвалидность'"></multiselect>
                             </div>
                         </div>
                     </div>
@@ -139,7 +135,7 @@
 
 
                 <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                    <button @click="$parent.$emit('close');"
+                    <button @click.prevent="$parent.$emit('close');"
                             class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         Отменить
                     </button>
@@ -157,8 +153,8 @@
 
 <script>
 import DatePicker from "@/Сomponents/DatePicker";
-import MultiSelect from "@/Сomponents/MultiSelect";
 import SingleSelect from "@/Сomponents/SingleSelect";
+import Multiselect from 'vue-multiselect'
 import VueTailwindPicker from 'vue-tailwind-picker'
 import '@/Plugins/Dayjs';
 import Modal from "@/Layouts/Modal";
@@ -166,9 +162,13 @@ import RepresentativeForm from "@/Forms/RepresentativeForm";
 
 export default {
     name: "StudentForm",
-    components: {RepresentativeForm, Modal, SingleSelect, MultiSelect, DatePicker, VueTailwindPicker},
+    components: {RepresentativeForm, Modal, SingleSelect, DatePicker, VueTailwindPicker, Multiselect},
     props: ['studentId'],
     methods: {
+        elog(e)
+        {
+            console.log(e)
+        },
         createStudent() {
             this.representative_ids = this.representative_selected.map((item) => {
                return item.id;
@@ -178,14 +178,13 @@ export default {
                 last_name: this.last_name,
                 first_name: this.first_name,
                 middle_name: this.middle_name,
-                gender_id: this.gender_id,
-                group_ids: this.group_ids,
+                gender_id: this.gender_id ? this.gender_id.id : null,
                 medical_doc_fact: this.medical_doc_fact,
                 birth_date: this.birth_date,
                 address_act: this.address_act,
                 address_reg: this.address_reg,
                 representative_ids: this.representative_ids,
-                disability_id: this.disability_id,
+                disability_id: this.disability_id ? this.disability_id.id : null,
                 no_reps: this.no_reps,
                 low_money: this.low_money,
                 migrant: this.migrant
@@ -199,14 +198,13 @@ export default {
                     last_name: this.last_name,
                     first_name: this.first_name,
                     middle_name: this.middle_name,
-                    gender_id: this.gender_id,
-                    group_ids: this.group_ids,
+                    gender_id: this.gender_id ? this.gender_id.id : null,
                     medical_doc_fact: this.medical_doc_fact,
                     birth_date: this.birth_date,
                     address_act: this.address_act,
                     address_reg: this.address_reg,
                     representative_ids: this.representative_ids,
-                    disability_id: this.disability_id,
+                    disability_id: this.disability_id ? this.disability_id.id : null,
                     no_reps: this.no_reps,
                     low_money: this.low_money,
                     migrant: this.migrant
@@ -273,7 +271,7 @@ export default {
                 if (res.status === 200)
                 {
                     let data = res.data.data;
-                    this.gender_id = data.gender.id;
+                    this.gender_id = data.gender;
                     this.last_name = data.last_name;
                     this.first_name = data.first_name;
                     this.middle_name = data.middle_name;
@@ -284,7 +282,7 @@ export default {
                     this.migrant = data.migrant;
                     this.low_money = data.low_money;
                     this.no_reps = data.no_reps;
-                    this.disability_id = data.disability ? data.disability.id : null;
+                    this.disability_id = data.disability ? data.disability : null;
                     console.log(data)
                 }
             })

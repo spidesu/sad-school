@@ -1,7 +1,7 @@
 
 <template>
     <div>
-        <multiselect v-model="value" @select="passSelected" :showLabels="false" :options="options" track-by="id" label="name" :placeholder="placeholder"></multiselect>
+        <multiselect v-model="value" @select="passSelected" :options="options" track-by="id" label="name" :placeholder="placeholder"></multiselect>
     </div>
 </template>
 

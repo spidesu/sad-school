@@ -26,6 +26,7 @@ class StudentResource extends JsonResource
             'address_reg' => $this->address_reg,
             'address_act' => $this->address_act,
             'comment' => $this->comment,
+            'begin_at' => date('Y',$this->created_at->timestamp),
             'disability' => DicResource::make($this->disability),
             'representatives' => RepresentativeDicResource::collection($this->representatives),
         ];

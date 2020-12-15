@@ -85,7 +85,8 @@ class StudentController extends Controller
 
     public function sheet($student_id)
     {
-        return SheetResource::collection($this->studentRepository->sheetList($student_id));
+        return ['sheets' => $this->studentRepository->sheetList($student_id),
+                'student' => StudentResource::make($this->studentRepository->get($student_id))];
     }
 
     public function form()

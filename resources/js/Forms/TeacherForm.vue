@@ -56,9 +56,7 @@
                                 <label for="gender_id" class="block text-sm font-medium text-gray-700">
                                     Пол
                                 </label>
-                                <SingleSelect v-model="gender_id" @selected="(e) => {this.gender_id = e}"
-                                              :options="genders"  :value = 'gender_id'
-                                              id="gender_id" :placeholder="'Выберите пол'"/>
+                                <multiselect :showLabels="false" v-model="gender_id" :options="genders" track-by="id" label="name" :placeholder="'Выберите пол'"></multiselect>
                             </div>
                         </div>
                     </div>
@@ -129,9 +127,7 @@
                             <label for="education_id" class="block text-sm font-medium text-gray-700">
                                 Образование
                             </label>
-                            <SingleSelect v-model="education_id" @selected="(e) => {this.education_id = e}"
-                                          :options="educations" :value = 'education_id'
-                                          id="education_id" :placeholder="'Выберите образование'"/>
+                            <multiselect :showLabels="false" v-model="education_id" :options="educations" track-by="id" label="name" :placeholder="'Выберите образование'"></multiselect>
                         </div>
                         <div class="col-span-3 sm:col-span-2">
                             <input v-model="edu_teach" id="edu_teach" type="checkbox"
@@ -154,9 +150,7 @@
                             <label for="disability_id" class="block text-sm font-medium text-gray-700">
                                 Инвалидность (необязательно)
                             </label>
-                            <SingleSelect v-model="disability_id" @selected="(e) => {this.disability_id = e}"
-                                          :options="disabilities" :value = 'disability_id'
-                                          id="disability_id" :placeholder="'Выберите инвалидность'"/>
+                            <multiselect :showLabels="false" v-model="disability_id" :options="disabilities" track-by="id" label="name" :placeholder="'Выберите инвалидность'"></multiselect>
                         </div>
                         </div>
                     </div>
@@ -182,7 +176,7 @@
 
 <script>
 import DatePicker from "@/Сomponents/DatePicker";
-import MultiSelect from "@/Сomponents/MultiSelect";
+import Multiselect from 'vue-multiselect'
 import SingleSelect from "@/Сomponents/SingleSelect";
 import VueTailwindPicker from 'vue-tailwind-picker'
 import '@/Plugins/Dayjs';
@@ -190,7 +184,7 @@ import '@/Plugins/Dayjs';
 export default {
     name: "TeacherForm",
     props: ['teacherId'],
-    components: {DatePicker, MultiSelect, SingleSelect, VueTailwindPicker},
+    components: {DatePicker, Multiselect, SingleSelect, VueTailwindPicker},
     created() {
         this.getForm();
         if (this.teacherId)
@@ -199,21 +193,21 @@ export default {
                 if (res.status === 200)
                 {
                     let data = res.data.data;
-                    this.gender_id = data.gender.id;
+                    this.gender_id = data.gender;
                     this.edu_teach = data.edu_teach;
                     this.speciality = data.speciality;
                     this.last_name = data.last_name;
                     this.first_name = data.first_name;
                     this.middle_name = data.middle_name;
                     this.birth_date = data.birth_date;
-                    this.education_id = data.education_id;
+                    this.education_id = data.education;
                     this.address_reg = data.address_reg;
                     this.address_act = data.address_act;
                     this.parttime_work = data.parttime_work;
                     this.working_rate = data.working_rate;
                     this.phone = data.phone;
                     this.work_since = data.work_since;
-                    this.disability_id = data.disability ? data.disability.id : null;
+                    this.disability_id = data.disability;
                     console.log(data)
                 }
             })
@@ -233,16 +227,16 @@ export default {
                 first_name: this.first_name,
                 middle_name: this.middle_name,
                 birth_date: this.birth_date,
-                education_id: this.education_id,
+                education_id: this.education_id ? this.education_id.id : null,
                 edu_teach: this.edu_teach,
                 speciality: this.speciality,
-                disability_id: this.disability_id,
+                disability_id: this.disability_id ? this.disability_id.id : null,
                 parttime_work: this.parttime_work,
                 working_rate: this.working_rate,
                 phone: this.phone,
                 address_reg: this.address_reg,
                 address_act: this.address_act,
-                gender_id: this.gender_id,
+                gender_id: this.gender_id ? this.gender_id.id : null,
                 work_since: this.work_since,
 
             }).then((res) => {
@@ -256,16 +250,16 @@ export default {
                 first_name: this.first_name,
                 middle_name: this.middle_name,
                 birth_date: this.birth_date,
-                education_id: this.education_id,
+                education_id: this.education_id ? this.education_id.id : null,
                 edu_teach: this.edu_teach,
                 speciality: this.speciality,
-                disability_id: this.disability_id,
+                disability_id: this.disability_id ? this.disability_id.id : null,
                 parttime_work: this.parttime_work,
                 working_rate: this.working_rate,
                 phone: this.phone,
                 address_reg: this.address_reg,
                 address_act: this.address_act,
-                gender_id: this.gender_id,
+                gender_id: this.gender_id ? this.gender_id.id : null,
                 work_since: this.work_since,
             }).then((res) => {
                 if (res.status === 200) {
