@@ -166,7 +166,7 @@ export default {
     props: ['teacher'],
     methods: {
         deleteTeacher() {
-            axios.delete('/api/teacher/' + this.teacher.id).then((res) => {
+            axios.delete('/api/teachers/' + this.teacher.id).then((res) => {
                 console.log(res)
                 this.$parent.$emit('close');
             })
