@@ -2029,7 +2029,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       axios.post('/api/groups/deleteTeacher', {
-        student_id: student_id,
+        teacher_id: teacher_id,
         group_id: this.groupData.id
       }).then(function (res) {
         if (res.status === 200) {
@@ -3933,8 +3933,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 
@@ -3960,7 +3958,7 @@ __webpack_require__.r(__webpack_exports__);
           var data = res.data.data;
           _this.gender_id = data.gender;
           _this.edu_teach = data.edu_teach;
-          _this.speciality = data.speciality;
+          _this.specialization = data.specialization;
           _this.last_name = data.last_name;
           _this.first_name = data.first_name;
           _this.middle_name = data.middle_name;
@@ -3995,7 +3993,7 @@ __webpack_require__.r(__webpack_exports__);
         birth_date: this.birth_date,
         education_id: this.education_id ? this.education_id.id : null,
         edu_teach: this.edu_teach,
-        speciality: this.speciality,
+        specialization_id: this.specialization ? this.specialization.id : null,
         disability_id: this.disability_id ? this.disability_id.id : null,
         parttime_work: this.parttime_work,
         working_rate: this.working_rate,
@@ -4017,7 +4015,7 @@ __webpack_require__.r(__webpack_exports__);
         birth_date: this.birth_date,
         education_id: this.education_id ? this.education_id.id : null,
         edu_teach: this.edu_teach,
-        speciality: this.speciality,
+        specialization_id: this.specialization ? this.specialization.id : null,
         disability_id: this.disability_id ? this.disability_id.id : null,
         parttime_work: this.parttime_work,
         working_rate: this.working_rate,
@@ -4043,6 +4041,7 @@ __webpack_require__.r(__webpack_exports__);
           _this3.disabilities = data.disabilities;
           _this3.genders = data.genders;
           _this3.educations = data.educations;
+          _this3.specializations = data.specializations;
         }
       });
     }
@@ -4055,7 +4054,8 @@ __webpack_require__.r(__webpack_exports__);
       birth_date: '',
       education_id: '',
       edu_teach: 0,
-      speciality: '',
+      specialization: '',
+      specializations: [],
       disability_id: null,
       parttime_work: '',
       working_rate: '',
@@ -28516,7 +28516,11 @@ var render = function() {
                             [
                               _vm._v(
                                 "\n                                " +
-                                  _vm._s(_vm.teacher.speciality) +
+                                  _vm._s(
+                                    _vm.teacher.specialization
+                                      ? _vm.teacher.specialization.name
+                                      : null
+                                  ) +
                                   "\n                            "
                               )
                             ]
@@ -31576,33 +31580,24 @@ var render = function() {
                       "div",
                       { staticClass: "mt-1 flex rounded-md shadow-sm" },
                       [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.speciality,
-                              expression: "speciality"
-                            }
-                          ],
-                          staticClass:
-                            "focus:ring-pink-500 focus:border-pink-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300",
+                        _c("multiselect", {
                           attrs: {
-                            type: "text",
-                            id: "speciality",
-                            placeholder: "Введите специализацию"
+                            showLabels: false,
+                            options: _vm.specializations,
+                            "track-by": "id",
+                            label: "name",
+                            placeholder: "Выберите специальность"
                           },
-                          domProps: { value: _vm.speciality },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.speciality = $event.target.value
-                            }
+                          model: {
+                            value: _vm.specialization,
+                            callback: function($$v) {
+                              _vm.specialization = $$v
+                            },
+                            expression: "specialization"
                           }
                         })
-                      ]
+                      ],
+                      1
                     )
                   ]),
                   _vm._v(" "),
@@ -36897,7 +36892,8 @@ var render = function() {
             "button",
             {
               staticClass:
-                "inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
+                "inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out",
+              on: { click: _vm.downloadCadr }
             },
             [_vm._v("\n            Кадровое обеспечение\n          ")]
           )

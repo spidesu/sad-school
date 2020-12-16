@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Repositories\DepartmentRepository;
 use App\Repositories\ProgramRepository;
+use App\Repositories\SpecializationRepository;
 use App\Repositories\StudentRepository;
 use App\Repositories\TeacherRepository;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ class ReportController extends Controller
     protected $teacherRepository;
     protected $programRepository;
     protected $departmentRepository;
+    protected $specRepository;
 
     public function __construct()
     {
@@ -23,6 +25,7 @@ class ReportController extends Controller
         $this->teacherRepository = app(TeacherRepository::class);
         $this->programRepository = app(ProgramRepository::class);
         $this->departmentRepository = app(DepartmentRepository::class);
+        $this->specRepository = app(SpecializationRepository::class);
     }
 
     public function getPersonalIssue(int $student_id)
@@ -35,24 +38,22 @@ class ReportController extends Controller
                 'address_act' => $student->address_act,
                 'created_at' => date('d.m.Y', strtotime($student->created_at)),
 //                'program' => $student->group->course->program->name,
-                'representatives' => $student->representatives,
-                'program' => $this->studentRepository->getProgram($student_id)
-            ];
+            'representatives' => $student->representatives,
+            'program' => $this->studentRepository->getProgram($student_id)
+        ];
         $pdf = PDF::loadView('pdf.student', $data);
         return $pdf->download('student.pdf');
     }
-//    public function cadrReport()
-//    {
-//        $data = [];
-//        $departments = $this->departmentRepository->list();
-//        foreach ($departments as $department)
-//        {
-//            $row['total'] = $department->teacherCount;
-//            $row['']
-//        }
-//        $pdf = PDF::loadView('pdf.cadrReport', $data)->setPaper('a4', 'landscape');;
-//        return $pdf->download('cadrReport.pdf');
-//    }
+
+    public function cadrReport()
+    {
+        $teachers = $this->specRepository->countTeacher();
+       // dd($teachers);
+        $data['result'] = $teachers;
+        $pdf = PDF::loadView('pdf.cadrReport', $data)->setPaper('a4', 'landscape');
+        return $pdf->download('cadrReport.pdf');
+    }
+
     public function testReport()
     {
         $student = $this->studentRepository->reportList();
@@ -63,12 +64,11 @@ class ReportController extends Controller
             $result = [];
             $result['name'] = $item->name;
             $result['count'] = $item->studentCount;
-           foreach ($item->programs as $program) {
-               if ($program->educational_form_id == 1)
-               {
-                   $result['programs'][] = ['name' => $program->name, 'count' => $program->studentCount];
-               }
-           }
+            foreach ($item->programs as $program) {
+                if ($program->educational_form_id == 1) {
+                    $result['programs'][] = ['name' => $program->name, 'count' => $program->studentCount];
+                }
+            }
             return $result;
         });
 
@@ -84,7 +84,7 @@ class ReportController extends Controller
 //            }
 //            return $result;
 //        });
-        $data = ['current_date' => date('d.m.Y'),'student' => $student, 'teacher' => $teacher, 'budgetPrograms' => $countBudget, 'nonBudgetPrograms' => $nonBudgetPrograms];
+        $data = ['current_date' => date('d.m.Y'), 'student' => $student, 'teacher' => $teacher, 'budgetPrograms' => $countBudget, 'nonBudgetPrograms' => $nonBudgetPrograms];
         $pdf = PDF::loadView('pdf.fullReport', $data);
         return $pdf->download('report.pdf');
     }

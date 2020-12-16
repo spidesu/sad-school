@@ -25,7 +25,7 @@ class TeacherResource extends JsonResource
             'education' => DicResource::make($this->education),
             'address_reg' => $this->address_reg,
             'address_act' => $this->address_act,
-            'speciality' => $this->speciality,
+            'specialization' => DicResource::make($this->specialization),
             'parttime_work' => $this->parttime_work,
             'working_rate' => $this->working_rate,
             'work_since' => $this->work_since,

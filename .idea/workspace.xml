@@ -20,21 +20,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e64015de-a6b2-4d00-aba8-1065e623e4b5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Actions/App/Student/SheetFormAction.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/Forms/SheetForm.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SheetController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/SheetController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Actions/App/Student/TeacherFormAction.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Actions/App/Student/TeacherFormAction.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ReportController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ReportController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/StudentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/StudentController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/StudentResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/StudentResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Sheet.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Sheet.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Repositories/SheetRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Repositories/SheetRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Repositories/StudentRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Repositories/StudentRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TeacherController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TeacherController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Resources/TeacherResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/TeacherResource.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Group.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Group.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Teacher.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Teacher.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Repositories/SpecializationRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Repositories/SpecializationRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Repositories/TeacherRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Repositories/TeacherRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_12_15_121219_create_years_table.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Forms/StudentForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Forms/StudentForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Applicants/GroupApplicant.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Applicants/GroupApplicant.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Applicants/TeacherApplicant.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Applicants/TeacherApplicant.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/Forms/TeacherForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Forms/TeacherForm.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Sheets.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Sheets.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Сomponents/SingleSelect.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Сomponents/SingleSelect.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Reports.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Reports.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pdf/cadrReport.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pdf/cadrReport.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -259,6 +261,8 @@
       <workItem from="1607970499151" duration="1675000" />
       <workItem from="1608008241152" duration="12394000" />
       <workItem from="1608042213597" duration="7724000" />
+      <workItem from="1608095419899" duration="10829000" />
+      <workItem from="1608132327279" duration="5747000" />
     </task>
     <servers />
   </component>

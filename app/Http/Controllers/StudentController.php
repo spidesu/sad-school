@@ -23,6 +23,7 @@ class StudentController extends Controller
         $this->studentAction = app(StudentFormAction::class);
 
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -47,7 +48,7 @@ class StudentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return StudentResource
      */
     public function show(int $id)
@@ -70,7 +71,7 @@ class StudentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return bool
      */
     public function destroy(int $id)
@@ -86,16 +87,16 @@ class StudentController extends Controller
     public function sheet($student_id)
     {
         return ['sheets' => $this->studentRepository->sheetList($student_id),
-                'student' => StudentResource::make($this->studentRepository->get($student_id))];
+            'student' => StudentResource::make($this->studentRepository->get($student_id))];
     }
 
     public function form()
     {
         $res = $this->studentAction->getFormVars();
         return [
-          'groups' => DicResource::collection($res['groups']),
-          'healthGroups' => DicResource::collection($res['healthGroups']),
-          'genders' => DicResource::collection($res['genders']),
+            'groups' => DicResource::collection($res['groups']),
+            'healthGroups' => DicResource::collection($res['healthGroups']),
+            'genders' => DicResource::collection($res['genders']),
             'disabilities' => DicResource::collection($res['disabilities']),
             'representatives' => StudentDicResource::collection($res['representatives']),
         ];

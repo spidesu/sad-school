@@ -90,7 +90,7 @@ export default {
 
         deleteTeacher(teacher_id) {
             axios.post('/api/groups/deleteTeacher', {
-                student_id: student_id,
+                teacher_id: teacher_id,
                 group_id: this.groupData.id
             }).then((res) => {
                 if (res.status === 200) {

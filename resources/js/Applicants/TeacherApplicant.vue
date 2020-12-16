@@ -100,7 +100,7 @@
                                     Специальность
                                 </label>
                                 <div class="mt-1 flex rounded-md shadow-sm">
-                                    {{teacher.speciality}}
+                                    {{teacher.specialization ? teacher.specialization.name : null}}
                                 </div>
                             </div>
 

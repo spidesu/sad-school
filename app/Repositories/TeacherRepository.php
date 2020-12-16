@@ -26,4 +26,12 @@ class TeacherRepository extends AbstractRepository
         return $teacher;
     }
 
+    public function cadrReport()
+    {
+        return $this->model->with(['groups', 'groups.specialization'])->get()->groupBy('specialization.id')
+            ->transform(function($item, $k) {
+                return $item->groupBy('education.id');});
+
+    }
+
 }

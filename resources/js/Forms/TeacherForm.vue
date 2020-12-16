@@ -117,9 +117,7 @@
                                 Специальность
                             </label>
                             <div class="mt-1 flex rounded-md shadow-sm">
-                                <input v-model="speciality" type="text" id="speciality"
-                                       class="focus:ring-pink-500 focus:border-pink-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
-                                       placeholder="Введите специализацию">
+                                <multiselect :showLabels="false" v-model="specialization" :options="specializations" track-by="id" label="name" :placeholder="'Выберите специальность'"></multiselect>
                             </div>
                         </div>
 
@@ -195,7 +193,7 @@ export default {
                     let data = res.data.data;
                     this.gender_id = data.gender;
                     this.edu_teach = data.edu_teach;
-                    this.speciality = data.speciality;
+                    this.specialization = data.specialization;
                     this.last_name = data.last_name;
                     this.first_name = data.first_name;
                     this.middle_name = data.middle_name;
@@ -229,7 +227,7 @@ export default {
                 birth_date: this.birth_date,
                 education_id: this.education_id ? this.education_id.id : null,
                 edu_teach: this.edu_teach,
-                speciality: this.speciality,
+                specialization_id: this.specialization ? this.specialization.id : null,
                 disability_id: this.disability_id ? this.disability_id.id : null,
                 parttime_work: this.parttime_work,
                 working_rate: this.working_rate,
@@ -252,7 +250,7 @@ export default {
                 birth_date: this.birth_date,
                 education_id: this.education_id ? this.education_id.id : null,
                 edu_teach: this.edu_teach,
-                speciality: this.speciality,
+                specialization_id: this.specialization ? this.specialization.id : null,
                 disability_id: this.disability_id ? this.disability_id.id : null,
                 parttime_work: this.parttime_work,
                 working_rate: this.working_rate,
@@ -274,6 +272,7 @@ export default {
                     this.disabilities = data.disabilities;
                     this.genders = data.genders;
                     this.educations = data.educations;
+                    this.specializations = data.specializations;
                 }
             })
         },
@@ -286,7 +285,8 @@ export default {
             birth_date: '',
             education_id: '',
             edu_teach: 0,
-            speciality: '',
+            specialization: '',
+            specializations: [],
             disability_id: null,
             parttime_work: '',
             working_rate: '',

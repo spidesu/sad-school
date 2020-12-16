@@ -32,6 +32,7 @@ class Group extends Model
         return $this->teachers->count();
     }
 
+
     public function getStudentCountAttribute()
     {
         return $this->students->count();
