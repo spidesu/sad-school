@@ -43,6 +43,28 @@
                             </div>
 
                             <div class="col-span-3 sm:col-span-2">
+                                <label for="snils" class="block text-sm font-medium text-gray-700">
+                                    СНИЛС
+                                </label>
+                                <div class="mt-1 flex rounded-md shadow-sm">
+                                    <input v-model="snils" type="text" id="snils"
+                                           class="focus:ring-pink-500 focus:border-pink-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                           placeholder="Введите СНИЛС">
+                                </div>
+                            </div>
+
+                            <div class="col-span-3 sm:col-span-2">
+                                <label for="document_number" class="block text-sm font-medium text-gray-700">
+                                    Свидетельство о рождении
+                                </label>
+                                <div class="mt-1 flex rounded-md shadow-sm">
+                                    <input v-model="document_number" type="text" id="document_number"
+                                           class="focus:ring-pink-500 focus:border-pink-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                           placeholder="Введите свидетельство о рождении">
+                                </div>
+                            </div>
+
+                            <div class="col-span-3 sm:col-span-2">
                                 <label for="birth_date" class="block text-sm font-medium text-gray-700">
                                     Дата рождения
                                 </label>
@@ -94,21 +116,6 @@
                                            placeholder="Введите адрес">
                                 </div>
                             </div>
-
-                            <div class="col-span-3 sm:col-span-2">
-                                <label for="representative_ids" class="block text-sm font-medium text-gray-700">
-                                    Представители
-                                </label>
-                                <SingleSelect @selected="(e) => {this.representative_selected.push(e)}"
-                                              :options="representatives"
-                                              id="representative" :placeholder="'Выберите представителя'"/>
-                                <div @click="toggleRepresentativeModal = true">Добавить представителя</div>
-                                <div v-for="representative in representative_selected">{{representative.full_name}}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="mx-auto py-5 bg-white space-y-6 sm:p-6">
                             <div class="col-span-3 sm:col-span-2">
                                 <input v-model="low_money" id="low_money" type="checkbox"
                                        class="form-checkbox h-5 w-5 text-indigo-600" checked><span
@@ -129,6 +136,89 @@
                             <div class="col-span-3 sm:col-span-2">
                                 <multiselect :showLabels="false" v-model="disability_id" :options="disabilities" track-by="id" label="name" :placeholder="'Выберите инвалидность'"></multiselect>
                             </div>
+
+                            <div class="col-span-3 sm:col-span-2">
+                                <label for="representative_ids" class="block text-sm font-medium text-gray-700">
+                                    Представители
+                                </label>
+                                <SingleSelect @selected="(e) => {this.representative_selected.push(e)}"
+                                              :options="representatives"
+                                              id="representative" :placeholder="'Выберите представителя'"/>
+                                <div @click="toggleRepresentativeModal = true">Добавить представителя</div>
+                                <div v-for="representative in representative_selected">{{representative.full_name}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="mx-auto py-5 bg-white space-y-6 sm:p-6">
+
+
+                            <div class="col-span-3 sm:col-span-2">
+                                <label for="status_id" class="block text-sm font-medium text-gray-700">
+                                    Статус ученика
+                                </label>
+                                <div class="mt-1 flex rounded-md shadow-sm">
+                                    <multiselect :showLabels="false" v-model="status_id" :options="statuses" track-by="id" label="name" :placeholder="'Выберите статус'"></multiselect>
+                                </div>
+                            </div>
+
+                            <div class="col-span-3 sm:col-span-2">
+                                <label for="status_id" class="block text-sm font-medium text-gray-700">
+                                    Дата зачисления
+                                </label>
+                                <div class="mt-1 flex rounded-md shadow-sm">
+                                    <VueTailwindPicker
+                                        @change="(v) => {begin_at = v}" :startFromMonday="true"
+                                        :startDate="this.$date('1990-01-01').format('YYYY-MM-DD')" :tailwindPickerValue="this.begin_at">
+                                        <input type="text" v-model="begin_at"/>
+                                    </VueTailwindPicker>
+                                </div>
+                            </div>
+
+                            <div class="col-span-3 sm:col-span-2">
+                                <label for="address_act" class="block text-sm font-medium text-gray-700">
+                                    Номер приказа о зачислении
+                                </label>
+                                <div class="mt-1 flex rounded-md shadow-sm">
+                                    <input v-model="begin_doc_number" type="text" id="begin_doc_number"
+                                           class="focus:ring-pink-500 focus:border-pink-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                           placeholder="Введите номер приказа о зачислении">
+                                </div>
+                            </div>
+
+                            <div class="col-span-3 sm:col-span-2">
+                                <label for="end_at" class="block text-sm font-medium text-gray-700">
+                                    Дата отчисления
+                                </label>
+                                <div class="mt-1 flex rounded-md shadow-sm">
+                                    <VueTailwindPicker
+                                        @change="(v) => {end_at = v}" :startFromMonday="true"
+                                        :startDate="this.$date('1990-01-01').format('YYYY-MM-DD')" :tailwindPickerValue="this.begin_at">
+                                        <input type="text" v-model="end_at"/>
+                                    </VueTailwindPicker>
+                                </div>
+                            </div>
+
+                            <div class="col-span-3 sm:col-span-2">
+                                <label for="end_doc_number" class="block text-sm font-medium text-gray-700">
+                                    Номер приказа об отчислении
+                                </label>
+                                <div class="mt-1 flex rounded-md shadow-sm">
+                                    <input v-model="end_doc_number" type="text" id="end_doc_number"
+                                           class="focus:ring-pink-500 focus:border-pink-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                           placeholder="Введите номер приказа об отчислении">
+                                </div>
+                            </div>
+
+                            <div class="col-span-3 sm:col-span-2">
+                                <label for="end_id" class="block text-sm font-medium text-gray-700">
+                                    Причина отчисления
+                                </label>
+                                <div class="mt-1 flex rounded-md shadow-sm">
+                                    <multiselect :showLabels="false" v-model="end_id" :options="ends" track-by="id" label="name" :placeholder="'Выберите статус'"></multiselect>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -187,7 +277,15 @@ export default {
                 disability_id: this.disability_id ? this.disability_id.id : null,
                 no_reps: this.no_reps,
                 low_money: this.low_money,
-                migrant: this.migrant
+                migrant: this.migrant,
+                end_id: this.end_id.id,
+                begin_at: this.begin_at,
+                begin_doc_number: this.begin_doc_number,
+                end_at: this.end_at,
+                end_doc_number: this.end_doc_number,
+                status_id: this.status_id.id,
+                snils: this.snils,
+                document_number: this.document_number
             }).then((res) => {
                 if (res.status === 201) {
                     this.$parent.$emit('close');
@@ -207,7 +305,15 @@ export default {
                     disability_id: this.disability_id ? this.disability_id.id : null,
                     no_reps: this.no_reps,
                     low_money: this.low_money,
-                    migrant: this.migrant
+                    migrant: this.migrant,
+                    end_id: this.end_id.id,
+                    begin_at: this.begin_at,
+                    begin_doc_number: this.begin_doc_number,
+                    end_at: this.end_at,
+                    end_doc_number: this.end_doc_number,
+                    status_id: this.status_id.id,
+                    snils: this.snils,
+                    document_number: this.document_number
                 }).then((res) => {
                     if (res.status === 200) {
                         this.$emit('submit', res.data.data);
@@ -218,11 +324,14 @@ export default {
             axios.get("/api/students_form").then((res) => {
                 if (res.status === 200) {
                     let data = res.data;
+                    console.log(data);
                     this.groups = data.groups;
                     this.healthGroups = data.healthGroups;
                     this.genders = data.genders;
                     this.representatives = data.representatives;
                     this.disabilities = data.disabilities;
+                    this.statuses = data.statuses;
+                    this.ends = data.ends;
                 }
             })
         },
@@ -240,7 +349,9 @@ export default {
     data() {
         return {
             groups: [],
+            statuses: [],
             health_groups: [],
+            ends: [],
             genders: [],
             representatives: [],
             representative_selected: [],
@@ -260,7 +371,15 @@ export default {
             no_reps: 0,
             disability_id: null,
             disabilities: [],
+            begin_at: '',
+            begin_doc_number: '',
+            end_at: '',
+            end_doc_number: '',
+            status_id: null,
             toggle: false,
+            end_id: null,
+            snils: '',
+            document_number: '',
         };
     },
     created() {

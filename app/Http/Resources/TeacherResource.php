@@ -29,7 +29,11 @@ class TeacherResource extends JsonResource
             'parttime_work' => $this->parttime_work,
             'working_rate' => $this->working_rate,
             'work_since' => $this->work_since,
-            'phone' => $this->phone
+            'phone' => $this->phone,
+            'position' => DicResource::make($this->position),
+            'status' => DicResource::make($this->status),
+            'begin_at' => $this->begin_at,
+            'end_at' => $this->end_at
         ];
     }
 }

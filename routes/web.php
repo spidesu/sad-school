@@ -59,6 +59,8 @@ Route::group([
 });
 Route::namespace('App\Http\Controllers')->group( function (){
     Route::get('/student/issue/{student_id}', 'ReportController@getPersonalIssue');
+    Route::get('/teacher/issue/{teacher_id}', 'ReportController@getTeacher');
     Route::get('/test', 'ReportController@testReport');
     Route::get('/cadrReport', 'ReportController@cadrReport');
+    Route::post('/reports/sheetReport', "ReportController@sheetReport")->name('sheetReport');
 });

@@ -58,6 +58,19 @@
                                 </label>
                                 <multiselect :showLabels="false" v-model="gender_id" :options="genders" track-by="id" label="name" :placeholder="'Выберите пол'"></multiselect>
                             </div>
+
+                            <div class="col-span-3 sm:col-span-2">
+                                <label for="position_id" class="block text-sm font-medium text-gray-700">
+                                    Должность
+                                </label>
+                                <multiselect :showLabels="false" v-model="position_id" :options="positions" track-by="id" label="name" :placeholder="'Выберите должность'"></multiselect>
+                            </div>
+
+                            <div class="col-span-3 sm:col-span-2">
+                                <input v-model="parttime_work" id="parttime_work" type="checkbox"
+                                       class="form-checkbox h-5 w-5 text-indigo-600" checked><span
+                                class="ml-2 font-medium text-gray-700">Работает по совместительству</span>
+                            </div>
                         </div>
                     </div>
 
@@ -98,7 +111,7 @@
                         </div>
                         <div class="col-span-3 sm:col-span-2">
                             <label for="work_since" class="block text-sm font-medium text-gray-700">
-                                Работает с
+                                Работает преподавателем с
                             </label>
                             <div class="mt-1 flex rounded-md shadow-sm">
                                 <VueTailwindPicker
@@ -108,6 +121,41 @@
                                 </VueTailwindPicker>
                             </div>
                         </div>
+
+                            <div class="col-span-3 sm:col-span-2">
+                                <label for="status_id" class="block text-sm font-medium text-gray-700">
+                                    Статус
+                                </label>
+                                <multiselect :showLabels="false" v-model="status_id" :options="statuses" track-by="id" label="name" :placeholder="'Выберите статус'"></multiselect>
+                            </div>
+
+
+                            <div class="col-span-3 sm:col-span-2">
+                                <label for="begin_at" class="block text-sm font-medium text-gray-700">
+                                    Работает с
+                                </label>
+                                <div class="mt-1 flex rounded-md shadow-sm">
+                                    <VueTailwindPicker
+                                        @change="(v) => {begin_at = v}" :startFromMonday="true"
+                                        :startDate="this.$date('1970-01-01').format('YYYY-MM-DD')" :endDate="this.$date('2025-01-01').format('YYYY-MM-DD')" :tailwindPickerValue="this.begin_at">
+                                        <input type="text" v-model="begin_at"/>
+                                    </VueTailwindPicker>
+                                </div>
+                            </div>
+
+                            <div class="col-span-3 sm:col-span-2">
+                                <label for="end_at" class="block text-sm font-medium text-gray-700">
+                                    Уволен
+                                </label>
+                                <div class="mt-1 flex rounded-md shadow-sm">
+                                    <VueTailwindPicker
+                                        @change="(v) => {end_at = v}" :startFromMonday="true"
+                                        :startDate="this.$date('1970-01-01').format('YYYY-MM-DD')" :endDate="this.$date('2025-01-01').format('YYYY-MM-DD')" :tailwindPickerValue="this.end_at">
+                                        <input type="text" v-model="end_at"/>
+                                    </VueTailwindPicker>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     <div>
@@ -199,6 +247,10 @@ export default {
                     this.middle_name = data.middle_name;
                     this.birth_date = data.birth_date;
                     this.education_id = data.education;
+                    this.status_id = data.status;
+                    this.position_id = data.position;
+                    this.begin_at = data.begin_at;
+                    this.end_at = data.end_at;
                     this.address_reg = data.address_reg;
                     this.address_act = data.address_act;
                     this.parttime_work = data.parttime_work;
@@ -236,6 +288,12 @@ export default {
                 address_act: this.address_act,
                 gender_id: this.gender_id ? this.gender_id.id : null,
                 work_since: this.work_since,
+                status_id: this.status_id ? this.status_id.id : null,
+                position_id: this.position_id ? this.position_id.id : null,
+                education_name: this.education_name,
+                end_at: this.end_at,
+                begin_at: this.begin_at
+
 
             }).then((res) => {
                 if (res.status === 201) {
@@ -259,6 +317,11 @@ export default {
                 address_act: this.address_act,
                 gender_id: this.gender_id ? this.gender_id.id : null,
                 work_since: this.work_since,
+                status_id: this.status_id ? this.status_id.id : null,
+                position_id: this.position_id ? this.position_id.id : null,
+                education_name: this.education_name,
+                end_at: this.end_at,
+                begin_at: this.begin_at
             }).then((res) => {
                 if (res.status === 200) {
                     this.$emit('submit', res.data.data);
@@ -273,6 +336,8 @@ export default {
                     this.genders = data.genders;
                     this.educations = data.educations;
                     this.specializations = data.specializations;
+                    this.positions = data.positions;
+                    this.statuses = data.statuses;
                 }
             })
         },
@@ -288,7 +353,7 @@ export default {
             specialization: '',
             specializations: [],
             disability_id: null,
-            parttime_work: '',
+            parttime_work: 0,
             working_rate: '',
             phone: '',
             address_reg: '',
@@ -298,6 +363,14 @@ export default {
             genders: [],
             educations: [],
             work_since: '',
+            statuses: [],
+            status_id: null,
+            begin_at: '',
+            end_at: '',
+            education_name: '',
+            positions: [],
+            position_id: null,
+
         }
     }
 }

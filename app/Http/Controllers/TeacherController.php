@@ -88,7 +88,9 @@ class TeacherController extends Controller
             'disabilities' => DicResource::collection($res['disabilities']),
             'genders' => DicResource::collection($res['genders']),
             'educations' => DicResource::collection($res['educations']),
-            'specializations' => DicResource::collection($res['specializations'])
+            'specializations' => DicResource::collection($res['specializations']),
+            'positions' => DicResource::collection($res['positions']),
+            'statuses' => DicResource::collection($res['statuses'])
         ];
     }
 }

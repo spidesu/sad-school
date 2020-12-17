@@ -9,7 +9,8 @@
             <SheetForm :studentId="student.id" :year-p="student.begin_at"/>
         </Modal>
         <Modal v-if="toggleEditModal" @close="toggleEditModal = false; selectStudent(student.id)">
-            <SheetForm :studentId="student.id" :year-p="student.begin_at" :quarter-id="quarter" :subject-id="subject" :mark-p="mark"/>
+            <SheetForm :studentId="student.id" :year-p="student.begin_at" :quarter-id="quarter" :subject-id="subject"
+                       :mark-p="mark"/>
         </Modal>
         <div v-if=""></div>
         <div class="box-border p-6 container mx-auto px-6">
@@ -27,65 +28,69 @@
                       class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
                 Добавить оценку
               </button>
+                     <button @click="downloadPDF"
+                             class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
+                Скачать ведомость
+              </button>
             </span>
-
-                <table class="my-5">
-                    <thead>
-                    <tr>
-                        <th rowspan="4">
-                        </th>
-                        <th rowspan="4">Класс/учебный год</th>
-                        <th v-for="year in 4" colspan="7">
-                            {{ year }} класс
-                        </th>
-                    </tr>
-                    <tr>
-                        <th v-for="year in years" colspan="7">
-                            {{ year.name }}
-                        </th>
-                    </tr>
-                    <tr>
-                        <th v-for="year in 4" colspan="7">
-                            оценки
-                        </th>
-                    </tr>
-                    <tr>
-                        <template v-for="years in 4">
-                            <th colspan="4">
-                                чертверти
+                <div ref="content" id="content">
+                    <table class="my-5">
+                        <thead>
+                        <tr>
+                            <th rowspan="4">
                             </th>
-                            <th colspan="3">
+                            <th rowspan="4">Класс/учебный год</th>
+                            <th v-for="year in 4" colspan="7">
+                                {{ year }} класс
                             </th>
-                        </template>
-                    </tr>
-                    <tr>
-                        <th>№</th>
-                        <th>Наименование учебных предметов</th>
-                        <template v-for='year in 4'>
-                            <th
-                                v-for="quarter in quarters" class="vertical">
-                              <p>  {{ quarter.name }}</p>
+                        </tr>
+                        <tr>
+                            <th v-for="year in years" colspan="7">
+                                {{ year.name }}
                             </th>
-                        </template>
-                    </tr>
-                    </thead>
-                    <tr v-for="(subject, index) in sheets">
-                        <td></td>
-                        <td>{{ index }}</td>
-                        <template v-for="year in years">
-                            <td v-for="quarter in quarters">
-                                <div v-if="checkUndefined(subject, year, quarter)" @click="selectMark(index,year.id,quarter.id, subject[year.id][quarter.id][0].mark); toggleEditModal = true">
-                                {{ subject[year.id][quarter.id][0].mark }}
-                                </div>
-                            </td>
-                                <!--                                {{typeof subject[year][quarter.id][0].mark !== 'undefined' ? subject[year][quarter.id][0].mark :-->
-                                <!--                                null}}-->
-                            </td>
-                        </template>
-                    </tr>
-                </table>
+                        </tr>
+                        <tr>
+                            <th v-for="year in 4" colspan="7">
+                                оценки
+                            </th>
+                        </tr>
+                        <tr>
+                            <template v-for="years in 4">
+                                <th colspan="4">
+                                    чертверти
+                                </th>
+                                <th colspan="3">
+                                </th>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th>№</th>
+                            <th>Наименование учебных предметов</th>
+                            <template v-for='year in 4'>
+                                <th
+                                    v-for="quarter in quarters" class="vertical">
+                                    <p> {{ quarter.name }}</p>
+                                </th>
+                            </template>
+                        </tr>
+                        </thead>
+                        <tr v-for="(subject, index) in sheets">
+                            <td></td>
+                            <td>{{ index }}</td>
+                            <template v-for="year in years">
+                                <td v-for="quarter in quarters">
+                                    <div v-if="checkUndefined(subject, year, quarter)"
+                                         @click="selectMark(index,year.id,quarter.id, subject[year.id][quarter.id][0].mark); toggleEditModal = true">
+                                        {{ subject[year.id][quarter.id][0].mark }}
+                                    </div>
+                                </td>
+                            </template>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
+    <div id="check"></div>
     </app-layout>
 </template>
 
@@ -94,11 +99,50 @@ import AppLayout from "@/Layouts/AppLayout";
 import SingleSelect from "@/Сomponents/SingleSelect";
 import Modal from "@/Layouts/Modal";
 import SheetForm from "@/Forms/SheetForm";
+import jsPDF from 'jspdf'
+import domtoimage from "dom-to-image";
 
 export default {
     name: "Sheets",
     components: {Modal, AppLayout, SingleSelect, SheetForm},
     methods: {
+        downloadPDF() {
+            let content = this.$refs.content;
+            console.log(content.innerHTML)
+            console.log(content.offsetHeight);
+            domtoimage
+                .toPng(this.$refs.content, {
+                    height: content.offsetHeight
+                })
+                .then(function (dataUrl) {
+                    var img = new Image();
+                    img.src = dataUrl;
+                    document.body.appendChild(img);
+                    /*
+                    const doc = new jsPDF({
+                        orientation: "landscape",
+                        unit: "px",
+                        format: 'a4',
+                    });
+                    img.
+                    doc.addImage(img, "JPEG", 20, 20);
+                    const date = new Date();
+                    const filename =
+                        "timechart_" +
+                        date.getFullYear() +
+                        ("0" + (date.getMonth() + 1)).slice(-2) +
+                        ("0" + date.getDate()).slice(-2) +
+                        ("0" + date.getHours()).slice(-2) +
+                        ("0" + date.getMinutes()).slice(-2) +
+                        ("0" + date.getSeconds()).slice(-2) +
+                        ".pdf";
+                    doc.save(filename); */
+                })
+                .catch(function (error) {
+                    console.error("oops, something went wrong!", error);
+                });
+
+        },
         checkUndefined(subject, year, quarter, mark) {
 
             if (typeof subject !== "undefined") {
@@ -112,8 +156,7 @@ export default {
 
             return null;
         },
-        selectMark(subject, year,quarter, mark)
-        {
+        selectMark(subject, year, quarter, mark) {
             this.subject = subject;
             this.year = year;
             this.quarter = quarter
@@ -168,7 +211,7 @@ export default {
             years: null,
 
             year: null,
-            subject:null,
+            subject: null,
             quarter: null,
             mark: null,
         }
@@ -187,12 +230,19 @@ table {
     border: 1px solid grey; /*устанавливаем для таблицы внешнюю границу серого цвета толщиной 1px*/
     font-size: 10px;
 }
-th {border: 1px solid grey;}
-td {border: 1px solid grey;}
+
+th {
+    border: 1px solid grey;
+}
+
+td {
+    border: 1px solid grey;
+}
+
 .vertical {
     width: 20px;
-    text-align:center;
-    white-space:nowrap;
+    text-align: center;
+    white-space: nowrap;
     -webkit-transform: rotate(-90deg);
     -moz-transform: rotate(-90deg);
     -ms-transform: rotate(-90deg);
@@ -201,26 +251,30 @@ td {border: 1px solid grey;}
 }
 
 .vertical:before {
-    content:'';
-    width:0;
-    padding-top:110%;
-    display:inline-block;
-    vertical-align:middle;
+    content: '';
+    width: 0;
+    padding-top: 110%;
+    display: inline-block;
+    vertical-align: middle;
 }
+
 .vertical p {
-    margin:0 -100%;
-    display:inline-block;
+    margin: 0 -100%;
+    display: inline-block;
 }
+
 .vertical:before {
-    content:'';
-    width:0;
-    padding-top:110%;
-    display:inline-block;
-    vertical-align:middle;
+    content: '';
+    width: 0;
+    padding-top: 110%;
+    display: inline-block;
+    vertical-align: middle;
+}
+#content {
+    width: 800px;
 }
 table {
-    text-align:center;
-
-    width:100%;
+    text-align: center;
+    width: 100%;
 }
 </style>

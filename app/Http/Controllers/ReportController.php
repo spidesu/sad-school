@@ -45,6 +45,27 @@ class ReportController extends Controller
         return $pdf->download('student.pdf');
     }
 
+    public function getTeacher(int $teacher_id)
+    {
+        $teacher = $this->teacherRepository->get($teacher_id);
+        $groups = $teacher->groups->map(function ($v) {return $v->name;});
+        $data =
+            [
+                'full_name' => $teacher->last_name . ' ' . $teacher->first_name . ' ' . $teacher->middle_name,
+                'birth_date' => date('d.m.Y', strtotime($teacher->birth_date)),
+                'status' => $teacher->status ? $teacher->status->name : 'Неизвестно',
+                'position' => $teacher->position ? $teacher->position->name : 'Неизвестно',
+                'education' => $teacher->education ? $teacher->education->name : 'Неизвестно',
+                'specialization' => $teacher->specialization ? $teacher->specialization->name : 'Неизвестно',
+                'begin_at' => date('d.m.Y', strtotime($teacher->begin_at)),
+                'parttime_work' => $teacher->parttime_work ? 'Нет' : 'Да',
+                'working_rate' => $teacher->working_rate,
+                'groups' => implode(', ', $groups->toArray()),
+        ];
+        $pdf = PDF::loadView('pdf.teacher', $data);
+        return $pdf->download('teacher.pdf');
+    }
+
     public function cadrReport()
     {
         $teachers = $this->specRepository->countTeacher();
@@ -72,6 +93,7 @@ class ReportController extends Controller
             return $result;
         });
 
+
 //        $countNonBudget = $departments->map(function ($item) {
 //            $result = [];
 //            $result['name'] = $item->name;
@@ -87,5 +109,13 @@ class ReportController extends Controller
         $data = ['current_date' => date('d.m.Y'), 'student' => $student, 'teacher' => $teacher, 'budgetPrograms' => $countBudget, 'nonBudgetPrograms' => $nonBudgetPrograms];
         $pdf = PDF::loadView('pdf.fullReport', $data);
         return $pdf->download('report.pdf');
+    }
+
+    public function sheetReport(Request $request)
+    {
+        $pdf = App::make('dompdf.wrapper');
+        dd($request->html);
+        $pdf->loadHTML($request->html)->setPaper('a4', 'landscape');;
+        return $pdf->stream();
     }
 }

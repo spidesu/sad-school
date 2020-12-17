@@ -9,7 +9,28 @@ use Illuminate\Database\Eloquent\Model;
 class Teacher extends Model
 {
     use HasFactory;
-    protected $fillable = ['specialization_id', 'birth_date','last_name', 'first_name', 'middle_name', 'speciality', 'disability_id', 'parttime_work', 'working_rate', 'phone', 'address_reg', 'address_act', 'gender_id', 'education_id', 'work_since', 'edu_teach'];
+    protected $fillable = [
+        'begin_at',
+        'education_name',
+        'end_at',
+        'status_id',
+        'position_id',
+        'specialization_id',
+        'birth_date',
+        'last_name',
+        'first_name',
+        'middle_name',
+        'speciality',
+        'disability_id',
+        'parttime_work',
+        'working_rate',
+        'phone',
+        'address_reg',
+        'address_act',
+        'gender_id',
+        'education_id',
+        'work_since',
+        'edu_teach'];
     public function getExperienceAttribute()
     {
         return (Carbon::today())->diff(Carbon::createFromFormat('Y-m-d',$this->work_since));
@@ -42,6 +63,16 @@ class Teacher extends Model
     public function specialization()
     {
         return $this->belongsTo(Specialization::class);
+    }
+
+    public function position()
+    {
+        return $this->belongsTo(Position::class);
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(TeacherStatus::class,'status_id');
     }
 
 }

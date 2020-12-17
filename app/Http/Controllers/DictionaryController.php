@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Resources\DicResource;
 use App\Repositories\DisabilityRepository;
 use App\Repositories\EducationRepository;
+use App\Repositories\EndRepository;
 use App\Repositories\GenderRepository;
 use App\Repositories\HealthGroupRepository;
+use App\Repositories\PositionRepository;
+use App\Repositories\StudentStatusRepository;
 use App\Repositories\SubjectRepository;
+use App\Repositories\TeacherStatusRepository;
 use Illuminate\Http\Request;
 
 class DictionaryController extends Controller
@@ -18,6 +22,10 @@ class DictionaryController extends Controller
     protected $healthGroupRepository;
     protected $disabilityRepository;
     protected $subjectRepository;
+    protected $teacherStatusRepository;
+    protected $studentStatusRepository;
+    protected $endRepository;
+    protected $positionRepository;
 
     public function __construct()
     {
@@ -26,6 +34,10 @@ class DictionaryController extends Controller
         $this->healthGroupRepository = app(HealthGroupRepository::class);
         $this->disabilityRepository = app(DisabilityRepository::class);
         $this->subjectRepository = app(SubjectRepository::class);
+        $this->teacherStatusRepository = app(TeacherStatusRepository::class);
+        $this->studentStatusRepository = app(StudentStatusRepository::class);
+        $this->endRepository = app(EndRepository::class);
+        $this->positionRepository = app(PositionRepository::class);
     }
 
     /**
@@ -41,6 +53,10 @@ class DictionaryController extends Controller
             'health_groups' => DicResource::collection($this->healthGroupRepository->list()),
             'education' => DicResource::collection($this->educationRepository->list()),
             'subjects' => DicResource::collection($this->subjectRepository->list()),
+            'teacherStatuses' => DicResource::collection($this->teacherStatusRepository->list()),
+            'studentStatuses' => DicResource::collection($this->studentStatusRepository->list()),
+            'ends' => DicResource::collection($this->endRepository->list()),
+            'positions' => DicResource::collection($this->positionRepository->list()),
         ];
     }
 

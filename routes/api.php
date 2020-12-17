@@ -33,6 +33,7 @@ Route::namespace('App\Http\Controllers')->group( function (){
     Route::post('groups/addTeacher', "GroupController@addTeacher");
     Route::post('groups/deleteStudent', "GroupController@deleteStudent");
     Route::post('groups/deleteTeacher', "GroupController@deleteTeacher");
+
     Route::get('specializations/dictionary/{course_id}', "SpecializationController@dictionary");
     Route::delete('dictionary/{dic_id}/{item_id}', 'DictionaryController@destroy');
     Route::apiResource('dictionary', 'DictionaryController');

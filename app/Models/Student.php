@@ -9,7 +9,30 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     use HasFactory;
-    protected $fillable = ['disability_id', 'low_money', 'no_reps', 'migrant', 'last_name', 'first_name', 'middle_name', 'gender_id', 'health_group_id', 'birth_date', 'medical_doc_fact', 'address_reg', 'address_act', 'comment'];
+    protected $fillable = [
+        'status_id',
+        'begin_doc_number',
+        'begin_at',
+        'end_at',
+        'end_doc_number',
+        'end_number',
+        'snils',
+        'document_number',
+        'end_id',
+        'disability_id',
+        'low_money',
+        'no_reps',
+        'migrant',
+        'last_name',
+        'first_name',
+        'middle_name',
+        'gender_id',
+        'health_group_id',
+        'birth_date',
+        'medical_doc_fact',
+        'address_reg',
+        'address_act',
+        'comment'];
     protected $hidden = [];
 
     public function representatives()
@@ -40,5 +63,10 @@ class Student extends Model
     public function sheets()
     {
         return $this->hasMany(Sheet::class);
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(StudentStatus::class, 'status_id');
     }
 }

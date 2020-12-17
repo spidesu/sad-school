@@ -88,6 +88,26 @@ export default {
                         'name': 'Предметы',
                         'data': res.subjects,
                     },
+                    {
+                        'id': 'teacherStatus',
+                        'name': 'Статусы преподавателей',
+                        'data': res.teacherStatuses,
+                    },
+                    {
+                        'id': 'position',
+                        'name': 'Должности',
+                        'data': res.positions,
+                    },
+                    {
+                        'id': 'end',
+                        'name': 'Причины отчисления',
+                        'data': res.ends,
+                    },
+                    {
+                        'id': 'studentStatus',
+                        'name': 'Статусы учеников',
+                        'data': res.studentStatuses,
+                    },
                 ];
             }
         }

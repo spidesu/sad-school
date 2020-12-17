@@ -29,6 +29,13 @@ class StudentResource extends JsonResource
             'begin_at' => date('Y',$this->created_at->timestamp),
             'disability' => DicResource::make($this->disability),
             'representatives' => RepresentativeDicResource::collection($this->representatives),
+            'status' => DicResource::make($this->status),
+            'end_at' => $this->end_at,
+            'begin_doc_number' => $this->begin_doc_number,
+            'end_doc_number' => $this->end_doc_number,
+            'snils' => $this->snils,
+            'document_number' => $this->document_number
+
         ];
     }
 }
