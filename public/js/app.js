@@ -6267,6 +6267,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -6296,6 +6301,9 @@ __webpack_require__.r(__webpack_exports__);
           _this.groups = res.data.data;
         }
       });
+    },
+    downloadGroup: function downloadGroup() {
+      window.open('/groups/report');
     }
   },
   created: function created() {
@@ -40543,7 +40551,10 @@ var render = function() {
                           {
                             attrs: {
                               startFromMonday: true,
-                              startDate: this.$date("1990-01-01").format(
+                              startDate: this.$date("1950-01-01").format(
+                                "YYYY-MM-DD"
+                              ),
+                              endDate: this.$date("2020-01-01").format(
                                 "YYYY-MM-DD"
                               ),
                               tailwindPickerValue: this.birth_date
@@ -44937,6 +44948,26 @@ var render = function() {
                         }
                       },
                       [_vm._v("\n            Добавить группу\n          ")]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "span",
+                  { staticClass: "inline-flex rounded-md shadow-sm" },
+                  [
+                    _c(
+                      "button",
+                      {
+                        staticClass:
+                          "inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out",
+                        on: { click: _vm.downloadGroup }
+                      },
+                      [
+                        _vm._v(
+                          "\n            Выгрузить список групп\n          "
+                        )
+                      ]
                     )
                   ]
                 )

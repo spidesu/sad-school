@@ -46,7 +46,7 @@
                                 <div class="mt-1 flex rounded-md shadow-sm">
                                     <VueTailwindPicker
                                         @change="(v) => {birth_date = v}" :startFromMonday="true"
-                                        :startDate="this.$date('1990-01-01').format('YYYY-MM-DD')" :tailwindPickerValue="this.birth_date">
+                                        :startDate="this.$date('1950-01-01').format('YYYY-MM-DD')" :endDate="this.$date('2020-01-01').format('YYYY-MM-DD')" :tailwindPickerValue="this.birth_date">
                                         <input type="text" v-model="birth_date"/>
                                     </VueTailwindPicker>
                                 </div>

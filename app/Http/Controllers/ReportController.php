@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\DepartmentRepository;
+use App\Repositories\GroupRepository;
 use App\Repositories\ProgramRepository;
 use App\Repositories\SpecializationRepository;
 use App\Repositories\StudentRepository;
@@ -18,6 +19,7 @@ class ReportController extends Controller
     protected $programRepository;
     protected $departmentRepository;
     protected $specRepository;
+    protected $groupRepository;
 
     public function __construct()
     {
@@ -26,6 +28,7 @@ class ReportController extends Controller
         $this->programRepository = app(ProgramRepository::class);
         $this->departmentRepository = app(DepartmentRepository::class);
         $this->specRepository = app(SpecializationRepository::class);
+        $this->groupRepository = app(GroupRepository::class);
     }
 
     public function getPersonalIssue(int $student_id)
@@ -94,6 +97,7 @@ class ReportController extends Controller
         });
 
 
+
 //        $countNonBudget = $departments->map(function ($item) {
 //            $result = [];
 //            $result['name'] = $item->name;
@@ -117,5 +121,12 @@ class ReportController extends Controller
         dd($request->html);
         $pdf->loadHTML($request->html)->setPaper('a4', 'landscape');;
         return $pdf->stream();
+    }
+
+    public function groupReport()
+    {
+        $data['groups'] = $this->groupRepository->list();
+        $pdf= PDF::loadView('pdf.group', $data);
+        return $pdf->download('groups.pdf');
     }
 }
