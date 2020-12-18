@@ -74,6 +74,7 @@
                             </template>
                         </tr>
                         </thead>
+                        <tbody>
                         <tr v-for="(subject, index) in sheets">
                             <td></td>
                             <td>{{ index }}</td>
@@ -86,7 +87,9 @@
                                 </td>
                             </template>
                         </tr>
+                        </tbody>
                     </table>
+                    Ведомость ученика {{student.last_name + ' ' + student.first_name + ' ' + student.middle_name}}
                 </div>
             </div>
         </div>
@@ -111,20 +114,16 @@ export default {
             console.log(content.innerHTML)
             console.log(content.offsetHeight);
             domtoimage
-                .toPng(this.$refs.content, {
-                    height: content.offsetHeight
-                })
+                .toPng(this.$refs.content)
                 .then(function (dataUrl) {
                     var img = new Image();
                     img.src = dataUrl;
-                    document.body.appendChild(img);
-                    /*
+
                     const doc = new jsPDF({
                         orientation: "landscape",
                         unit: "px",
                         format: 'a4',
                     });
-                    img.
                     doc.addImage(img, "JPEG", 20, 20);
                     const date = new Date();
                     const filename =
@@ -136,7 +135,7 @@ export default {
                         ("0" + date.getMinutes()).slice(-2) +
                         ("0" + date.getSeconds()).slice(-2) +
                         ".pdf";
-                    doc.save(filename); */
+                    doc.save(filename);
                 })
                 .catch(function (error) {
                     console.error("oops, something went wrong!", error);

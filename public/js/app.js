@@ -7566,6 +7566,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -7585,31 +7588,18 @@ __webpack_require__.r(__webpack_exports__);
       var content = this.$refs.content;
       console.log(content.innerHTML);
       console.log(content.offsetHeight);
-      dom_to_image__WEBPACK_IMPORTED_MODULE_5___default.a.toPng(this.$refs.content, {
-        height: content.offsetHeight
-      }).then(function (dataUrl) {
+      dom_to_image__WEBPACK_IMPORTED_MODULE_5___default.a.toPng(this.$refs.content).then(function (dataUrl) {
         var img = new Image();
         img.src = dataUrl;
-        document.body.appendChild(img);
-        /*
-        const doc = new jsPDF({
-            orientation: "landscape",
-            unit: "px",
-            format: 'a4',
+        var doc = new jspdf__WEBPACK_IMPORTED_MODULE_4__["default"]({
+          orientation: "landscape",
+          unit: "px",
+          format: 'a4'
         });
-        img.
         doc.addImage(img, "JPEG", 20, 20);
-        const date = new Date();
-        const filename =
-            "timechart_" +
-            date.getFullYear() +
-            ("0" + (date.getMonth() + 1)).slice(-2) +
-            ("0" + date.getDate()).slice(-2) +
-            ("0" + date.getHours()).slice(-2) +
-            ("0" + date.getMinutes()).slice(-2) +
-            ("0" + date.getSeconds()).slice(-2) +
-            ".pdf";
-        doc.save(filename); */
+        var date = new Date();
+        var filename = "timechart_" + date.getFullYear() + ("0" + (date.getMonth() + 1)).slice(-2) + ("0" + date.getDate()).slice(-2) + ("0" + date.getHours()).slice(-2) + ("0" + date.getMinutes()).slice(-2) + ("0" + date.getSeconds()).slice(-2) + ".pdf";
+        doc.save(filename);
       })["catch"](function (error) {
         console.error("oops, something went wrong!", error);
       });
@@ -46953,96 +46943,95 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { ref: "content", attrs: { id: "content" } }, [
-                _c(
-                  "table",
-                  { staticClass: "my-5" },
-                  [
-                    _c("thead", [
-                      _c(
-                        "tr",
-                        [
-                          _c("th", { attrs: { rowspan: "4" } }),
-                          _vm._v(" "),
-                          _c("th", { attrs: { rowspan: "4" } }, [
-                            _vm._v("Класс/учебный год")
-                          ]),
-                          _vm._v(" "),
-                          _vm._l(4, function(year) {
-                            return _c("th", { attrs: { colspan: "7" } }, [
-                              _vm._v(
-                                "\n                            " +
-                                  _vm._s(year) +
-                                  " класс\n                        "
-                              )
-                            ])
-                          })
-                        ],
-                        2
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "tr",
-                        _vm._l(_vm.years, function(year) {
-                          return _c("th", { attrs: { colspan: "7" } }, [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(year.name) +
-                                "\n                        "
-                            )
-                          ])
-                        }),
-                        0
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "tr",
+                _c("table", { staticClass: "my-5" }, [
+                  _c("thead", [
+                    _c(
+                      "tr",
+                      [
+                        _c("th", { attrs: { rowspan: "4" } }),
+                        _vm._v(" "),
+                        _c("th", { attrs: { rowspan: "4" } }, [
+                          _vm._v("Класс/учебный год")
+                        ]),
+                        _vm._v(" "),
                         _vm._l(4, function(year) {
                           return _c("th", { attrs: { colspan: "7" } }, [
                             _vm._v(
-                              "\n                            оценки\n                        "
+                              "\n                            " +
+                                _vm._s(year) +
+                                " класс\n                        "
                             )
                           ])
-                        }),
-                        0
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "tr",
-                        [
-                          _vm._l(4, function(years) {
-                            return [
-                              _c("th", { attrs: { colspan: "4" } }, [
-                                _vm._v(
-                                  "\n                                чертверти\n                            "
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("th", { attrs: { colspan: "3" } })
-                            ]
-                          })
-                        ],
-                        2
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "tr",
-                        [
-                          _c("th", [_vm._v("№")]),
-                          _vm._v(" "),
-                          _c("th", [_vm._v("Наименование учебных предметов")]),
-                          _vm._v(" "),
-                          _vm._l(4, function(year) {
-                            return _vm._l(_vm.quarters, function(quarter) {
-                              return _c("th", { staticClass: "vertical" }, [
-                                _c("p", [_vm._v(" " + _vm._s(quarter.name))])
-                              ])
-                            })
-                          })
-                        ],
-                        2
-                      )
-                    ]),
+                        })
+                      ],
+                      2
+                    ),
                     _vm._v(" "),
+                    _c(
+                      "tr",
+                      _vm._l(_vm.years, function(year) {
+                        return _c("th", { attrs: { colspan: "7" } }, [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(year.name) +
+                              "\n                        "
+                          )
+                        ])
+                      }),
+                      0
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "tr",
+                      _vm._l(4, function(year) {
+                        return _c("th", { attrs: { colspan: "7" } }, [
+                          _vm._v(
+                            "\n                            оценки\n                        "
+                          )
+                        ])
+                      }),
+                      0
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "tr",
+                      [
+                        _vm._l(4, function(years) {
+                          return [
+                            _c("th", { attrs: { colspan: "4" } }, [
+                              _vm._v(
+                                "\n                                чертверти\n                            "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("th", { attrs: { colspan: "3" } })
+                          ]
+                        })
+                      ],
+                      2
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "tr",
+                      [
+                        _c("th", [_vm._v("№")]),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("Наименование учебных предметов")]),
+                        _vm._v(" "),
+                        _vm._l(4, function(year) {
+                          return _vm._l(_vm.quarters, function(quarter) {
+                            return _c("th", { staticClass: "vertical" }, [
+                              _c("p", [_vm._v(" " + _vm._s(quarter.name))])
+                            ])
+                          })
+                        })
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
                     _vm._l(_vm.sheets, function(subject, index) {
                       return _c(
                         "tr",
@@ -47089,9 +47078,20 @@ var render = function() {
                         ],
                         2
                       )
-                    })
-                  ],
-                  2
+                    }),
+                    0
+                  )
+                ]),
+                _vm._v(
+                  "\n                Ведомость ученика " +
+                    _vm._s(
+                      _vm.student.last_name +
+                        " " +
+                        _vm.student.first_name +
+                        " " +
+                        _vm.student.middle_name
+                    ) +
+                    "\n            "
                 )
               ])
             ])

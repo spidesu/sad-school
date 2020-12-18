@@ -42,7 +42,11 @@ class ReportController extends Controller
                 'created_at' => date('d.m.Y', strtotime($student->created_at)),
 //                'program' => $student->group->course->program->name,
             'representatives' => $student->representatives,
-            'program' => $this->studentRepository->getProgram($student_id)
+            'program' => $this->studentRepository->getProgram($student_id),
+            'begin_at' => date('d.m.Y', strtotime($student->begin_at)),
+            'begin_doc_number' => $student->begin_doc_number,
+            'end_at' => date('d.m.Y', strtotime($student->end_at)),
+            'end_doc_number' => $student->end_doc_number
         ];
         $pdf = PDF::loadView('pdf.student', $data);
         return $pdf->download('student.pdf');
@@ -51,7 +55,9 @@ class ReportController extends Controller
     public function getTeacher(int $teacher_id)
     {
         $teacher = $this->teacherRepository->get($teacher_id);
-        $groups = $teacher->groups->map(function ($v) {return $v->name;});
+        $groups = $teacher->groups->map(function ($v) {
+            return $v->name;
+        });
         $data =
             [
                 'full_name' => $teacher->last_name . ' ' . $teacher->first_name . ' ' . $teacher->middle_name,
@@ -64,7 +70,7 @@ class ReportController extends Controller
                 'parttime_work' => $teacher->parttime_work ? 'Нет' : 'Да',
                 'working_rate' => $teacher->working_rate,
                 'groups' => implode(', ', $groups->toArray()),
-        ];
+            ];
         $pdf = PDF::loadView('pdf.teacher', $data);
         return $pdf->download('teacher.pdf');
     }
@@ -72,7 +78,7 @@ class ReportController extends Controller
     public function cadrReport()
     {
         $teachers = $this->specRepository->countTeacher();
-       // dd($teachers);
+        // dd($teachers);
         $data['result'] = $teachers;
         $pdf = PDF::loadView('pdf.cadrReport', $data)->setPaper('a4', 'landscape');
         return $pdf->download('cadrReport.pdf');
@@ -95,7 +101,6 @@ class ReportController extends Controller
             }
             return $result;
         });
-
 
 
 //        $countNonBudget = $departments->map(function ($item) {
@@ -126,7 +131,7 @@ class ReportController extends Controller
     public function groupReport()
     {
         $data['groups'] = $this->groupRepository->list();
-        $pdf= PDF::loadView('pdf.group', $data);
+        $pdf = PDF::loadView('pdf.group', $data);
         return $pdf->download('groups.pdf');
     }
 }

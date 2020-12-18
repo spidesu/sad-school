@@ -21,4 +21,9 @@ class Sheet extends Model
         return $this->belongsTo(Quarter::class);
     }
 
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
 }
