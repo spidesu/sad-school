@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\RepresentativeDicResource;
+use App\Http\Resources\RepresentativeResource;
+use App\Http\Resources\StudentDicResource;
 use App\Repositories\RepresentativeRepository;
 use Illuminate\Http\Request;
 
@@ -18,22 +20,27 @@ class RepresentativeController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        //
+        return RepresentativeResource::collection($this->representativeRepository->list());
+    }
+
+    public function findRep(Request $request)
+    {
+        return StudentDicResource::collection($this->representativeRepository->findRep($request->q));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return RepresentativeDicResource
+     * @return RepresentativeResource
      */
     public function store(Request $request)
     {
-        return RepresentativeDicResource::make($this->representativeRepository->create($request->all()));
+        return RepresentativeResource::make($this->representativeRepository->create($request->all()));
     }
 
     /**

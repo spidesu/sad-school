@@ -16,16 +16,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return Inertia\Inertia::render('Dashboard');
-})->name('dashboard');
+Route::middleware(['auth:sanctum', 'verified'])->get('/representatives', function () {
+    return Inertia\Inertia::render('Representatives');
+})->name('representatives');
 
 Route::group([
     'middleware' => ['auth:sanctum', 'verified']
 ], function () {
     Route::get('/', function () {
-        return Inertia\Inertia::render('Dashboard');
-    })->name('dashboard');
+        return Inertia\Inertia::render('Students');
+    })->name('students');
     Route::get('/students', function () {
         return Inertia\Inertia::render('Students');
     })->name('students');

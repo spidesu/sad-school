@@ -47,7 +47,7 @@
                                     СНИЛС
                                 </label>
                                 <div class="mt-1 flex rounded-md shadow-sm">
-                                    <input v-model="snils" type="text" id="snils"
+                                    <input v-mask="'###-###-## ##'" v-model="snils" type="text" id="snils"
                                            class="focus:ring-pink-500 focus:border-pink-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
                                            placeholder="Введите СНИЛС">
                                 </div>
@@ -72,7 +72,7 @@
                                     <VueTailwindPicker
                                         @change="(v) => {birth_date = v}" :startFromMonday="true"
                                         :startDate="this.$date('1990-01-01').format('YYYY-MM-DD')" :tailwindPickerValue="this.birth_date">
-                                        <input type="text" v-model="birth_date"/>
+                                        <input v-mask="'####-##-##'" type="text" v-model="birth_date"/>
                                     </VueTailwindPicker>
                                 </div>
                             </div>
@@ -141,11 +141,12 @@
                                 <label for="representative_ids" class="block text-sm font-medium text-gray-700">
                                     Представители
                                 </label>
-                                <SingleSelect @selected="(e) => {this.representative_selected.push(e)}"
-                                              :options="representatives"
-                                              id="representative" :placeholder="'Выберите представителя'"/>
-                                <div @click="toggleRepresentativeModal = true">Добавить представителя</div>
-                                <div v-for="representative in representative_selected">{{representative.full_name}}</div>
+                                <multiselect :showLabels="false" :taggable="true" v-model="representative_selected" @search-change="findRep" :multiple="true" :limit="5" :options="representatives" track-by="id" label="name" :placeholder="'Выберите представителей'"></multiselect>
+<!--                                <SingleSelect @selected="(e) => {this.representative_selected.push(e)}"-->
+<!--                                              :options="representatives"-->
+<!--                                              id="representative" :placeholder="'Выберите представителя'"/>-->
+<!--                                <div @click="toggleRepresentativeModal = true">Добавить представителя</div>-->
+<!--                                <div v-for="representative in representative_selected">{{representative.full_name}}</div>-->
                             </div>
                         </div>
                     </div>
@@ -163,14 +164,14 @@
                             </div>
 
                             <div class="col-span-3 sm:col-span-2">
-                                <label for="status_id" class="block text-sm font-medium text-gray-700">
+                                <label for="begin_at" class="block text-sm font-medium text-gray-700">
                                     Дата зачисления
                                 </label>
                                 <div class="mt-1 flex rounded-md shadow-sm">
                                     <VueTailwindPicker
                                         @change="(v) => {begin_at = v}" :startFromMonday="true"
                                         :startDate="this.$date('1990-01-01').format('YYYY-MM-DD')" :tailwindPickerValue="this.begin_at">
-                                        <input type="text" v-model="begin_at"/>
+                                        <input v-mask="'####-##-##'" type="text" v-model="begin_at"/>
                                     </VueTailwindPicker>
                                 </div>
                             </div>
@@ -186,20 +187,20 @@
                                 </div>
                             </div>
 
-                            <div class="col-span-3 sm:col-span-2">
+                            <div v-if="status_id ? status_id.id === 2 : false" class="col-span-3 sm:col-span-2">
                                 <label for="end_at" class="block text-sm font-medium text-gray-700">
                                     Дата отчисления
                                 </label>
                                 <div class="mt-1 flex rounded-md shadow-sm">
                                     <VueTailwindPicker
                                         @change="(v) => {end_at = v}" :startFromMonday="true"
-                                        :startDate="this.$date('1990-01-01').format('YYYY-MM-DD')" :tailwindPickerValue="this.begin_at">
-                                        <input type="text" v-model="end_at"/>
+                                        :startDate="this.$date(begin_at).format('YYYY-MM-DD')" :tailwindPickerValue="this.begin_at">
+                                        <input v-mask="'####-##-##'" type="text" v-model="end_at"/>
                                     </VueTailwindPicker>
                                 </div>
                             </div>
 
-                            <div class="col-span-3 sm:col-span-2">
+                            <div v-if="status_id ? status_id.id === 2 : false" class="col-span-3 sm:col-span-2">
                                 <label for="end_doc_number" class="block text-sm font-medium text-gray-700">
                                     Номер приказа об отчислении
                                 </label>
@@ -210,7 +211,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-span-3 sm:col-span-2">
+                            <div v-if="status_id ? status_id.id === 2 : false" class="col-span-3 sm:col-span-2">
                                 <label for="end_id" class="block text-sm font-medium text-gray-700">
                                     Причина отчисления
                                 </label>
@@ -260,6 +261,7 @@ export default {
             console.log(e)
         },
         createStudent() {
+            if(this.representative_selected.length > 0)
             this.representative_ids = this.representative_selected.map((item) => {
                return item.id;
             });
@@ -273,17 +275,17 @@ export default {
                 birth_date: this.birth_date,
                 address_act: this.address_act,
                 address_reg: this.address_reg,
-                representative_ids: this.representative_ids,
+                representative_ids: this.representative_selected.map(item => item.id),
                 disability_id: this.disability_id ? this.disability_id.id : null,
                 no_reps: this.no_reps,
                 low_money: this.low_money,
                 migrant: this.migrant,
-                end_id: this.end_id.id,
+                end_id: this.end_id ? this.end_id.id : null,
                 begin_at: this.begin_at,
                 begin_doc_number: this.begin_doc_number,
                 end_at: this.end_at,
                 end_doc_number: this.end_doc_number,
-                status_id: this.status_id.id,
+                status_id: this.status_id ? this.status_id.id : null,
                 snils: this.snils,
                 document_number: this.document_number
             }).then((res) => {
@@ -301,17 +303,17 @@ export default {
                     birth_date: this.birth_date,
                     address_act: this.address_act,
                     address_reg: this.address_reg,
-                    representative_ids: this.representative_ids,
+                    representative_ids: this.representative_selected.map(item => item.id),
                     disability_id: this.disability_id ? this.disability_id.id : null,
                     no_reps: this.no_reps,
                     low_money: this.low_money,
                     migrant: this.migrant,
-                    end_id: this.end_id.id,
+                    end_id: this.end_id ? this.end_id.id : null,
                     begin_at: this.begin_at,
                     begin_doc_number: this.begin_doc_number,
                     end_at: this.end_at,
                     end_doc_number: this.end_doc_number,
-                    status_id: this.status_id.id,
+                    status_id: this.status_id ? this.status_id.id : null,
                     snils: this.snils,
                     document_number: this.document_number
                 }).then((res) => {
@@ -328,7 +330,6 @@ export default {
                     this.groups = data.groups;
                     this.healthGroups = data.healthGroups;
                     this.genders = data.genders;
-                    this.representatives = data.representatives;
                     this.disabilities = data.disabilities;
                     this.statuses = data.statuses;
                     this.ends = data.ends;
@@ -344,6 +345,15 @@ export default {
         updateBirthDate(e) {
             console.log(e);
             this.birth_date = e;
+        },
+        findRep(query) {
+            axios.post('/api/representatives/find', {
+                q: query,
+            }).then((res) => {
+                if (res.status === 200) {
+                    this.representatives = res.data.data
+                }
+            })
         }
     },
     data() {

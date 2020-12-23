@@ -3033,6 +3033,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_tailwind_picker__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-tailwind-picker */ "./node_modules/vue-tailwind-picker/dist/vue-tailwind-picker.esm.js");
 /* harmony import */ var _omponents_SingleSelect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Сomponents/SingleSelect */ "./resources/js/Сomponents/SingleSelect.vue");
+/* harmony import */ var _Plugins_Dayjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Plugins/Dayjs */ "./resources/js/Plugins/Dayjs.js");
 //
 //
 //
@@ -3116,6 +3117,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3124,7 +3126,6 @@ __webpack_require__.r(__webpack_exports__);
     SingleSelect: _omponents_SingleSelect__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   name: "RepresentativeForm",
-  props: ['genders'],
   data: function data() {
     return {
       last_name: '',
@@ -3132,23 +3133,37 @@ __webpack_require__.r(__webpack_exports__);
       middle_name: '',
       birth_date: '',
       phone: '',
-      gender_id: null
+      gender_id: null,
+      genders: []
     };
   },
+  created: function created() {
+    this.genderList();
+  },
   methods: {
-    createRepresentative: function createRepresentative() {
+    genderList: function genderList() {
       var _this = this;
 
-      axios.post('api/representatives/', {
+      axios.get("/api/students_form").then(function (res) {
+        if (res.status === 200) {
+          var data = res.data;
+          _this.genders = data.genders;
+        }
+      });
+    },
+    createRepresentative: function createRepresentative() {
+      var _this2 = this;
+
+      axios.post('/api/representatives/', {
         last_name: this.last_name,
         first_name: this.first_name,
         middle_name: this.middle_name,
         birth_date: this.birth_date,
         phone: this.phone,
-        gender_id: this.gender_id
+        gender_id: this.gender_id.id
       }).then(function (res) {
         if (res.status === 201) {
-          _this.$parent.$emit('close', res.data.data);
+          _this2.$parent.$emit('close');
         }
       })["catch"](function (res) {
         return console.log(res);
@@ -3849,6 +3864,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -3874,7 +3890,7 @@ __webpack_require__.r(__webpack_exports__);
     createStudent: function createStudent() {
       var _this = this;
 
-      this.representative_ids = this.representative_selected.map(function (item) {
+      if (this.representative_selected.length > 0) this.representative_ids = this.representative_selected.map(function (item) {
         return item.id;
       });
       if (!this.studentId) axios.post("/api/students", {
@@ -3886,17 +3902,19 @@ __webpack_require__.r(__webpack_exports__);
         birth_date: this.birth_date,
         address_act: this.address_act,
         address_reg: this.address_reg,
-        representative_ids: this.representative_ids,
+        representative_ids: this.representative_selected.map(function (item) {
+          return item.id;
+        }),
         disability_id: this.disability_id ? this.disability_id.id : null,
         no_reps: this.no_reps,
         low_money: this.low_money,
         migrant: this.migrant,
-        end_id: this.end_id.id,
+        end_id: this.end_id ? this.end_id.id : null,
         begin_at: this.begin_at,
         begin_doc_number: this.begin_doc_number,
         end_at: this.end_at,
         end_doc_number: this.end_doc_number,
-        status_id: this.status_id.id,
+        status_id: this.status_id ? this.status_id.id : null,
         snils: this.snils,
         document_number: this.document_number
       }).then(function (res) {
@@ -3914,17 +3932,19 @@ __webpack_require__.r(__webpack_exports__);
         birth_date: this.birth_date,
         address_act: this.address_act,
         address_reg: this.address_reg,
-        representative_ids: this.representative_ids,
+        representative_ids: this.representative_selected.map(function (item) {
+          return item.id;
+        }),
         disability_id: this.disability_id ? this.disability_id.id : null,
         no_reps: this.no_reps,
         low_money: this.low_money,
         migrant: this.migrant,
-        end_id: this.end_id.id,
+        end_id: this.end_id ? this.end_id.id : null,
         begin_at: this.begin_at,
         begin_doc_number: this.begin_doc_number,
         end_at: this.end_at,
         end_doc_number: this.end_doc_number,
-        status_id: this.status_id.id,
+        status_id: this.status_id ? this.status_id.id : null,
         snils: this.snils,
         document_number: this.document_number
       }).then(function (res) {
@@ -3945,7 +3965,6 @@ __webpack_require__.r(__webpack_exports__);
           _this2.groups = data.groups;
           _this2.healthGroups = data.healthGroups;
           _this2.genders = data.genders;
-          _this2.representatives = data.representatives;
           _this2.disabilities = data.disabilities;
           _this2.statuses = data.statuses;
           _this2.ends = data.ends;
@@ -3961,6 +3980,17 @@ __webpack_require__.r(__webpack_exports__);
     updateBirthDate: function updateBirthDate(e) {
       console.log(e);
       this.birth_date = e;
+    },
+    findRep: function findRep(query) {
+      var _this3 = this;
+
+      axios.post('/api/representatives/find', {
+        q: query
+      }).then(function (res) {
+        if (res.status === 200) {
+          _this3.representatives = res.data.data;
+        }
+      });
     }
   },
   data: function data() {
@@ -4000,7 +4030,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    var _this3 = this;
+    var _this4 = this;
 
     this.getForm();
 
@@ -4008,18 +4038,18 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/api/students/' + this.studentId).then(function (res) {
         if (res.status === 200) {
           var data = res.data.data;
-          _this3.gender_id = data.gender;
-          _this3.last_name = data.last_name;
-          _this3.first_name = data.first_name;
-          _this3.middle_name = data.middle_name;
-          _this3.birth_date = data.birth_date;
-          _this3.medical_doc_fact = data.medical_doc_fact;
-          _this3.address_reg = data.address_reg;
-          _this3.address_act = data.address_act;
-          _this3.migrant = data.migrant;
-          _this3.low_money = data.low_money;
-          _this3.no_reps = data.no_reps;
-          _this3.disability_id = data.disability ? data.disability : null;
+          _this4.gender_id = data.gender;
+          _this4.last_name = data.last_name;
+          _this4.first_name = data.first_name;
+          _this4.middle_name = data.middle_name;
+          _this4.birth_date = data.birth_date;
+          _this4.medical_doc_fact = data.medical_doc_fact;
+          _this4.address_reg = data.address_reg;
+          _this4.address_act = data.address_act;
+          _this4.migrant = data.migrant;
+          _this4.low_money = data.low_money;
+          _this4.no_reps = data.no_reps;
+          _this4.disability_id = data.disability ? data.disability : null;
           console.log(data);
         }
       });
@@ -6052,6 +6082,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -6083,6 +6114,15 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/api/departments').then(function (res) {
         if (res.status === 200) {
           _this.departments = res.data.data;
+        }
+      });
+    },
+    deleteDepartment: function deleteDepartment(id) {
+      var _this2 = this;
+
+      axios["delete"]('/api/departments/' + id).then(function (res) {
+        if (res.status === 200) {
+          _this2.departmentList();
         }
       });
     }
@@ -6203,7 +6243,8 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         'id': 'teacherStatus',
         'name': 'Статусы преподавателей',
-        'data': res.teacherStatuses
+        'data': res.teacherStatuses,
+        'protected': [1, 2, 3, 4]
       }, {
         'id': 'position',
         'name': 'Должности',
@@ -6215,7 +6256,8 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         'id': 'studentStatus',
         'name': 'Статусы учеников',
-        'data': res.studentStatuses
+        'data': res.studentStatuses,
+        'protected': [1, 2, 3]
       }];
     }
   }
@@ -7147,6 +7189,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -7191,6 +7236,13 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/api/programs/' + this.programId).then(function (res) {
         if (res.status === 200) {
           _this2.program = res.data.data;
+        }
+      });
+    },
+    deleteProgram: function deleteProgram() {
+      axios["delete"]('/api/programs/' + this.programId).then(function (res) {
+        if (res.status === 200) {
+          window.location = '/departments';
         }
       });
     },
@@ -7272,6 +7324,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Forms_RepresentativeForm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Forms/RepresentativeForm */ "./resources/js/Forms/RepresentativeForm.vue");
 /* harmony import */ var _Table_TableRepresentative__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Table/TableRepresentative */ "./resources/js/Table/TableRepresentative.vue");
 /* harmony import */ var _omponents_Loader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Сomponents/Loader */ "./resources/js/Сomponents/Loader.vue");
+/* harmony import */ var _Layouts_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Layouts/Modal */ "./resources/js/Layouts/Modal.vue");
+/* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
 //
 //
 //
@@ -7300,6 +7354,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
+
 
 
 
@@ -7308,7 +7364,30 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     Loader: _omponents_Loader__WEBPACK_IMPORTED_MODULE_2__["default"],
     TableRepresentative: _Table_TableRepresentative__WEBPACK_IMPORTED_MODULE_1__["default"],
-    RepresentativeForm: _Forms_RepresentativeForm__WEBPACK_IMPORTED_MODULE_0__["default"]
+    RepresentativeForm: _Forms_RepresentativeForm__WEBPACK_IMPORTED_MODULE_0__["default"],
+    AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_4__["default"],
+    Modal: _Layouts_Modal__WEBPACK_IMPORTED_MODULE_3__["default"]
+  },
+  methods: {
+    representativeList: function representativeList() {
+      var _this = this;
+
+      axios.get('/api/representatives').then(function (res) {
+        if (res.status === 200) {
+          _this.representatives = res.data.data;
+        }
+      });
+    }
+  },
+  data: function data() {
+    return {
+      representatives: false,
+      loaded: false,
+      toggleModal: false
+    };
+  },
+  created: function created() {
+    this.representativeList();
   }
 });
 
@@ -7977,6 +8056,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Table_Layouts_TableHead__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Table/Layouts/TableHead */ "./resources/js/Table/Layouts/TableHead.vue");
 //
 //
 //
@@ -8028,24 +8108,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "TableRepresentative",
+  components: {
+    TableHead: _Table_Layouts_TableHead__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
-      titles: ['ФИО', 'Дата рождения', 'Статус', 'Группа', 'Пол']
+      titles: ['ФИО', 'Дата рождения', 'Телефон', 'Пол'],
+      toggleModal: false,
+      selectedRep: null
     };
   },
-  props: ['representatives', 'name']
+  props: ['representatives', 'name'],
+  methods: {}
 });
 
 /***/ }),
@@ -36452,6 +36529,527 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/v-mask/dist/v-mask.esm.js":
+/*!************************************************!*\
+  !*** ./node_modules/v-mask/dist/v-mask.esm.js ***!
+  \************************************************/
+/*! exports provided: default, VueMaskDirective, VueMaskFilter, VueMaskPlugin */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VueMaskDirective", function() { return directive; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VueMaskFilter", function() { return filter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VueMaskPlugin", function() { return plugin; });
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function (obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function (obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    if (enumerableOnly) symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+  }
+
+  return target;
+}
+
+var placeholderChar = '_';
+var strFunction = 'function';
+
+var emptyArray = [];
+function convertMaskToPlaceholder() {
+  var mask = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : emptyArray;
+  var placeholderChar$1 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : placeholderChar;
+
+  if (!isArray(mask)) {
+    throw new Error('Text-mask:convertMaskToPlaceholder; The mask property must be an array.');
+  }
+
+  if (mask.indexOf(placeholderChar$1) !== -1) {
+    throw new Error('Placeholder character must not be used as part of the mask. Please specify a character ' + 'that is not present in your mask as your placeholder character.\n\n' + "The placeholder character that was received is: ".concat(JSON.stringify(placeholderChar$1), "\n\n") + "The mask that was received is: ".concat(JSON.stringify(mask)));
+  }
+
+  return mask.map(function (char) {
+    return char instanceof RegExp ? placeholderChar$1 : char;
+  }).join('');
+}
+function isArray(value) {
+  return Array.isArray && Array.isArray(value) || value instanceof Array;
+}
+var strCaretTrap = '[]';
+function processCaretTraps(mask) {
+  var indexes = [];
+  var indexOfCaretTrap;
+
+  while (indexOfCaretTrap = mask.indexOf(strCaretTrap), indexOfCaretTrap !== -1) {
+    indexes.push(indexOfCaretTrap);
+    mask.splice(indexOfCaretTrap, 1);
+  }
+
+  return {
+    maskWithoutCaretTraps: mask,
+    indexes: indexes
+  };
+}
+
+var emptyArray$1 = [];
+var emptyString = '';
+function conformToMask() {
+  var rawValue = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : emptyString;
+  var mask = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : emptyArray$1;
+  var config = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+  if (!isArray(mask)) {
+    if (_typeof(mask) === strFunction) {
+      mask = mask(rawValue, config);
+      mask = processCaretTraps(mask).maskWithoutCaretTraps;
+    } else {
+      throw new Error('Text-mask:conformToMask; The mask property must be an array.');
+    }
+  }
+
+  var _config$guide = config.guide,
+      guide = _config$guide === void 0 ? true : _config$guide,
+      _config$previousConfo = config.previousConformedValue,
+      previousConformedValue = _config$previousConfo === void 0 ? emptyString : _config$previousConfo,
+      _config$placeholderCh = config.placeholderChar,
+      placeholderChar$1 = _config$placeholderCh === void 0 ? placeholderChar : _config$placeholderCh,
+      _config$placeholder = config.placeholder,
+      placeholder = _config$placeholder === void 0 ? convertMaskToPlaceholder(mask, placeholderChar$1) : _config$placeholder,
+      currentCaretPosition = config.currentCaretPosition,
+      keepCharPositions = config.keepCharPositions;
+  var suppressGuide = guide === false && previousConformedValue !== undefined;
+  var rawValueLength = rawValue.length;
+  var previousConformedValueLength = previousConformedValue.length;
+  var placeholderLength = placeholder.length;
+  var maskLength = mask.length;
+  var editDistance = rawValueLength - previousConformedValueLength;
+  var isAddition = editDistance > 0;
+  var indexOfFirstChange = currentCaretPosition + (isAddition ? -editDistance : 0);
+  var indexOfLastChange = indexOfFirstChange + Math.abs(editDistance);
+
+  if (keepCharPositions === true && !isAddition) {
+    var compensatingPlaceholderChars = emptyString;
+
+    for (var i = indexOfFirstChange; i < indexOfLastChange; i++) {
+      if (placeholder[i] === placeholderChar$1) {
+        compensatingPlaceholderChars += placeholderChar$1;
+      }
+    }
+
+    rawValue = rawValue.slice(0, indexOfFirstChange) + compensatingPlaceholderChars + rawValue.slice(indexOfFirstChange, rawValueLength);
+  }
+
+  var rawValueArr = rawValue.split(emptyString).map(function (char, i) {
+    return {
+      char: char,
+      isNew: i >= indexOfFirstChange && i < indexOfLastChange
+    };
+  });
+
+  for (var _i = rawValueLength - 1; _i >= 0; _i--) {
+    var char = rawValueArr[_i].char;
+
+    if (char !== placeholderChar$1) {
+      var shouldOffset = _i >= indexOfFirstChange && previousConformedValueLength === maskLength;
+
+      if (char === placeholder[shouldOffset ? _i - editDistance : _i]) {
+        rawValueArr.splice(_i, 1);
+      }
+    }
+  }
+
+  var conformedValue = emptyString;
+  var someCharsRejected = false;
+
+  placeholderLoop: for (var _i2 = 0; _i2 < placeholderLength; _i2++) {
+    var charInPlaceholder = placeholder[_i2];
+
+    if (charInPlaceholder === placeholderChar$1) {
+      if (rawValueArr.length > 0) {
+        while (rawValueArr.length > 0) {
+          var _rawValueArr$shift = rawValueArr.shift(),
+              rawValueChar = _rawValueArr$shift.char,
+              isNew = _rawValueArr$shift.isNew;
+
+          if (rawValueChar === placeholderChar$1 && suppressGuide !== true) {
+            conformedValue += placeholderChar$1;
+            continue placeholderLoop;
+          } else if (mask[_i2].test(rawValueChar)) {
+            if (keepCharPositions !== true || isNew === false || previousConformedValue === emptyString || guide === false || !isAddition) {
+              conformedValue += rawValueChar;
+            } else {
+              var rawValueArrLength = rawValueArr.length;
+              var indexOfNextAvailablePlaceholderChar = null;
+
+              for (var _i3 = 0; _i3 < rawValueArrLength; _i3++) {
+                var charData = rawValueArr[_i3];
+
+                if (charData.char !== placeholderChar$1 && charData.isNew === false) {
+                  break;
+                }
+
+                if (charData.char === placeholderChar$1) {
+                  indexOfNextAvailablePlaceholderChar = _i3;
+                  break;
+                }
+              }
+
+              if (indexOfNextAvailablePlaceholderChar !== null) {
+                conformedValue += rawValueChar;
+                rawValueArr.splice(indexOfNextAvailablePlaceholderChar, 1);
+              } else {
+                _i2--;
+              }
+            }
+
+            continue placeholderLoop;
+          } else {
+            someCharsRejected = true;
+          }
+        }
+      }
+
+      if (suppressGuide === false) {
+        conformedValue += placeholder.substr(_i2, placeholderLength);
+      }
+
+      break;
+    } else {
+      conformedValue += charInPlaceholder;
+    }
+  }
+
+  if (suppressGuide && isAddition === false) {
+    var indexOfLastFilledPlaceholderChar = null;
+
+    for (var _i4 = 0; _i4 < conformedValue.length; _i4++) {
+      if (placeholder[_i4] === placeholderChar$1) {
+        indexOfLastFilledPlaceholderChar = _i4;
+      }
+    }
+
+    if (indexOfLastFilledPlaceholderChar !== null) {
+      conformedValue = conformedValue.substr(0, indexOfLastFilledPlaceholderChar + 1);
+    } else {
+      conformedValue = emptyString;
+    }
+  }
+
+  return {
+    conformedValue: conformedValue,
+    meta: {
+      someCharsRejected: someCharsRejected
+    }
+  };
+}
+
+var NEXT_CHAR_OPTIONAL = {
+  __nextCharOptional__: true
+};
+var defaultMaskReplacers = {
+  '#': /\d/,
+  A: /[a-z]/i,
+  N: /[a-z0-9]/i,
+  '?': NEXT_CHAR_OPTIONAL,
+  X: /./
+};
+
+var stringToRegexp = function stringToRegexp(str) {
+  var lastSlash = str.lastIndexOf('/');
+  return new RegExp(str.slice(1, lastSlash), str.slice(lastSlash + 1));
+};
+
+var makeRegexpOptional = function makeRegexpOptional(charRegexp) {
+  return stringToRegexp(charRegexp.toString().replace(/.(\/)[gmiyus]{0,6}$/, function (match) {
+    return match.replace('/', '?/');
+  }));
+};
+
+var escapeIfNeeded = function escapeIfNeeded(char) {
+  return '[\\^$.|?*+()'.indexOf(char) > -1 ? "\\".concat(char) : char;
+};
+
+var charRegexp = function charRegexp(char) {
+  return new RegExp("/[".concat(escapeIfNeeded(char), "]/"));
+};
+
+var isRegexp = function isRegexp(entity) {
+  return entity instanceof RegExp;
+};
+
+var castToRegexp = function castToRegexp(char) {
+  return isRegexp(char) ? char : charRegexp(char);
+};
+
+function maskToRegExpMask(mask) {
+  var maskReplacers = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultMaskReplacers;
+  return mask.map(function (char, index, array) {
+    var maskChar = maskReplacers[char] || char;
+    var previousChar = array[index - 1];
+    var previousMaskChar = maskReplacers[previousChar] || previousChar;
+
+    if (maskChar === NEXT_CHAR_OPTIONAL) {
+      return null;
+    }
+
+    if (previousMaskChar === NEXT_CHAR_OPTIONAL) {
+      return makeRegexpOptional(castToRegexp(maskChar));
+    }
+
+    return maskChar;
+  }).filter(Boolean);
+}
+
+function stringMaskToRegExpMask(stringMask) {
+  var maskReplacers = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultMaskReplacers;
+  return maskToRegExpMask(stringMask.split(''), maskReplacers);
+}
+function arrayMaskToRegExpMask(arrayMask) {
+  var maskReplacers = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultMaskReplacers;
+  var flattenedMask = arrayMask.map(function (part) {
+    if (part instanceof RegExp) {
+      return part;
+    }
+
+    if (typeof part === 'string') {
+      return part.split('');
+    }
+
+    return null;
+  }).filter(Boolean).reduce(function (mask, part) {
+    return mask.concat(part);
+  }, []);
+  return maskToRegExpMask(flattenedMask, maskReplacers);
+}
+
+var trigger = function trigger(el, type) {
+  var e = document.createEvent('HTMLEvents');
+  e.initEvent(type, true, true);
+  el.dispatchEvent(e);
+};
+var queryInputElementInside = function queryInputElementInside(el) {
+  return el instanceof HTMLInputElement ? el : el.querySelector('input') || el;
+};
+var isFunction = function isFunction(val) {
+  return typeof val === 'function';
+};
+var isString = function isString(val) {
+  return typeof val === 'string';
+};
+var isRegexp$1 = function isRegexp(val) {
+  return val instanceof RegExp;
+};
+
+function createOptions() {
+  var elementOptions = new Map();
+  var defaultOptions = {
+    previousValue: '',
+    mask: []
+  };
+
+  function get(el) {
+    return elementOptions.get(el) || _objectSpread2({}, defaultOptions);
+  }
+
+  function partiallyUpdate(el, newOptions) {
+    elementOptions.set(el, _objectSpread2(_objectSpread2({}, get(el)), newOptions));
+  }
+
+  function remove(el) {
+    elementOptions.delete(el);
+  }
+
+  return {
+    partiallyUpdate: partiallyUpdate,
+    remove: remove,
+    get: get
+  };
+}
+
+var options = createOptions();
+
+function triggerInputUpdate(el) {
+  trigger(el, 'input');
+}
+
+function updateValue(el) {
+  var force = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  var value = el.value;
+
+  var _options$get = options.get(el),
+      previousValue = _options$get.previousValue,
+      mask = _options$get.mask;
+
+  var isValueChanged = value !== previousValue;
+  var isLengthIncreased = value.length > previousValue.length;
+  var isUpdateNeeded = value && isValueChanged && isLengthIncreased;
+
+  if ((force || isUpdateNeeded) && mask) {
+    var _conformToMask = conformToMask(value, mask, {
+      guide: false
+    }),
+        conformedValue = _conformToMask.conformedValue;
+
+    el.value = conformedValue;
+    triggerInputUpdate(el);
+  }
+
+  options.partiallyUpdate(el, {
+    previousValue: value
+  });
+}
+
+function updateMask(el, inputMask, maskReplacers) {
+  var mask;
+
+  if (Array.isArray(inputMask)) {
+    mask = arrayMaskToRegExpMask(inputMask, maskReplacers);
+  } else if (isFunction(inputMask)) {
+    mask = inputMask;
+  } else if (isString(inputMask) && inputMask.length > 0) {
+    mask = stringMaskToRegExpMask(inputMask, maskReplacers);
+  } else {
+    mask = inputMask;
+  }
+
+  options.partiallyUpdate(el, {
+    mask: mask
+  });
+}
+
+function extendMaskReplacers(maskReplacers) {
+  var baseMaskReplacers = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultMaskReplacers;
+
+  if (maskReplacers === null || Array.isArray(maskReplacers) || _typeof(maskReplacers) !== 'object') {
+    return baseMaskReplacers;
+  }
+
+  return Object.keys(maskReplacers).reduce(function (extendedMaskReplacers, key) {
+    var value = maskReplacers[key];
+
+    if (value !== null && !(value instanceof RegExp)) {
+      return extendedMaskReplacers;
+    }
+
+    return _objectSpread2(_objectSpread2({}, extendedMaskReplacers), {}, _defineProperty({}, key, value));
+  }, baseMaskReplacers);
+}
+
+function maskToString(mask) {
+  var maskArray = Array.isArray(mask) ? mask : [mask];
+  var filteredMaskArray = maskArray.filter(function (part) {
+    return isString(part) || isRegexp$1(part);
+  });
+  return filteredMaskArray.toString();
+}
+
+function createDirective() {
+  var directiveOptions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var instanceMaskReplacers = extendMaskReplacers(directiveOptions && directiveOptions.placeholders);
+  return {
+    bind: function bind(el, _ref) {
+      var value = _ref.value;
+      el = queryInputElementInside(el);
+      updateMask(el, value, instanceMaskReplacers);
+      updateValue(el);
+    },
+    componentUpdated: function componentUpdated(el, _ref2) {
+      var value = _ref2.value,
+          oldValue = _ref2.oldValue;
+      el = queryInputElementInside(el);
+      var isMaskChanged = isFunction(value) || maskToString(oldValue) !== maskToString(value);
+
+      if (isMaskChanged) {
+        updateMask(el, value, instanceMaskReplacers);
+      }
+
+      updateValue(el, isMaskChanged);
+    },
+    unbind: function unbind(el) {
+      el = queryInputElementInside(el);
+      options.remove(el);
+    }
+  };
+}
+var directive = createDirective();
+
+var filter = (function (value, stringMask) {
+  var mask = stringMaskToRegExpMask(stringMask);
+
+  var _conformToMask = conformToMask(value, mask, {
+    guide: false
+  }),
+      conformedValue = _conformToMask.conformedValue;
+
+  return conformedValue;
+});
+
+var plugin = (function (Vue) {
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  Vue.directive('mask', createDirective(options));
+  Vue.filter('VMask', filter);
+});
+
+/* harmony default export */ __webpack_exports__["default"] = (plugin);
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Applicants/GroupApplicant.vue?vue&type=template&id=740f135a&scoped=true&":
 /*!*****************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Applicants/GroupApplicant.vue?vue&type=template&id=740f135a&scoped=true& ***!
@@ -38542,6 +39140,12 @@ var render = function() {
                     _c("input", {
                       directives: [
                         {
+                          name: "mask",
+                          rawName: "v-mask",
+                          value: "# (###) ### ## ##",
+                          expression: "'# (###) ### ## ##'"
+                        },
+                        {
                           name: "model",
                           rawName: "v-model",
                           value: _vm.phone,
@@ -39266,7 +39870,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                                Фамилия\n                            "
+                            "\n                                    Фамилия\n                                "
                           )
                         ]
                       ),
@@ -39315,7 +39919,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                                Имя\n                            "
+                            "\n                                    Имя\n                                "
                           )
                         ]
                       ),
@@ -39364,7 +39968,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                                Отчество\n                            "
+                            "\n                                    Отчество\n                                "
                           )
                         ]
                       ),
@@ -39413,7 +40017,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                                СНИЛС\n                            "
+                            "\n                                    СНИЛС\n                                "
                           )
                         ]
                       ),
@@ -39424,6 +40028,12 @@ var render = function() {
                         [
                           _c("input", {
                             directives: [
+                              {
+                                name: "mask",
+                                rawName: "v-mask",
+                                value: "###-###-## ##",
+                                expression: "'###-###-## ##'"
+                              },
                               {
                                 name: "model",
                                 rawName: "v-model",
@@ -39462,7 +40072,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                                Свидетельство о рождении\n                            "
+                            "\n                                    Свидетельство о рождении\n                                "
                           )
                         ]
                       ),
@@ -39511,7 +40121,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                                Дата рождения\n                            "
+                            "\n                                    Дата рождения\n                                "
                           )
                         ]
                       ),
@@ -39539,6 +40149,12 @@ var render = function() {
                             [
                               _c("input", {
                                 directives: [
+                                  {
+                                    name: "mask",
+                                    rawName: "v-mask",
+                                    value: "####-##-##",
+                                    expression: "'####-##-##'"
+                                  },
                                   {
                                     name: "model",
                                     rawName: "v-model",
@@ -39577,7 +40193,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                                Пол\n                            "
+                              "\n                                    Пол\n                                "
                             )
                           ]
                         ),
@@ -39671,7 +40287,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                                Адрес регистрации\n                            "
+                            "\n                                    Адрес регистрации\n                                "
                           )
                         ]
                       ),
@@ -39720,7 +40336,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                                Адрес фактического проживания\n                            "
+                            "\n                                    Адрес фактического проживания\n                                "
                           )
                         ]
                       ),
@@ -39938,45 +40554,33 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                                Представители\n                            "
+                              "\n                                    Представители\n                                "
                             )
                           ]
                         ),
                         _vm._v(" "),
-                        _c("SingleSelect", {
+                        _c("multiselect", {
                           attrs: {
+                            showLabels: false,
+                            taggable: true,
+                            multiple: true,
+                            limit: 5,
                             options: _vm.representatives,
-                            id: "representative",
-                            placeholder: "Выберите представителя"
+                            "track-by": "id",
+                            label: "name",
+                            placeholder: "Выберите представителей"
                           },
-                          on: {
-                            selected: function(e) {
-                              this$1.representative_selected.push(e)
-                            }
+                          on: { "search-change": _vm.findRep },
+                          model: {
+                            value: _vm.representative_selected,
+                            callback: function($$v) {
+                              _vm.representative_selected = $$v
+                            },
+                            expression: "representative_selected"
                           }
-                        }),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          {
-                            on: {
-                              click: function($event) {
-                                _vm.toggleRepresentativeModal = true
-                              }
-                            }
-                          },
-                          [_vm._v("Добавить представителя")]
-                        ),
-                        _vm._v(" "),
-                        _vm._l(_vm.representative_selected, function(
-                          representative
-                        ) {
-                          return _c("div", [
-                            _vm._v(_vm._s(representative.full_name))
-                          ])
                         })
                       ],
-                      2
+                      1
                     )
                   ]
                 )
@@ -39997,7 +40601,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                                Статус ученика\n                            "
+                            "\n                                    Статус ученика\n                                "
                           )
                         ]
                       ),
@@ -40033,11 +40637,11 @@ var render = function() {
                         {
                           staticClass:
                             "block text-sm font-medium text-gray-700",
-                          attrs: { for: "status_id" }
+                          attrs: { for: "begin_at" }
                         },
                         [
                           _vm._v(
-                            "\n                                Дата зачисления\n                            "
+                            "\n                                    Дата зачисления\n                                "
                           )
                         ]
                       ),
@@ -40065,6 +40669,12 @@ var render = function() {
                             [
                               _c("input", {
                                 directives: [
+                                  {
+                                    name: "mask",
+                                    rawName: "v-mask",
+                                    value: "####-##-##",
+                                    expression: "'####-##-##'"
+                                  },
                                   {
                                     name: "model",
                                     rawName: "v-model",
@@ -40100,7 +40710,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                                Номер приказа о зачислении\n                            "
+                            "\n                                    Номер приказа о зачислении\n                                "
                           )
                         ]
                       ),
@@ -40139,157 +40749,176 @@ var render = function() {
                       )
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "col-span-3 sm:col-span-2" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass:
-                            "block text-sm font-medium text-gray-700",
-                          attrs: { for: "end_at" }
-                        },
-                        [
-                          _vm._v(
-                            "\n                                Дата отчисления\n                            "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "mt-1 flex rounded-md shadow-sm" },
-                        [
+                    (_vm.status_id
+                    ? _vm.status_id.id === 2
+                    : false)
+                      ? _c("div", { staticClass: "col-span-3 sm:col-span-2" }, [
                           _c(
-                            "VueTailwindPicker",
+                            "label",
                             {
-                              attrs: {
-                                startFromMonday: true,
-                                startDate: this.$date("1990-01-01").format(
-                                  "YYYY-MM-DD"
-                                ),
-                                tailwindPickerValue: this.begin_at
-                              },
-                              on: {
-                                change: function(v) {
-                                  _vm.end_at = v
-                                }
-                              }
+                              staticClass:
+                                "block text-sm font-medium text-gray-700",
+                              attrs: { for: "end_at" }
                             },
+                            [
+                              _vm._v(
+                                "\n                                    Дата отчисления\n                                "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "mt-1 flex rounded-md shadow-sm" },
+                            [
+                              _c(
+                                "VueTailwindPicker",
+                                {
+                                  attrs: {
+                                    startFromMonday: true,
+                                    startDate: this.$date(_vm.begin_at).format(
+                                      "YYYY-MM-DD"
+                                    ),
+                                    tailwindPickerValue: this.begin_at
+                                  },
+                                  on: {
+                                    change: function(v) {
+                                      _vm.end_at = v
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "mask",
+                                        rawName: "v-mask",
+                                        value: "####-##-##",
+                                        expression: "'####-##-##'"
+                                      },
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.end_at,
+                                        expression: "end_at"
+                                      }
+                                    ],
+                                    attrs: { type: "text" },
+                                    domProps: { value: _vm.end_at },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.end_at = $event.target.value
+                                      }
+                                    }
+                                  })
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    (_vm.status_id
+                    ? _vm.status_id.id === 2
+                    : false)
+                      ? _c("div", { staticClass: "col-span-3 sm:col-span-2" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass:
+                                "block text-sm font-medium text-gray-700",
+                              attrs: { for: "end_doc_number" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                    Номер приказа об отчислении\n                                "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "mt-1 flex rounded-md shadow-sm" },
                             [
                               _c("input", {
                                 directives: [
                                   {
                                     name: "model",
                                     rawName: "v-model",
-                                    value: _vm.end_at,
-                                    expression: "end_at"
+                                    value: _vm.end_doc_number,
+                                    expression: "end_doc_number"
                                   }
                                 ],
-                                attrs: { type: "text" },
-                                domProps: { value: _vm.end_at },
+                                staticClass:
+                                  "focus:ring-pink-500 focus:border-pink-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300",
+                                attrs: {
+                                  type: "text",
+                                  id: "end_doc_number",
+                                  placeholder:
+                                    "Введите номер приказа об отчислении"
+                                },
+                                domProps: { value: _vm.end_doc_number },
                                 on: {
                                   input: function($event) {
                                     if ($event.target.composing) {
                                       return
                                     }
-                                    _vm.end_at = $event.target.value
+                                    _vm.end_doc_number = $event.target.value
                                   }
                                 }
                               })
                             ]
                           )
-                        ],
-                        1
-                      )
-                    ]),
+                        ])
+                      : _vm._e(),
                     _vm._v(" "),
-                    _c("div", { staticClass: "col-span-3 sm:col-span-2" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass:
-                            "block text-sm font-medium text-gray-700",
-                          attrs: { for: "end_doc_number" }
-                        },
-                        [
-                          _vm._v(
-                            "\n                                Номер приказа об отчислении\n                            "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "mt-1 flex rounded-md shadow-sm" },
-                        [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.end_doc_number,
-                                expression: "end_doc_number"
-                              }
-                            ],
-                            staticClass:
-                              "focus:ring-pink-500 focus:border-pink-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300",
-                            attrs: {
-                              type: "text",
-                              id: "end_doc_number",
-                              placeholder: "Введите номер приказа об отчислении"
+                    (_vm.status_id
+                    ? _vm.status_id.id === 2
+                    : false)
+                      ? _c("div", { staticClass: "col-span-3 sm:col-span-2" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass:
+                                "block text-sm font-medium text-gray-700",
+                              attrs: { for: "end_id" }
                             },
-                            domProps: { value: _vm.end_doc_number },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
+                            [
+                              _vm._v(
+                                "\n                                    Причина отчисления\n                                "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "mt-1 flex rounded-md shadow-sm" },
+                            [
+                              _c("multiselect", {
+                                attrs: {
+                                  showLabels: false,
+                                  options: _vm.ends,
+                                  "track-by": "id",
+                                  label: "name",
+                                  placeholder: "Выберите статус"
+                                },
+                                model: {
+                                  value: _vm.end_id,
+                                  callback: function($$v) {
+                                    _vm.end_id = $$v
+                                  },
+                                  expression: "end_id"
                                 }
-                                _vm.end_doc_number = $event.target.value
-                              }
-                            }
-                          })
-                        ]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-span-3 sm:col-span-2" }, [
-                      _c(
-                        "label",
-                        {
-                          staticClass:
-                            "block text-sm font-medium text-gray-700",
-                          attrs: { for: "end_id" }
-                        },
-                        [
-                          _vm._v(
-                            "\n                                Причина отчисления\n                            "
+                              })
+                            ],
+                            1
                           )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "mt-1 flex rounded-md shadow-sm" },
-                        [
-                          _c("multiselect", {
-                            attrs: {
-                              showLabels: false,
-                              options: _vm.ends,
-                              "track-by": "id",
-                              label: "name",
-                              placeholder: "Выберите статус"
-                            },
-                            model: {
-                              value: _vm.end_id,
-                              callback: function($$v) {
-                                _vm.end_id = $$v
-                              },
-                              expression: "end_id"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ])
+                        ])
+                      : _vm._e()
                   ]
                 )
               ])
@@ -40311,7 +40940,11 @@ var render = function() {
                       }
                     }
                   },
-                  [_vm._v("\n                    Отменить\n                ")]
+                  [
+                    _vm._v(
+                      "\n                        Отменить\n                    "
+                    )
+                  ]
                 ),
                 _vm._v(" "),
                 _c(
@@ -40321,7 +40954,11 @@ var render = function() {
                       "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
                     attrs: { type: "submit" }
                   },
-                  [_vm._v("\n                    Сохранить\n                ")]
+                  [
+                    _vm._v(
+                      "\n                        Сохранить\n                    "
+                    )
+                  ]
                 )
               ]
             )
@@ -40544,9 +41181,7 @@ var render = function() {
                               startDate: this.$date("1950-01-01").format(
                                 "YYYY-MM-DD"
                               ),
-                              endDate: this.$date("2020-01-01").format(
-                                "YYYY-MM-DD"
-                              ),
+                              endDate: this.$date().format("YYYY-MM-DD"),
                               tailwindPickerValue: this.birth_date
                             },
                             on: {
@@ -40558,6 +41193,12 @@ var render = function() {
                           [
                             _c("input", {
                               directives: [
+                                {
+                                  name: "mask",
+                                  rawName: "v-mask",
+                                  value: "####-##-##",
+                                  expression: "'####-##-##'"
+                                },
                                 {
                                   name: "model",
                                   rawName: "v-model",
@@ -40748,7 +41389,9 @@ var render = function() {
                             "focus:ring-pink-500 focus:border-pink-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300",
                           attrs: {
                             type: "number",
-                            step: "any",
+                            min: "0",
+                            max: "3",
+                            step: "0.1",
                             id: "working_rate",
                             placeholder: "Введите количество ставок"
                           },
@@ -40878,19 +41521,20 @@ var render = function() {
                     _vm._v(" "),
                     _c(
                       "div",
-                      { staticClass: "mt-1 flex rounded-md shadow-sm" },
+                      {
+                        key: _vm.birth_date,
+                        staticClass: "mt-1 flex rounded-md shadow-sm"
+                      },
                       [
                         _c(
                           "VueTailwindPicker",
                           {
                             attrs: {
                               startFromMonday: true,
-                              startDate: this.$date("1970-01-01").format(
-                                "YYYY-MM-DD"
-                              ),
-                              endDate: this.$date("2025-01-01").format(
-                                "YYYY-MM-DD"
-                              ),
+                              startDate: this.$date(
+                                _vm.birth_date ? _vm.birth_date : "1950-01-01"
+                              ).format("YYYY-MM-DD"),
+                              endDate: this.$date().format("YYYY-MM-DD"),
                               tailwindPickerValue: this.work_since
                             },
                             on: {
@@ -40902,6 +41546,12 @@ var render = function() {
                           [
                             _c("input", {
                               directives: [
+                                {
+                                  name: "mask",
+                                  rawName: "v-mask",
+                                  value: "####-##-##",
+                                  expression: "'####-##-##'"
+                                },
                                 {
                                   name: "model",
                                   rawName: "v-model",
@@ -40981,19 +41631,20 @@ var render = function() {
                     _vm._v(" "),
                     _c(
                       "div",
-                      { staticClass: "mt-1 flex rounded-md shadow-sm" },
+                      {
+                        key: _vm.birth_date + 2,
+                        staticClass: "mt-1 flex rounded-md shadow-sm"
+                      },
                       [
                         _c(
                           "VueTailwindPicker",
                           {
                             attrs: {
                               startFromMonday: true,
-                              startDate: this.$date("1970-01-01").format(
-                                "YYYY-MM-DD"
-                              ),
-                              endDate: this.$date("2025-01-01").format(
-                                "YYYY-MM-DD"
-                              ),
+                              startDate: this.$date(
+                                _vm.birth_date ? _vm.birth_date : "1950-01-01"
+                              ).format("YYYY-MM-DD"),
+                              endDate: this.$date().format("YYYY-MM-DD"),
                               tailwindPickerValue: this.begin_at
                             },
                             on: {
@@ -41005,6 +41656,12 @@ var render = function() {
                           [
                             _c("input", {
                               directives: [
+                                {
+                                  name: "mask",
+                                  rawName: "v-mask",
+                                  value: "####-##-##",
+                                  expression: "'####-##-##'"
+                                },
                                 {
                                   name: "model",
                                   rawName: "v-model",
@@ -41030,70 +41687,85 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-span-3 sm:col-span-2" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass: "block text-sm font-medium text-gray-700",
-                        attrs: { for: "end_at" }
-                      },
-                      [
-                        _vm._v(
-                          "\n                                    Уволен\n                                "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "mt-1 flex rounded-md shadow-sm" },
-                      [
-                        _c(
-                          "VueTailwindPicker",
-                          {
-                            attrs: {
-                              startFromMonday: true,
-                              startDate: this.$date("1970-01-01").format(
-                                "YYYY-MM-DD"
-                              ),
-                              endDate: this.$date("2025-01-01").format(
-                                "YYYY-MM-DD"
-                              ),
-                              tailwindPickerValue: this.end_at
+                  _vm.begin_at &&
+                  (_vm.status_id ? _vm.status_id.id === 2 : false)
+                    ? _c(
+                        "div",
+                        {
+                          key: _vm.begin_at,
+                          staticClass: "col-span-3 sm:col-span-2"
+                        },
+                        [
+                          _c(
+                            "label",
+                            {
+                              staticClass:
+                                "block text-sm font-medium text-gray-700",
+                              attrs: { for: "end_at" }
                             },
-                            on: {
-                              change: function(v) {
-                                _vm.end_at = v
-                              }
-                            }
-                          },
-                          [
-                            _c("input", {
-                              directives: [
+                            [
+                              _vm._v(
+                                "\n                                    Уволен\n                                "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "mt-1 flex rounded-md shadow-sm" },
+                            [
+                              _c(
+                                "VueTailwindPicker",
                                 {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.end_at,
-                                  expression: "end_at"
-                                }
-                              ],
-                              attrs: { type: "text" },
-                              domProps: { value: _vm.end_at },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
+                                  attrs: {
+                                    startFromMonday: true,
+                                    startDate: this.$date(_vm.begin_at).format(
+                                      "YYYY-MM-DD"
+                                    ),
+                                    endDate: this.$date().format("YYYY-MM-DD"),
+                                    tailwindPickerValue: this.end_at
+                                  },
+                                  on: {
+                                    change: function(v) {
+                                      _vm.end_at = v
+                                    }
                                   }
-                                  _vm.end_at = $event.target.value
-                                }
-                              }
-                            })
-                          ]
-                        )
-                      ],
-                      1
-                    )
-                  ])
+                                },
+                                [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "mask",
+                                        rawName: "v-mask",
+                                        value: "####-##-##",
+                                        expression: "'####-##-##'"
+                                      },
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.end_at,
+                                        expression: "end_at"
+                                      }
+                                    ],
+                                    attrs: { type: "text" },
+                                    domProps: { value: _vm.end_at },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.end_at = $event.target.value
+                                      }
+                                    }
+                                  })
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ]
+                      )
+                    : _vm._e()
                 ]
               )
             ]),
@@ -41246,6 +41918,12 @@ var render = function() {
                       [
                         _c("input", {
                           directives: [
+                            {
+                              name: "mask",
+                              rawName: "v-mask",
+                              value: "# (###) ### ## ##",
+                              expression: "'# (###) ### ## ##'"
+                            },
                             {
                               name: "model",
                               rawName: "v-model",
@@ -42956,7 +43634,7 @@ var render = function() {
                 [
                   _c(
                     "inertia-link",
-                    { attrs: { href: _vm.route("dashboard") } },
+                    { attrs: { href: _vm.route("students") } },
                     [
                       _c("jet-application-mark", {
                         staticClass: "block h-9 w-auto"
@@ -42976,13 +43654,13 @@ var render = function() {
                     "jet-nav-link",
                     {
                       attrs: {
-                        href: _vm.route("dashboard"),
-                        active: _vm.route().current("dashboard")
+                        href: _vm.route("representatives"),
+                        active: _vm.route().current("representatives")
                       }
                     },
                     [
                       _vm._v(
-                        "\n                            Главная\n                        "
+                        "\n                            Представители\n                        "
                       )
                     ]
                   ),
@@ -43485,8 +44163,8 @@ var render = function() {
                   "jet-responsive-nav-link",
                   {
                     attrs: {
-                      href: _vm.route("dashboard"),
-                      active: _vm.route().current("dashboard")
+                      href: _vm.route("students"),
+                      active: _vm.route().current("students")
                     }
                   },
                   [_vm._v("\n                    Dashboard\n                ")]
@@ -44683,6 +45361,20 @@ var render = function() {
                       "div",
                       {
                         staticClass:
+                          "font-sans font-normal text-indigo-700 text-md cursor-pointer underline text-right",
+                        on: {
+                          click: function($event) {
+                            return _vm.deleteDepartment(department.id)
+                          }
+                        }
+                      },
+                      [_vm._v("Удалить отделение")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
                           "font-sans font-normal text-bold text-md flex flex-row"
                       },
                       _vm._l(department.programs, function(program) {
@@ -44809,13 +45501,17 @@ var render = function() {
                         _vm._v(
                           "\n                        " + _vm._s(item.name)
                         ),
-                        _c("Close", {
-                          nativeOn: {
-                            click: function($event) {
-                              return _vm.deleteDicItem(dic.id, item)
-                            }
-                          }
-                        })
+                        (dic.protected
+                        ? !dic.protected.includes(item.id)
+                        : true)
+                          ? _c("Close", {
+                              nativeOn: {
+                                click: function($event) {
+                                  return _vm.deleteDicItem(dic.id, item)
+                                }
+                              }
+                            })
+                          : _vm._e()
                       ],
                       1
                     )
@@ -46315,6 +47011,16 @@ var render = function() {
                 }
               },
               [_vm._v("\n            Добавить направление\n          ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass:
+                  "inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-red-600 hover:bg-red-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out",
+                on: { click: _vm.deleteProgram }
+              },
+              [_vm._v("\n            Удалить программу\n          ")]
             )
           ])
         ]),
@@ -46571,9 +47277,9 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _vm.students
+              _vm.representatives
                 ? _c("TableRepresentative", {
-                    attrs: { students: _vm.students }
+                    attrs: { representatives: _vm.representatives }
                   })
                 : _c("Loader")
             ],
@@ -47588,7 +48294,7 @@ var render = function() {
                       _c(
                         "tbody",
                         { staticClass: "bg-white divide-y divide-gray-200" },
-                        _vm._l(_vm.students, function(student) {
+                        _vm._l(_vm.representatives, function(representative) {
                           return _c("tr", [
                             _c(
                               "td",
@@ -47598,8 +48304,6 @@ var render = function() {
                                   "div",
                                   { staticClass: "flex items-center" },
                                   [
-                                    _vm._m(0, true),
-                                    _vm._v(" "),
                                     _c("div", { staticClass: "ml-4" }, [
                                       _c(
                                         "div",
@@ -47611,11 +48315,11 @@ var render = function() {
                                           _vm._v(
                                             "\n                                            " +
                                               _vm._s(
-                                                student.last_name +
+                                                representative.last_name +
                                                   " " +
-                                                  student.first_name +
+                                                  representative.first_name +
                                                   " " +
-                                                  student.middle_name
+                                                  representative.middle_name
                                               ) +
                                               "\n                                        "
                                           )
@@ -47640,25 +48344,10 @@ var render = function() {
                                   [
                                     _vm._v(
                                       "\n                                    " +
-                                        _vm._s(student.birth_date) +
+                                        _vm._s(representative.birth_date) +
                                         "\n                                "
                                     )
                                   ]
-                                )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _vm._m(1, true),
-                            _vm._v(" "),
-                            _c(
-                              "td",
-                              {
-                                staticClass:
-                                  "px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500"
-                              },
-                              [
-                                _vm._v(
-                                  "\n                                Д21\n                            "
                                 )
                               ]
                             ),
@@ -47672,13 +48361,28 @@ var render = function() {
                               [
                                 _vm._v(
                                   "\n                                " +
-                                    _vm._s(student.gender.name) +
+                                    _vm._s(representative.phone) +
                                     "\n                            "
                                 )
                               ]
                             ),
                             _vm._v(" "),
-                            _vm._m(2, true)
+                            _c(
+                              "td",
+                              {
+                                staticClass:
+                                  "px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500"
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(representative.gender.name) +
+                                    "\n                            "
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _vm._m(0, true)
                           ])
                         }),
                         0
@@ -47696,36 +48400,6 @@ var render = function() {
   )
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex-shrink-0 h-10 w-10" }, [
-      _c("img", {
-        staticClass: "h-10 w-10 rounded-full",
-        attrs: {
-          src:
-            "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-          alt: ""
-        }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "px-6 py-4 whitespace-no-wrap" }, [
-      _c(
-        "span",
-        {
-          staticClass:
-            "px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
-        },
-        [_vm._v("\n              Учится\n            ")]
-      )
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -66473,13 +67147,15 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @inertiajs/inertia-vue */ "./node_modules/@inertiajs/inertia-vue/dist/index.js");
-/* harmony import */ var _inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var laravel_jetstream__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! laravel-jetstream */ "./node_modules/laravel-jetstream/dist/index.js");
-/* harmony import */ var laravel_jetstream__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(laravel_jetstream__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var portal_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! portal-vue */ "./node_modules/portal-vue/dist/portal-vue.common.js");
-/* harmony import */ var portal_vue__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(portal_vue__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var v_mask__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! v-mask */ "./node_modules/v-mask/dist/v-mask.esm.js");
+/* harmony import */ var _inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @inertiajs/inertia-vue */ "./node_modules/@inertiajs/inertia-vue/dist/index.js");
+/* harmony import */ var _inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var laravel_jetstream__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! laravel-jetstream */ "./node_modules/laravel-jetstream/dist/index.js");
+/* harmony import */ var laravel_jetstream__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(laravel_jetstream__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var portal_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! portal-vue */ "./node_modules/portal-vue/dist/portal-vue.common.js");
+/* harmony import */ var portal_vue__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(portal_vue__WEBPACK_IMPORTED_MODULE_4__);
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+
 
 
 
@@ -66490,13 +67166,14 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.mixin({
     route: route
   }
 });
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(_inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_1__["InertiaApp"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(laravel_jetstream__WEBPACK_IMPORTED_MODULE_2__["InertiaForm"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(portal_vue__WEBPACK_IMPORTED_MODULE_3___default.a);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(_inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_2__["InertiaApp"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(laravel_jetstream__WEBPACK_IMPORTED_MODULE_3__["InertiaForm"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(portal_vue__WEBPACK_IMPORTED_MODULE_4___default.a);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(v_mask__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var app = document.getElementById('app');
 new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   render: function render(h) {
-    return h(_inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_1__["InertiaApp"], {
+    return h(_inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_2__["InertiaApp"], {
       props: {
         initialPage: JSON.parse(app.dataset.page),
         resolveComponent: function resolveComponent(name) {

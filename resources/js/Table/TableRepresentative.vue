@@ -7,18 +7,13 @@
                         <table class="min-w-full divide-y divide-gray-200">
                             <TableHead :titles="titles"/>
                             <tbody class="bg-white divide-y divide-gray-200">
-                            <tr v-for="student in students">
+                            <tr v-for="representative in representatives">
                                 <td class="px-6 py-4 whitespace-no-wrap">
                                     <div class="flex items-center">
-                                        <div class="flex-shrink-0 h-10 w-10">
-                                            <img class="h-10 w-10 rounded-full"
-                                                 src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60"
-                                                 alt="">
-                                        </div>
                                         <div class="ml-4">
                                             <div class="text-sm leading-5 font-medium text-gray-900">
                                                 {{
-                                                    student.last_name + ' ' + student.first_name + ' ' + student.middle_name
+                                                    representative.last_name + ' ' + representative.first_name + ' ' + representative.middle_name
                                                 }}
                                             </div>
                                             <!--                                                        <div class="text-sm leading-5 text-gray-500">-->
@@ -29,20 +24,15 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-no-wrap">
                                     <div class="text-sm leading-5 text-gray-900">
-                                        {{ student.birth_date }}
+                                        {{ representative.birth_date }}
                                     </div>
                                     <!--                                                <div class="text-sm leading-5 text-gray-500">Optimization</div>-->
                                 </td>
-                                <td class="px-6 py-4 whitespace-no-wrap">
-                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                  Учится
-                </span>
+                                <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                                    {{representative.phone}}
                                 </td>
                                 <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                    Д21
-                                </td>
-                                <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                    {{ student.gender.name }}
+                                    {{ representative.gender.name }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
                                     <a href="#" class="text-indigo-600 hover:text-indigo-900">Подробнее</a>
@@ -60,16 +50,24 @@
 </template>
 
 <script>
+import TableHead from "@/Table/Layouts/TableHead";
 export default {
     name: "TableRepresentative",
+    components: {TableHead},
     data() {
         return {
-            titles: ['ФИО', 'Дата рождения', 'Статус', 'Группа', 'Пол'],
+            titles: ['ФИО', 'Дата рождения', 'Телефон', 'Пол'],
+            toggleModal: false,
+            selectedRep: null,
         }
     },
     props: [
         'representatives', 'name'
-    ]
+    ],
+
+    methods: {
+
+    },
 }
 </script>
 

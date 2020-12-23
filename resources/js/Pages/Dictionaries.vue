@@ -14,7 +14,7 @@
                     <div v-for="dic in dics" class="bg-gray-100 overflow-hidden shadow-xl sm:rounded-lg flex flex-col items-center">
                         <div class="bg-white w-full text-center font-bold p-2">{{ dic.name }}</div>
                         <div v-for="item in dic.data" class="m-1 text-m">
-                            {{ item.name }}<Close @click.native="deleteDicItem(dic.id, item)" />
+                            {{ item.name }}<Close v-if="dic.protected ? !dic.protected.includes(item.id) : true" @click.native="deleteDicItem(dic.id, item)" />
                         </div>
                         <button @click="selectedDic = dic.id; toggleModal = !toggleModal" class=" m-2 inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
                             Добавить
@@ -92,6 +92,7 @@ export default {
                         'id': 'teacherStatus',
                         'name': 'Статусы преподавателей',
                         'data': res.teacherStatuses,
+                        'protected': [1,2,3,4]
                     },
                     {
                         'id': 'position',
@@ -107,6 +108,7 @@ export default {
                         'id': 'studentStatus',
                         'name': 'Статусы учеников',
                         'data': res.studentStatuses,
+                        'protected': [1,2,3]
                     },
                 ];
             }

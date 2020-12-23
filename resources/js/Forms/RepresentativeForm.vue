@@ -51,7 +51,7 @@
                                 Телефон
                             </label>
                             <div class="mt-1 flex rounded-md shadow-sm">
-                                <input v-model="phone" type="text" id="phone"
+                                <input v-mask="'# (###) ### ## ##'" v-model="phone" type="text" id="phone"
                                        class="focus:ring-pink-500 focus:border-pink-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
                                        placeholder="Введите телефон">
                             </div>
@@ -84,10 +84,10 @@
 <script>
 import VueTailwindPicker from 'vue-tailwind-picker'
 import SingleSelect from "@/Сomponents/SingleSelect";
+import '@/Plugins/Dayjs';
 export default {
     components: {VueTailwindPicker, SingleSelect},
     name: "RepresentativeForm",
-    props: ['genders'],
     data() {
         return {
             last_name: '',
@@ -96,22 +96,36 @@ export default {
             birth_date: '',
             phone: '',
             gender_id: null,
+            genders: [],
         }
     },
+    created() {
+        this.genderList()
+    },
     methods: {
+        genderList()
+        {
+            axios.get("/api/students_form").then((res) => {
+                if (res.status === 200) {
+                    let data = res.data;
+                    this.genders = data.genders;
+                }
+            })
+        },
         createRepresentative()
         {
-            axios.post('api/representatives/',{
+            axios.post('/api/representatives/',{
                 last_name: this.last_name,
                 first_name: this.first_name,
                 middle_name: this.middle_name,
                 birth_date: this.birth_date,
                 phone: this.phone,
-                gender_id: this.gender_id,
+                gender_id: this.gender_id.id,
             }).then((res) => {
                 if (res.status === 201)
                 {
-                    this.$parent.$emit('close', res.data.data);
+
+                    this.$parent.$emit('close');
                 }
             }).catch((res) => console.log(res));
         }

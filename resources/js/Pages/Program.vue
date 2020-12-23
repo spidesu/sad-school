@@ -19,6 +19,9 @@
               <button @click="toggleCourseModal = !toggleCourseModal" class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
                 Добавить направление
               </button>
+                <button @click="deleteProgram" class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-red-600 hover:bg-red-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
+                Удалить программу
+              </button>
             </span>
             </div>
             <div class="grid grid-cols-3 gap-4">
@@ -78,6 +81,14 @@ export default {
                 if (res.status === 200)
                 {
                     this.program = res.data.data;
+                }
+            })
+        },
+        deleteProgram() {
+            axios.delete('/api/programs/'+this.programId).then((res) => {
+                if (res.status === 200)
+                {
+                    window.location = '/departments';
                 }
             })
         },

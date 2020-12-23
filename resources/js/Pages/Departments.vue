@@ -24,6 +24,7 @@
                 <div class="font-sans font-black text-black uppercase text-3xl ">{{ department.name }}</div>
                 <div class="font-sans font-bold text-black text-xl ">Программы обучения</div>
                 <div class="font-sans font-normal text-indigo-700 text-md cursor-pointer underline text-right" @click="editDepartment = department.id;toggleProgramModal = !toggleProgramModal">Добавить программу</div>
+                <div class="font-sans font-normal text-indigo-700 text-md cursor-pointer underline text-right" @click="deleteDepartment(department.id)">Удалить отделение</div>
                 <div class="font-sans font-normal text-bold text-md flex flex-row"><div class="p-2" v-for="program in department.programs"  :id="program.id"><inertia-link :href="route('program',[program.id])" :active="route().current('program')" >{{program.name}}</inertia-link></div></div>
             </div>
             <Loader v-else />
@@ -66,6 +67,13 @@ export default {
                 }
             });
         },
+        deleteDepartment(id) {
+            axios.delete('/api/departments/' + id).then((res) => {
+                if (res.status === 200) {
+                    this.departmentList();
+                }
+            })
+        }
     },
 }
 </script>

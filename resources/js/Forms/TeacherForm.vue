@@ -46,8 +46,8 @@
                                 <div class="mt-1 flex rounded-md shadow-sm">
                                     <VueTailwindPicker
                                         @change="(v) => {birth_date = v}" :startFromMonday="true"
-                                        :startDate="this.$date('1950-01-01').format('YYYY-MM-DD')" :endDate="this.$date('2020-01-01').format('YYYY-MM-DD')" :tailwindPickerValue="this.birth_date">
-                                        <input type="text" v-model="birth_date"/>
+                                        :startDate="this.$date('1950-01-01').format('YYYY-MM-DD')" :endDate="this.$date().format('YYYY-MM-DD')" :tailwindPickerValue="this.birth_date">
+                                        <input v-mask="'####-##-##'" type="text" v-model="birth_date"/>
                                     </VueTailwindPicker>
                                 </div>
                             </div>
@@ -81,7 +81,7 @@
                                 Количество ставок
                             </label>
                             <div class="mt-1 flex rounded-md shadow-sm">
-                                <input v-model="working_rate" type="number" step="any" id="working_rate"
+                                <input v-model="working_rate" type="number" min="0" max="3" step="0.1" id="working_rate"
                                        class="focus:ring-pink-500 focus:border-pink-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
                                        placeholder="Введите количество ставок">
                             </div>
@@ -113,11 +113,11 @@
                             <label for="work_since" class="block text-sm font-medium text-gray-700">
                                 Работает преподавателем с
                             </label>
-                            <div class="mt-1 flex rounded-md shadow-sm">
+                            <div :key="birth_date" class="mt-1 flex rounded-md shadow-sm">
                                 <VueTailwindPicker
                                     @change="(v) => {work_since = v}" :startFromMonday="true"
-                                    :startDate="this.$date('1970-01-01').format('YYYY-MM-DD')" :endDate="this.$date('2025-01-01').format('YYYY-MM-DD')" :tailwindPickerValue="this.work_since">
-                                    <input type="text" v-model="work_since"/>
+                                    :startDate="this.$date(birth_date ? birth_date : '1950-01-01').format('YYYY-MM-DD')" :endDate="this.$date().format('YYYY-MM-DD')" :tailwindPickerValue="this.work_since">
+                                    <input v-mask="'####-##-##'" type="text" v-model="work_since"/>
                                 </VueTailwindPicker>
                             </div>
                         </div>
@@ -134,24 +134,24 @@
                                 <label for="begin_at" class="block text-sm font-medium text-gray-700">
                                     Работает с
                                 </label>
-                                <div class="mt-1 flex rounded-md shadow-sm">
+                                <div :key="birth_date + 2" class="mt-1 flex rounded-md shadow-sm">
                                     <VueTailwindPicker
                                         @change="(v) => {begin_at = v}" :startFromMonday="true"
-                                        :startDate="this.$date('1970-01-01').format('YYYY-MM-DD')" :endDate="this.$date('2025-01-01').format('YYYY-MM-DD')" :tailwindPickerValue="this.begin_at">
-                                        <input type="text" v-model="begin_at"/>
+                                        :startDate="this.$date(birth_date ? birth_date : '1950-01-01').format('YYYY-MM-DD')" :endDate="this.$date().format('YYYY-MM-DD')" :tailwindPickerValue="this.begin_at">
+                                        <input v-mask="'####-##-##'" type="text" v-model="begin_at"/>
                                     </VueTailwindPicker>
                                 </div>
                             </div>
 
-                            <div class="col-span-3 sm:col-span-2">
+                            <div :key="begin_at" v-if="begin_at && (status_id ? status_id.id === 2 : false)" class="col-span-3 sm:col-span-2">
                                 <label for="end_at" class="block text-sm font-medium text-gray-700">
                                     Уволен
                                 </label>
-                                <div class="mt-1 flex rounded-md shadow-sm">
+                                <div  class="mt-1 flex rounded-md shadow-sm">
                                     <VueTailwindPicker
                                         @change="(v) => {end_at = v}" :startFromMonday="true"
-                                        :startDate="this.$date('1970-01-01').format('YYYY-MM-DD')" :endDate="this.$date('2025-01-01').format('YYYY-MM-DD')" :tailwindPickerValue="this.end_at">
-                                        <input type="text" v-model="end_at"/>
+                                        :startDate="this.$date(begin_at).format('YYYY-MM-DD')" :endDate="this.$date().format('YYYY-MM-DD')" :tailwindPickerValue="this.end_at">
+                                        <input v-mask="'####-##-##'" type="text" v-model="end_at"/>
                                     </VueTailwindPicker>
                                 </div>
                             </div>
@@ -186,7 +186,7 @@
                                 Телефон
                             </label>
                             <div class="mt-1 flex rounded-md shadow-sm">
-                                <input v-model="phone" type="text" id="phone"
+                                <input v-mask="'# (###) ### ## ##'" v-model="phone" type="text" id="phone"
                                        class="focus:ring-pink-500 focus:border-pink-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
                                        placeholder="Введите телефон">
                             </div>

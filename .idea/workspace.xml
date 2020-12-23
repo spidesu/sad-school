@@ -20,14 +20,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e64015de-a6b2-4d00-aba8-1065e623e4b5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_12_18_051305_add_department_id_sheets.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/Forms/SheetDepForm.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Resources/RepresentativeResource.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ReportController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ReportController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Sheet.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Sheet.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ProgramController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ProgramController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/RepresentativeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/RepresentativeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Repositories/RepresentativeRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Repositories/RepresentativeRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Sheets.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Sheets.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/pdf/student.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pdf/student.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Forms/RepresentativeForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Forms/RepresentativeForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Forms/StudentForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Forms/StudentForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Forms/TeacherForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Forms/TeacherForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Layouts/AppLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Layouts/AppLayout.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Departments.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Departments.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Dictionaries.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Dictionaries.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Program.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Program.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Representatives.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Representatives.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Table/TableRepresentative.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Table/TableRepresentative.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -191,7 +203,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../projects/saascredit-extmod" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Http/Resources" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="php.override.implement.member.chooser.php.doc" value="COPY_ALWAYS" />
@@ -199,6 +211,9 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\tools\OSPanel\OpenServer\domains\sad-school\app\Http\Resources" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\tools\OSPanel\OpenServer\domains\sad-school\resources\js\img" />
       <recent name="C:\tools\OSPanel\OpenServer\domains\sad-school\resources\img" />
@@ -261,7 +276,12 @@
       <workItem from="1608095419899" duration="10829000" />
       <workItem from="1608132327279" duration="15922000" />
       <workItem from="1608218053273" duration="12287000" />
-      <workItem from="1608267509131" duration="3235000" />
+      <workItem from="1608267509131" duration="3838000" />
+      <workItem from="1608528835804" duration="595000" />
+      <workItem from="1608531889508" duration="100000" />
+      <workItem from="1608637900012" duration="3815000" />
+      <workItem from="1608660236480" duration="3841000" />
+      <workItem from="1608699559734" duration="8972000" />
     </task>
     <servers />
   </component>
@@ -297,11 +317,11 @@
     </state>
     <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1536.824/1920.0.1600.860@0.0.1536.824" timestamp="1607663389153" />
     <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1607710688086" />
-    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1607921586190">
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1608531988560">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824/1920.0.1600.860@0.0.1536.824" timestamp="1607921586190" />
-    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1607532488134" />
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1608531988560" />
     <state x="492" y="135" key="NewPhpClassDialog" timestamp="1608222119890">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -311,23 +331,28 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="604" y="336" key="NewPhpFileDialog/0.0.1536.824@0.0.1536.824" timestamp="1608237129323" />
+    <state x="542" y="115" key="RollbackChangesDialog" timestamp="1608706308518">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="542" y="115" key="RollbackChangesDialog/0.0.1536.824/1920.0.1600.860@0.0.1536.824" timestamp="1608706308518" />
     <state x="277" y="57" key="SettingsEditor" timestamp="1605849159579">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="277" y="57" key="SettingsEditor/0.0.1536.824/1920.0.1600.860@0.0.1536.824" timestamp="1605849159579" />
-    <state x="478" y="145" width="579" height="534" key="find.popup" timestamp="1608191847393">
+    <state x="478" y="145" width="579" height="534" key="find.popup" timestamp="1608661914587">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="478" y="145" width="579" height="534" key="find.popup/0.0.1536.824/1920.0.1600.860@0.0.1536.824" timestamp="1608191847393" />
-    <state x="478" y="145" width="579" height="534" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1607860658360" />
+    <state x="2418" y="151" width="604" height="558" key="find.popup/0.0.1536.824/1920.0.1600.860@1920.0.1600.860" timestamp="1608638341754" />
+    <state x="478" y="145" width="579" height="534" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1608661914587" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1607856044461">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1607856044461" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1607881766455">
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1608708253720">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/1920.0.1600.860@0.0.1536.824" timestamp="1607428142377" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/1920.0.1600.860@0.0.1536.824" timestamp="1608708253720" />
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1607881766455" />
   </component>
 </project>

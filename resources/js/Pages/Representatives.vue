@@ -18,7 +18,7 @@
               </button>
             </span>
                 </div>
-                <TableRepresentative v-if="students" :students = "students"/>
+                <TableRepresentative v-if="representatives" :representatives = "representatives"/>
                 <Loader v-else />
 
             </div>
@@ -30,9 +30,31 @@
 import RepresentativeForm from "@/Forms/RepresentativeForm";
 import TableRepresentative from "@/Table/TableRepresentative";
 import Loader from "@/Сomponents/Loader";
+import Modal from "@/Layouts/Modal";
+import AppLayout from "@/Layouts/AppLayout";
 export default {
     name: "Representatives",
-    components: {Loader, TableRepresentative, RepresentativeForm}
+    components: {Loader, TableRepresentative, RepresentativeForm, AppLayout, Modal},
+    methods: {
+        representativeList() {
+            axios.get('/api/representatives').then((res) => {
+                if (res.status === 200)
+                {
+                    this.representatives = res.data.data;
+                }
+            });
+        },
+    },
+    data() {
+        return {
+            representatives: false,
+            loaded: false,
+            toggleModal: false,
+        }
+    },
+    created() {
+        this.representativeList();
+    },
 }
 </script>
 
