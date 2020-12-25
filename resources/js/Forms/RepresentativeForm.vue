@@ -60,9 +60,7 @@
                             <label for="gender_id" class="block text-sm font-medium text-gray-700">
                                 Пол
                             </label>
-                            <SingleSelect v-model="gender_id" @selected="(e) => {this.gender_id = e}"
-                                          :options="genders"
-                                          id="gender_id" :placeholder="'Выберите пол'"/>
+                            <multiselect :showLabels="false" v-model="gender_id" :options="genders" track-by="id" label="name" :placeholder="'Выберите пол'"></multiselect>
                         </div>
                     </div>
                 </div>
@@ -84,9 +82,10 @@
 <script>
 import VueTailwindPicker from 'vue-tailwind-picker'
 import SingleSelect from "@/Сomponents/SingleSelect";
+import Multiselect from 'vue-multiselect';
 import '@/Plugins/Dayjs';
 export default {
-    components: {VueTailwindPicker, SingleSelect},
+    components: {VueTailwindPicker, SingleSelect, Multiselect},
     name: "RepresentativeForm",
     data() {
         return {
@@ -101,7 +100,18 @@ export default {
     },
     created() {
         this.genderList()
+        if (this.representative)
+        {
+            this.last_name =  this.representative.last_name;
+            this.first_name =  this.representative.first_name;
+            this.middle_name =  this.representative.middle_name;
+            this.birth_date =  this.representative.birth_date;
+            this.phone =  this.representative.phone;
+            this.gender_id =  this.representative.gender;
+
+        }
     },
+    props: ['representative'],
     methods: {
         genderList()
         {
@@ -114,6 +124,7 @@ export default {
         },
         createRepresentative()
         {
+            if (!this.representative)
             axios.post('/api/representatives/',{
                 last_name: this.last_name,
                 first_name: this.first_name,
@@ -124,10 +135,23 @@ export default {
             }).then((res) => {
                 if (res.status === 201)
                 {
-
                     this.$parent.$emit('close');
                 }
-            }).catch((res) => console.log(res));
+            }).catch((res) => console.log(res))
+            else
+                axios.put('/api/representatives/' + this.representative.id,{
+                    last_name: this.last_name,
+                    first_name: this.first_name,
+                    middle_name: this.middle_name,
+                    birth_date: this.birth_date,
+                    phone: this.phone,
+                    gender_id: this.gender_id.id,
+                }).then((res) => {
+                    if (res.status === 200)
+                    {
+                        this.$parent.$emit('close');
+                    }
+                }).catch((res) => console.log(res))
         }
     }
 }

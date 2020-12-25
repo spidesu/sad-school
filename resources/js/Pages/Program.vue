@@ -9,6 +9,11 @@
         <Modal v-if="toggleModal" @close=" toggleModal = false; getProgram()">
             <SpecForm :course_id="selectedCourse"/>
         </Modal>
+
+        <Modal v-if="toggleEditModal" @close=" toggleEditModal = false; getProgram()">
+            <ProgramForm :department_id="program.department_id" :program="program"/>
+        </Modal>
+
         <Modal v-if="toggleCourseModal" @close=" toggleCourseModal = false; getProgram()">
             <CourseForm :program_id="programId"/>
         </Modal>
@@ -19,6 +24,11 @@
               <button @click="toggleCourseModal = !toggleCourseModal" class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
                 Добавить направление
               </button>
+
+                <button @click="toggleEditModal = true" class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
+                Изменить программу
+              </button>
+
                 <button @click="deleteProgram" class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-red-600 hover:bg-red-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
                 Удалить программу
               </button>
@@ -50,9 +60,10 @@ import Modal from "@/Layouts/Modal";
 import CourseForm from "@/Forms/CourseForm";
 import SpecForm from "@/Forms/SpecForm";
 import Close from "@/Сomponents/Close";
+import ProgramForm from "@/Forms/ProgramForm";
 export default {
     name: "Program",
-    components: {Loader, AppLayout, Modal, CourseForm, SpecForm, Close},
+    components: {ProgramForm, Loader, AppLayout, Modal, CourseForm, SpecForm, Close},
     props: [
         'programId'
     ],
@@ -65,6 +76,7 @@ export default {
             toggleModal: false,
             selectedCourse: null,
             toggleCourseModal: false,
+            toggleEditModal: false,
         }
     },
     methods: {

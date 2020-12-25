@@ -32,6 +32,7 @@
 <script>
 export default {
     name: "DepartmentList",
+    props: ['department'],
     data() {
         return {
             department_name: '',
@@ -39,14 +40,27 @@ export default {
     },
     methods: {
         createDepartment() {
-            axios.post("/api/departments", {
-                name: this.department_name,
-            }).then((res) => {
-                if (res.status === 201) {
-                    this.$parent.$emit('close');
-                }
-            }).catch((res) => console.log(res))
+            if (!this.department)
+                axios.post("/api/departments", {
+                    name: this.department_name,
+                }).then((res) => {
+                    if (res.status === 201) {
+                        this.$parent.$emit('close');
+                    }
+                }).catch((res) => console.log(res))
+            else
+                axios.put("/api/departments/" + this.department.id, {
+                    name: this.department_name,
+                }).then((res) => {
+                    if (res.status === 200) {
+                        this.$parent.$emit('close');
+                    }
+                });
         }
+    },
+    created() {
+        if (this.department)
+            this.department_name = this.department.name
     }
 }
 </script>

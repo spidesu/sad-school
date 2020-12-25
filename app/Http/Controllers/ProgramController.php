@@ -53,11 +53,11 @@ class ProgramController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return ProgramResource
      */
     public function update(Request $request, $id)
     {
-        //
+        return ProgramResource::make($this->programRepository->update($request->all(),$this->programRepository->get($id)));
     }
 
     /**

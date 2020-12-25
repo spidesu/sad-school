@@ -29,7 +29,7 @@
             </div>
             <div v-if="selectedSchedule">
                 <div class="grid grid-cols-4 gap-4">
-                        <div v-for="day in selectedSchedule.json.days"  class="bg-gray-100 overflow-hidden shadow-xl sm:rounded-lg flex flex-col items-center">
+                        <div v-for="day in selectedSchedule.json.days"  style="overflow: visible" class="bg-gray-100 overflow-hidden shadow-xl sm:rounded-lg flex flex-col items-center">
                             <div class="bg-white w-full text-center font-bold p-2">{{ day.day }}</div>
                             <div v-for="time in day.times" class="m-1 text-m">
                                 <div class="grid grid-cols-2 gap-4">
@@ -37,7 +37,8 @@
                                 {{time.time}}
                                     </div>
                                     <div>
-                                {{subjects.filter(item =>  item.id === time.subject_id ).map(item => item.name).shift()}}
+                                        <div v-if="selectedTime != time" @click="selectedTime = time; toggle = true"> {{subjects.filter(item =>  item.id === time.subject_id ).map(item => item.name).shift()}} </div>
+                                        <multiselect @select="(e) => {toggle = false;time.subject_id = e.id; updateSchedule(e)}" v-else-if="toggle" :showLabels="false" v-model="subject_id" :options="subjects" track-by="id" label="name" :placeholder="'Выберите предмет'"></multiselect>
                                     </div>
                                 </div>
                             </div>
@@ -55,9 +56,9 @@ import AppLayout from "@/Layouts/AppLayout";
 import Modal from "@/Layouts/Modal";
 import ScheduleForm from "@/Forms/ScheduleForm";
 import SingleSelect from "@/Сomponents/SingleSelect";
-
+import Multiselect from 'vue-multiselect'
 export default {
-    components: {AppLayout, Modal, ScheduleForm, SingleSelect},
+    components: {AppLayout, Modal, ScheduleForm, SingleSelect, Multiselect},
     name: "Schedule",
     methods:
         {
@@ -72,6 +73,17 @@ export default {
                      }
                  })
              },
+            updateSchedule()
+            {
+                axios.put('/api/schedules/' + this.selectedSchedule.id, {
+                    json: this.selectedSchedule.json
+                }).then((res) => {
+                    if (res.status === 200)
+                    {
+                        this.selectedSchedule = res.data.data
+                    }
+                })
+            },
             scheduleList() {
                 axios.get('/api/schedules/' + this.group.id).then((res) => {
                     if (res.status === 200) {
@@ -107,6 +119,9 @@ export default {
             subjects: [],
             groups: [],
             group: null,
+            selectedTime: null,
+            toggle: false,
+            subject_id: null,
         }
     },
     created() {

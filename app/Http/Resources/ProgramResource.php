@@ -18,6 +18,7 @@ class ProgramResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'courses' => CourseResource::collection($this->courses),
+            'educationalForm' => DicResource::make($this->educationalForm),
         ];
     }
 }

@@ -16,9 +16,7 @@
                     <label for="program_name" class="block text-sm font-medium text-gray-700">
                         Форма обучения
                     </label>
-                    <SingleSelect v-model="educational_form_id" @selected="(e) => {this.educational_form_id = e}"
-                                  :options="educational_forms"
-                                  id="educational_form_id" :placeholder="'Выберите форму обучения'"/>
+                    <multiselect :showLabels="false" v-model="educational_form_id" :options="educational_forms" track-by="id" label="name" :placeholder="'Выберите форму обучения'"></multiselect>
                 </div>
             </div>
 
@@ -38,12 +36,13 @@
 </template>
 
 <script>
-import SingleSelect from "@/Сomponents/SingleSelect";
+import Multiselect from 'vue-multiselect'
 export default {
-    components: {SingleSelect},
+    components: {Multiselect},
     name: "ProgramForm",
     props: [
-        'department_id'
+        'department_id',
+        'program'
     ],
     data() {
         return {
@@ -54,6 +53,11 @@ export default {
     },
     created() {
         this.educationalFormList()
+        if (this.program)
+        {
+            this.program_name = this.program.name;
+            this.educational_form_id = this.program.educationalForm;
+        }
     },
     methods: {
 
@@ -65,21 +69,28 @@ export default {
                 }
             });
         },
-        getCourses()
-        {
-
-        },
         createProgram()
         {
+            if (!this.program)
             axios.post("/api/programs", {
                 name: this.program_name,
                 department_id: this.department_id,
-                educational_form_id: this.educational_form_id
+                educational_form_id: this.educational_form_id.id
             }).then((res) => {
                 if (res.status === 201) {
                     this.$parent.$emit('close');
                 }
             }).catch((res) => console.log(res))
+            else
+                axios.put("/api/programs/" + this.program.id, {
+                    name: this.program_name,
+                    department_id: this.department_id,
+                    educational_form_id: this.educational_form_id.id
+                }).then((res) => {
+                    if (res.status === 200) {
+                        this.$parent.$emit('close')
+                    }
+                })
         }
     }
 }

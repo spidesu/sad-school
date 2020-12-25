@@ -20,26 +20,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e64015de-a6b2-4d00-aba8-1065e623e4b5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/RepresentativeResource.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/Applicants/RepresentativeApplicant.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/js/img/edit.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ProgramController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ProgramController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/RepresentativeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/RepresentativeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Repositories/RepresentativeRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Repositories/RepresentativeRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Resources/ProgramResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/ProgramResource.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Program.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Program.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Forms/DepartmentForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Forms/DepartmentForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Forms/ProgramForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Forms/ProgramForm.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/Forms/RepresentativeForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Forms/RepresentativeForm.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Forms/StudentForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Forms/StudentForm.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Forms/TeacherForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Forms/TeacherForm.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Layouts/AppLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Layouts/AppLayout.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/Pages/Departments.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Departments.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Dictionaries.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Dictionaries.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/Pages/Program.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Program.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/Pages/Representatives.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Representatives.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Schedules.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Schedules.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/Table/TableRepresentative.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Table/TableRepresentative.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -211,15 +207,15 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\tools\OSPanel\OpenServer\domains\sad-school\app\Http\Resources" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\tools\OSPanel\OpenServer\domains\sad-school\resources\js\img" />
       <recent name="C:\tools\OSPanel\OpenServer\domains\sad-school\resources\img" />
       <recent name="C:\tools\OSPanel\OpenServer\domains\sad-school\public\imgs" />
       <recent name="C:\tools\OSPanel\OpenServer\domains\sad-school\resources\js\Table\Layouts" />
       <recent name="C:\tools\OSPanel\OpenServer\domains\sad-school\resources\js" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\tools\OSPanel\OpenServer\domains\sad-school\app\Http\Resources" />
     </key>
   </component>
   <component name="RunManager">
@@ -281,7 +277,9 @@
       <workItem from="1608531889508" duration="100000" />
       <workItem from="1608637900012" duration="3815000" />
       <workItem from="1608660236480" duration="3841000" />
-      <workItem from="1608699559734" duration="8972000" />
+      <workItem from="1608699559734" duration="10196000" />
+      <workItem from="1608789278897" duration="595000" />
+      <workItem from="1608872988460" duration="12341000" />
     </task>
     <servers />
   </component>
@@ -322,6 +320,10 @@
     </state>
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824/1920.0.1600.860@0.0.1536.824" timestamp="1607921586190" />
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1608531988560" />
+    <state x="349" y="147" key="IDE.errors.dialog" timestamp="1608875531843">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="349" y="147" key="IDE.errors.dialog/0.0.1536.824/1920.0.1600.860@0.0.1536.824" timestamp="1608875531843" />
     <state x="492" y="135" key="NewPhpClassDialog" timestamp="1608222119890">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

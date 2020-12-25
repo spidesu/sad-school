@@ -7,7 +7,7 @@
                         <table class="min-w-full divide-y divide-gray-200">
                             <TableHead :titles="titles"/>
                             <tbody class="bg-white divide-y divide-gray-200">
-                            <tr v-for="representative in representatives">
+                            <tr v-for="representative in representatives"  @click="selectedRep = representative;toggleEditModal = true">
                                 <td class="px-6 py-4 whitespace-no-wrap">
                                     <div class="flex items-center">
                                         <div class="ml-4">
@@ -46,19 +46,25 @@
                 </div>
             </div>
         </div>
+        <Modal v-if="toggleEditModal" @close="toggleEditModal = !toggleEditModal">
+            <RepresentativeApplicant :representative = "selectedRep"/>
+        </Modal>
     </div>
 </template>
 
 <script>
 import TableHead from "@/Table/Layouts/TableHead";
+import Modal from "@/Layouts/Modal";
+import RepresentativeApplicant from "@/Applicants/RepresentativeApplicant";
 export default {
     name: "TableRepresentative",
-    components: {TableHead},
+    components: {TableHead, RepresentativeApplicant, Modal},
     data() {
         return {
             titles: ['ФИО', 'Дата рождения', 'Телефон', 'Пол'],
             toggleModal: false,
             selectedRep: null,
+            toggleEditModal: false,
         }
     },
     props: [

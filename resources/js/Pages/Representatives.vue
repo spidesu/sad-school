@@ -10,6 +10,7 @@
             <Modal v-if="toggleModal" @close="toggleModal = !toggleModal; representativeList()">
                 <RepresentativeForm />
             </Modal>
+
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="px-2 py-3 text-right sm:px-4">
             <span class="inline-flex rounded-md shadow-sm">
@@ -32,9 +33,10 @@ import TableRepresentative from "@/Table/TableRepresentative";
 import Loader from "@/Сomponents/Loader";
 import Modal from "@/Layouts/Modal";
 import AppLayout from "@/Layouts/AppLayout";
+import RepresentativeApplicant from "@/Applicants/RepresentativeApplicant";
 export default {
     name: "Representatives",
-    components: {Loader, TableRepresentative, RepresentativeForm, AppLayout, Modal},
+    components: {RepresentativeApplicant, Loader, TableRepresentative, RepresentativeForm, AppLayout, Modal},
     methods: {
         representativeList() {
             axios.get('/api/representatives').then((res) => {
@@ -50,6 +52,7 @@ export default {
             representatives: false,
             loaded: false,
             toggleModal: false,
+            toggleEditModal: false,
         }
     },
     created() {

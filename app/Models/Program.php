@@ -21,6 +21,11 @@ class Program extends Model
         return $this->belongsTo(Department::class);
     }
 
+    public function educationalForm()
+    {
+        return $this->belongsTo(EducationalForm::class);
+    }
+
     public function getStudentCountAttribute()
     {
         $count = 0;

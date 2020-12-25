@@ -63,7 +63,7 @@ class RepresentativeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return $this->representativeRepository->update($request->all(), $this->representativeRepository->get($id));
     }
 
     /**
@@ -74,6 +74,6 @@ class RepresentativeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return $this->representativeRepository->delete($id);
     }
 }
