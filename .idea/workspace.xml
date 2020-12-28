@@ -20,22 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e64015de-a6b2-4d00-aba8-1065e623e4b5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/js/Applicants/RepresentativeApplicant.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/img/edit.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ProgramController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ProgramController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/RepresentativeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/RepresentativeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/ProgramResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/ProgramResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Program.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Program.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Forms/DepartmentForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Forms/DepartmentForm.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Forms/ProgramForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Forms/ProgramForm.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Forms/RepresentativeForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Forms/RepresentativeForm.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Departments.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Departments.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Program.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Program.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Representatives.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Representatives.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Schedules.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Schedules.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Table/TableRepresentative.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Table/TableRepresentative.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pdf/fullReport.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pdf/fullReport.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -280,6 +266,9 @@
       <workItem from="1608699559734" duration="10196000" />
       <workItem from="1608789278897" duration="595000" />
       <workItem from="1608872988460" duration="12341000" />
+      <workItem from="1608911048222" duration="593000" />
+      <workItem from="1609131471494" duration="227000" />
+      <workItem from="1609131733136" duration="2730000" />
     </task>
     <servers />
   </component>

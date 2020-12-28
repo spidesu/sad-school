@@ -190,14 +190,16 @@
     <tbody>
     {{$result = 0}}
     @foreach($budgetPrograms as $programs)
+        @foreach($programs['programs'] as $program)
     <tr>
             {{$result += $programs['count']}}
-            @foreach($programs['programs'] as $program)
+
                 <td></td>
                 <td>{{$program['name']}}</td>
                 <td>{{$program['count']}}</td>
-            @endforeach
+
     </tr>
+        @endforeach
     <tr>
         <td></td>
         <td>{{$programs['name']}} всего</td>
