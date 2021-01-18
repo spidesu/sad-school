@@ -190,6 +190,7 @@
     <tbody>
     {{$result = 0}}
     @foreach($budgetPrograms as $programs)
+        @if(isset($programs['programs']))
         @foreach($programs['programs'] as $program)
     <tr>
             {{$result += $programs['count']}}
@@ -200,6 +201,7 @@
 
     </tr>
         @endforeach
+        @endif
     <tr>
         <td></td>
         <td>{{$programs['name']}} всего</td>

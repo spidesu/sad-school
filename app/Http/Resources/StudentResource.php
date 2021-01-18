@@ -26,7 +26,8 @@ class StudentResource extends JsonResource
             'address_reg' => $this->address_reg,
             'address_act' => $this->address_act,
             'comment' => $this->comment,
-            'begin_at' => date('Y',$this->created_at->timestamp),
+            'begin_at' => date('Y',strtotime($this->begin_at)),
+            'begin_at_full' => $this->begin_at,
             'disability' => DicResource::make($this->disability),
             'representatives' => RepresentativeDicResource::collection($this->representatives),
             'status' => DicResource::make($this->status),
@@ -34,7 +35,8 @@ class StudentResource extends JsonResource
             'begin_doc_number' => $this->begin_doc_number,
             'end_doc_number' => $this->end_doc_number,
             'snils' => $this->snils,
-            'document_number' => $this->document_number
+            'document_number' => $this->document_number,
+            'end' => DicResource::make($this->end),
 
         ];
     }

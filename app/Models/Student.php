@@ -69,4 +69,9 @@ class Student extends Model
     {
         return $this->belongsTo(StudentStatus::class, 'status_id');
     }
+
+    public function end()
+    {
+        return $this->belongsTo(End::class);
+    }
 }

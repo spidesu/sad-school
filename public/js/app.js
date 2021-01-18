@@ -4186,6 +4186,14 @@ __webpack_require__.r(__webpack_exports__);
           _this4.low_money = data.low_money;
           _this4.no_reps = data.no_reps;
           _this4.disability_id = data.disability ? data.disability : null;
+          _this4.snils = data.snils;
+          _this4.document_number = data.document_number;
+          _this4.end_id = data.end;
+          _this4.begin_at = data.begin_at_full;
+          _this4.begin_doc_number = data.begin_doc_number;
+          _this4.end_at = data.end_at;
+          _this4.end_doc_number = data.end_doc_number;
+          _this4.status_id = data.status;
           console.log(data);
         }
       });
@@ -6319,6 +6327,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -6380,10 +6400,6 @@ __webpack_require__.r(__webpack_exports__);
         'name': 'Пол',
         'data': res.genders
       }, {
-        'id': 'subject',
-        'name': 'Предметы',
-        'data': res.subjects
-      }, {
         'id': 'teacherStatus',
         'name': 'Статусы преподавателей',
         'data': res.teacherStatuses,
@@ -6401,6 +6417,10 @@ __webpack_require__.r(__webpack_exports__);
         'name': 'Статусы учеников',
         'data': res.studentStatuses,
         'protected': [1, 2, 3]
+      }, {
+        'id': 'subject',
+        'name': 'Предметы',
+        'data': res.subjects
       }];
     }
   }
@@ -45854,66 +45874,140 @@ var render = function() {
             "div",
             { staticClass: "grid grid-cols-3 gap-4" },
             _vm._l(_vm.dics, function(dic) {
-              return _c(
-                "div",
-                {
-                  staticClass:
-                    "bg-gray-100 overflow-hidden shadow-xl sm:rounded-lg flex flex-col items-center"
-                },
-                [
-                  _c(
+              return dic.id != "subject"
+                ? _c(
                     "div",
                     {
-                      staticClass: "bg-white w-full text-center font-bold p-2"
-                    },
-                    [_vm._v(_vm._s(dic.name))]
-                  ),
-                  _vm._v(" "),
-                  _vm._l(dic.data, function(item) {
-                    return _c(
-                      "div",
-                      { staticClass: "m-1 text-m" },
-                      [
-                        _vm._v(
-                          "\n                        " + _vm._s(item.name)
-                        ),
-                        (dic.protected
-                        ? !dic.protected.includes(item.id)
-                        : true)
-                          ? _c("Close", {
-                              nativeOn: {
-                                click: function($event) {
-                                  return _vm.deleteDicItem(dic.id, item)
-                                }
-                              }
-                            })
-                          : _vm._e()
-                      ],
-                      1
-                    )
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
                       staticClass:
-                        " m-2 inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out",
-                      on: {
-                        click: function($event) {
-                          _vm.selectedDic = dic.id
-                          _vm.toggleModal = !_vm.toggleModal
-                        }
-                      }
+                        "bg-gray-100 overflow-hidden shadow-xl sm:rounded-lg flex flex-col items-center"
                     },
                     [
-                      _vm._v(
-                        "\n                        Добавить\n                    "
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "bg-white w-full text-center font-bold p-2"
+                        },
+                        [_vm._v(_vm._s(dic.name))]
+                      ),
+                      _vm._v(" "),
+                      _vm._l(dic.data, function(item) {
+                        return _c(
+                          "div",
+                          { staticClass: "m-1 text-m" },
+                          [
+                            _vm._v(
+                              "\n                        " + _vm._s(item.name)
+                            ),
+                            (dic.protected
+                            ? !dic.protected.includes(item.id)
+                            : true)
+                              ? _c("Close", {
+                                  nativeOn: {
+                                    click: function($event) {
+                                      return _vm.deleteDicItem(dic.id, item)
+                                    }
+                                  }
+                                })
+                              : _vm._e()
+                          ],
+                          1
+                        )
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            " m-2 inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out",
+                          on: {
+                            click: function($event) {
+                              _vm.selectedDic = dic.id
+                              _vm.toggleModal = !_vm.toggleModal
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                        Добавить\n                    "
+                          )
+                        ]
                       )
-                    ]
+                    ],
+                    2
                   )
-                ],
-                2
-              )
+                : _vm._e()
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "my-5 grid grid-cols-2 gap-4" },
+            _vm._l(_vm.dics, function(dic) {
+              return dic.id == "subject"
+                ? _c(
+                    "div",
+                    {
+                      staticClass:
+                        "bg-gray-100 overflow-hidden shadow-xl sm:rounded-lg flex flex-col items-center"
+                    },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "bg-white w-full text-center font-bold p-2"
+                        },
+                        [_vm._v(_vm._s(dic.name))]
+                      ),
+                      _vm._v(" "),
+                      _vm._l(dic.data, function(item) {
+                        return _c(
+                          "div",
+                          { staticClass: "m-1 text-m" },
+                          [
+                            _vm._v(
+                              "\n                    " + _vm._s(item.name)
+                            ),
+                            (dic.protected
+                            ? !dic.protected.includes(item.id)
+                            : true)
+                              ? _c("Close", {
+                                  nativeOn: {
+                                    click: function($event) {
+                                      return _vm.deleteDicItem(dic.id, item)
+                                    }
+                                  }
+                                })
+                              : _vm._e()
+                          ],
+                          1
+                        )
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            " m-2 inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out",
+                          on: {
+                            click: function($event) {
+                              _vm.selectedDic = dic.id
+                              _vm.toggleModal = !_vm.toggleModal
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                    Добавить\n                "
+                          )
+                        ]
+                      )
+                    ],
+                    2
+                  )
+                : _vm._e()
             }),
             0
           )

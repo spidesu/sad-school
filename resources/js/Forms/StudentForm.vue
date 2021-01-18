@@ -412,6 +412,14 @@ export default {
                     this.low_money = data.low_money;
                     this.no_reps = data.no_reps;
                     this.disability_id = data.disability ? data.disability : null;
+                    this.snils = data.snils;
+                    this.document_number = data.document_number;
+                    this.end_id = data.end;
+                    this.begin_at = data.begin_at_full;
+                    this.begin_doc_number = data.begin_doc_number;
+                    this.end_at = data.end_at;
+                    this.end_doc_number = data.end_doc_number;
+                    this.status_id = data.status;
                     console.log(data)
                 }
             })

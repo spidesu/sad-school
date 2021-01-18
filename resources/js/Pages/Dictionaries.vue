@@ -11,7 +11,7 @@
                 <DicForm :dic_id="selectedDic"/>
             </Modal>
             <div class="grid grid-cols-3 gap-4">
-                    <div v-for="dic in dics" class="bg-gray-100 overflow-hidden shadow-xl sm:rounded-lg flex flex-col items-center">
+                    <div v-for="dic in dics" v-if="dic.id != 'subject'" class="bg-gray-100 overflow-hidden shadow-xl sm:rounded-lg flex flex-col items-center">
                         <div class="bg-white w-full text-center font-bold p-2">{{ dic.name }}</div>
                         <div v-for="item in dic.data" class="m-1 text-m">
                             {{ item.name }}<Close v-if="dic.protected ? !dic.protected.includes(item.id) : true" @click.native="deleteDicItem(dic.id, item)" />
@@ -19,6 +19,18 @@
                         <button @click="selectedDic = dic.id; toggleModal = !toggleModal" class=" m-2 inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
                             Добавить
                         </button>
+                    </div>
+            </div>
+
+            <div class="my-5 grid grid-cols-2 gap-4">
+                <div v-for="dic in dics" v-if="dic.id == 'subject'" class="bg-gray-100 overflow-hidden shadow-xl sm:rounded-lg flex flex-col items-center">
+                    <div class="bg-white w-full text-center font-bold p-2">{{ dic.name }}</div>
+                    <div v-for="item in dic.data" class="m-1 text-m">
+                        {{ item.name }}<Close v-if="dic.protected ? !dic.protected.includes(item.id) : true" @click.native="deleteDicItem(dic.id, item)" />
+                    </div>
+                    <button @click="selectedDic = dic.id; toggleModal = !toggleModal" class=" m-2 inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
+                        Добавить
+                    </button>
                 </div>
             </div>
 
@@ -84,11 +96,6 @@ export default {
                         'data': res.genders,
                     },
                     {
-                        'id': 'subject',
-                        'name': 'Предметы',
-                        'data': res.subjects,
-                    },
-                    {
                         'id': 'teacherStatus',
                         'name': 'Статусы преподавателей',
                         'data': res.teacherStatuses,
@@ -109,6 +116,11 @@ export default {
                         'name': 'Статусы учеников',
                         'data': res.studentStatuses,
                         'protected': [1,2,3]
+                    },
+                    {
+                        'id': 'subject',
+                        'name': 'Предметы',
+                        'data': res.subjects,
                     },
                 ];
             }
