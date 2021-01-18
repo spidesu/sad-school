@@ -44,10 +44,10 @@ class StudentRepository extends AbstractRepository
     {
         $student = [];
         $student['count'] = $this->model->count();
-        $student['count_very_low'] = $this->model->whereRaw('TIMESTAMPDIFF(YEAR,CURDATE(), birth_date)BETWEEN 3 AND 7')->count();
-        $student['count_low'] = $this->model->whereRaw('TIMESTAMPDIFF(YEAR,CURDATE(), birth_date)BETWEEN 7 AND 11')->count();
-        $student['count_medium'] = $this->model->whereRaw('TIMESTAMPDIFF(YEAR,CURDATE(), birth_date)BETWEEN 11 AND 15')->count();
-        $student['count_high'] = $this->model->whereRaw('TIMESTAMPDIFF(YEAR,CURDATE(), birth_date)BETWEEN 15 AND 7')->count();
+        $student['count_very_low'] = $this->model->whereRaw('ABS(TIMESTAMPDIFF(YEAR,CURDATE(), birth_date)) BETWEEN 3 AND 7')->count();
+        $student['count_low'] = $this->model->whereRaw('ABS(TIMESTAMPDIFF(YEAR,CURDATE(), birth_date)) BETWEEN 7 AND 11')->count();
+        $student['count_medium'] = $this->model->whereRaw('ABS(TIMESTAMPDIFF(YEAR,CURDATE(), birth_date)) BETWEEN 11 AND 15')->count();
+        $student['count_high'] = $this->model->whereRaw('ABS(TIMESTAMPDIFF(YEAR,CURDATE(), birth_date)) BETWEEN 15 AND 7')->count();
         $student['count_non_budget'] = $this->model
             ->leftJoin('group_student', 'group_student.student_id', '=', 'students.id')
             ->leftJoin('groups', 'group_student.group_id', '=', 'groups.id')
