@@ -420,6 +420,7 @@ export default {
                     this.end_at = data.end_at;
                     this.end_doc_number = data.end_doc_number;
                     this.status_id = data.status;
+                    this.representative_selected = data.representatives;
                     console.log(data)
                 }
             })

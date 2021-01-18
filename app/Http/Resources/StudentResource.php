@@ -29,7 +29,7 @@ class StudentResource extends JsonResource
             'begin_at' => date('Y',strtotime($this->begin_at)),
             'begin_at_full' => $this->begin_at,
             'disability' => DicResource::make($this->disability),
-            'representatives' => RepresentativeDicResource::collection($this->representatives),
+            'representatives' => StudentDicResource::collection($this->representatives),
             'status' => DicResource::make($this->status),
             'end_at' => $this->end_at,
             'begin_doc_number' => $this->begin_doc_number,

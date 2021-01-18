@@ -59,7 +59,7 @@
                 <label  class="block text-sm font-medium text-gray-700">
                     Представители
                 </label>
-                <div v-for="representative in student.representatives" class="representatives">{{ representative.full_name}}</div>
+                <div v-for="representative in student.representatives" class="representatives">{{ representative.name}}</div>
             </div>
 
         </div>

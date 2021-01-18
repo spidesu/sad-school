@@ -4194,6 +4194,7 @@ __webpack_require__.r(__webpack_exports__);
           _this4.end_at = data.end_at;
           _this4.end_doc_number = data.end_doc_number;
           _this4.status_id = data.status;
+          _this4.representative_selected = data.representatives;
           console.log(data);
         }
       });
@@ -37784,7 +37785,7 @@ var render = function() {
                   _vm._v(" "),
                   _vm._l(_vm.student.representatives, function(representative) {
                     return _c("div", { staticClass: "representatives" }, [
-                      _vm._v(_vm._s(representative.full_name))
+                      _vm._v(_vm._s(representative.name))
                     ])
                   })
                 ],
